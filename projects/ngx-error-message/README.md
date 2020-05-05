@@ -192,10 +192,6 @@ After add to languaje file the message for this validation. Don't forget the val
   }
 ```
 
-## Test
-
-Ngx-toastf-showcase is the testing project. Use ng s to run it.
-
 ## License
 
 MIT
