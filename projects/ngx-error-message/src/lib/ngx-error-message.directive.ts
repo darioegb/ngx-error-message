@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { NgxErrorMessageComponent } from './ngx-error-message.component';
 
 @Directive({
-  selector: '[libNgxErrorMessage]',
+  selector: '[ngxErrorMessage]',
 })
 export class NgxErrorMessageDirective implements OnInit {
 
@@ -15,8 +15,7 @@ export class NgxErrorMessageDirective implements OnInit {
     public container: ViewContainerRef
   ) { }
 
-
-  ngOnInit() {
+  ngOnInit(): void {
     const factory = this.resolver.resolveComponentFactory(
       NgxErrorMessageComponent
     );

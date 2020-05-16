@@ -113,7 +113,7 @@ All patterns validation are created in libary and must named like before example
 After configuration you can used the directive as follow example
 ```html
   <!-- Example to use directive default example  -->
-  <ng-template libNgxErrorMessage [control]="formControls.password"></ng-template>
+  <ng-template ngxErrorMessage [control]="formControls.password"></ng-template>
 ```
 
 ```typescript
@@ -162,7 +162,7 @@ After that you must add new validation pattern inside the object with key as a p
 In your html file add the patternKey name
 
 ```html
-    <ng-template libNgxErrorMessage [control]="formControls.username" patternKey="custom"></ng-template>
+    <ng-template ngxErrorMessage [control]="formControls.username" patternKey="custom"></ng-template>
 ```
 
 ### new custom validation

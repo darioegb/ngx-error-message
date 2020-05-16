@@ -62,7 +62,8 @@
                         "main": "projects/ngx-error-message-showcase/src/main.ts",
                         "polyfills": "projects/ngx-error-message-showcase/src/polyfills.ts",
                         "tsConfig": "projects/ngx-error-message-showcase/tsconfig.app.json",
-                        "aot": true,
+                        "preserveSymlinks": true,
+                        "aot": false,
                         "assets": [
                             "projects/ngx-error-message-showcase/src/favicon.ico",
                             "projects/ngx-error-message-showcase/src/assets"

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { NgxErrorMessageService } from './ngx-error-message.service';
 
 @Component({
-  selector: 'lib-ngx-error-message',
+  selector: 'ngx-error-message',
   template: `
     <div *ngIf="isNotValid()" class="error-message">
       <small>

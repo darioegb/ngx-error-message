@@ -48,7 +48,7 @@ export class NgxErrorMessageService {
   }
 
   toggleErrorContainer(invalid: boolean, key: string) {
-    const input = document.querySelector<HTMLInputElement>(`[formcontrolname="${key}"]`);
+    const input = document.querySelector<HTMLInputElement>(`[formcontrolname="${key}"], [ng-reflect-name="${key}"]`);
     if (invalid) {
       input.classList.add('error-container');
     } else {

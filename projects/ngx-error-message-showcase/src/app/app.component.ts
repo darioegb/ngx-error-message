@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 
-import { regEx } from '../../../ngx-error-message/src/lib/ngx-error-message-constant';
+import { regEx } from '../../../ngx-error-message/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -21,10 +21,17 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
+      name: this.fb.group({
+        firstName: [null, [Validators.required, Validators.pattern(regEx.alphabet)]],
+        lastName: [null, [Validators.required, Validators.pattern(regEx.alphabet)]]
+      }),
       username: [null, [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9.]+$')]],
       password: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(regEx.alphaNumeric)]],
       email: [null, [Validators.required, Validators.email]],
-      salary: [null, [Validators.pattern(regEx.numeric), this.avoidMultipleZero]]
+      salary: [null, [Validators.pattern(regEx.numeric), this.avoidMultipleZero]],
+      aliases: this.fb.array([
+        this.fb.control(null, [Validators.required, Validators.pattern(regEx.alphaNumeric)])
+      ])
     });
 
     // Only for delete form value is invalid
@@ -39,7 +46,25 @@ export class AppComponent implements OnInit {
       });
   }
 
-  get formControls() { return this.form.controls; }
+  get formControls() {
+    return this.form.controls;
+  }
+
+  get nameControls() {
+    return (this.formControls.name as FormGroup).controls;
+  }
+
+  get aliases() {
+    return this.formControls.aliases as FormArray;
+  }
+
+  getAliasControl(index: number) {
+    return this.aliases.controls[index];
+  }
+
+  addAlias() {
+    this.aliases.push(this.fb.control(null, [Validators.required, Validators.pattern(regEx.alphaNumeric)]));
+  }
 
   // Custom validator
   avoidMultipleZero(control: AbstractControl) {
