@@ -16,7 +16,7 @@ Latest version available for each version of Angular
   npm install ngx-error-message --save
 ```
 
-`@ngx-translate` package is a required dependency for the default toast
+`@ngx-translate` package is a required dependency
 
 ```bash
   npm install @ngx-translate/core --save
@@ -68,8 +68,8 @@ https://github.com/ngx-translate/core
 ```
 
 **step  2**
-**1. Add error message configuration in JSON file**
-Add error message configuration in JSON file. Ngx-translate and others internationalizations packages manage json files for each idiom thant manage. For example is your application manage english langague you must create in assets/i18n/en.json, in the file you will have all the errors you need in your application. Every property in the json will be named as the error displayed by the form (using reactive forms), for example, when a field has an error you can write form.get('field').errors and receive the error object, by example:
+**Add error message configuration in JSON file**
+ Ngx-translate and others internationalizations packages manage json files for each idiom thant manage. For example is your application manage english langague you must create in assets/i18n/en.json, in the file you will have all the errors you need in your application. Every property in the json will be named as the error displayed by the form (using reactive forms), for example, when a field has an error you can write form.get('field').errors and receive the error object, by example:
 ```javascript
   // form.get('field').errors
   // The field is required and displays the error
@@ -87,26 +87,39 @@ Add error message configuration in JSON file. Ngx-translate and others internati
   }
 ```
 Then, if you want to display a message for each error, our json file needs to look like this:
-```json
-  { // assets/i18n/en.json
-      "validations": {
-          "required": "The field is required.",
-          "maxlength": "The maximum length allowed is {{param}}.",
-          "minlength": "The minimum allowed length is {{param}}.",
-          "email": "It is not a valid email.",
-          "pattern": {
-              "numeric": "The valid format is numeric.",
-              "alphabet": "The valid format is alphabetical.",
-              "smallLetters": "The valid format is lowercase letters.",
-              "capitalLetters": "The valid format is capital letters.",
-              "alphaNumeric": "The valid format is alphanumeric.",
-          },
-          "min": "The minimum allowed is {{param}}.",
-          "max": "The maximum allowed is {{param}}.",
-      }
+```javascript
+  // assets/i18n/en.json
+  {
+    "validations": {
+        "required": "The field is required.",
+        "maxlength": "The maximum length allowed is {{param}}.",
+        "minlength": "The minimum allowed length is {{param}}.",
+        "email": "It is not a valid email.",
+        "pattern": {
+            "numeric": "The valid format is numeric.",
+            "alphabet": "The valid format is alphabetical.",
+            "smallLetters": "The valid format is lowercase letters.",
+            "capitalLetters": "The valid format is capital letters.",
+            "alphaNumeric": "The valid format is alphanumeric.",
+            "ip": "The IP address is not correct."
+        },
+        "min": "The minimum allowed is {{param}}.",
+        "max": "The maximum allowed is {{param}}.",
+    }
   }
 ```
-All patterns validation are created in libary and must named like before example.
+You must respect all key names and the name of the param variable.
+If you change some of these keys, the library does not work for you to change.
+
+**step 3**
+Add This class in your styles.css file. You feel free to customization, or ignore the border or color style. In all case dont change the class name.
+
+```css
+.error-container {
+    border: 1px solid red;
+    color: red;
+}
+```
 
 ## Use
 
@@ -117,6 +130,9 @@ After configuration you can used the directive as follow example
 ```
 
 ```typescript
+import { regEx } from 'ngx-error-message';//Important import to use pattern validations created in library
+
+
 ngOnInit() {
   this.form = this.fb.group({
       // others formControls
@@ -128,12 +144,29 @@ get formControls() { return this.form.controls; }
 ```
 The control parameter for this directive is obligatory. Also you can add optional parameter **patternKey** it recive the name of custom pattern does not cover in default validations.
 
+## Patterns validations created in libary
+```javascript
+export const regEx = {
+    phoneNumber: /(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})/,
+    email: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+[.]+[a-zA-Z0-9]+$/,
+    websiteUrl: /^(https?:\/\/)?([\w\d-_]+)\.([\w\d-_\.]+)\/?\??([^#\n\r]*)?#?([^\n\r]*)/,
+    requiredRegex: /^((?!actual).)*$/,
+    numeric: /^\d+$/,
+    smallLetters: /^[a-z]+$/,
+    capitalLetters: /^[A-Z]+$/,
+    alphabet: /^[a-zA-Z\s]+$/,
+    alphaNumeric: /^[a-zA-Z0-9\s]+$/,
+    ip: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+};
+``` 
+You can use these patterns if you like in your formControl in the pattern validator by importing the RegEx constant and use it as the example described above.
+
 ## Directive Inputs
 
-| Input         | Required | Description                               |
-|---------------|----------|-------------------------------------------|
-| control       |   true   | FormControl object                        |
-| patternKey    |   false  | Pattern name as you called in json file   |
+| Input      | Required | Description                             |
+|------------|----------|-----------------------------------------|
+| control    | true     | FormControl object                      |
+| patternKey | false    | Pattern name as you called in json file |
 
 ## Customization validations
 
