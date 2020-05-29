@@ -4,6 +4,8 @@
         "maxlength": "The maximum length allowed is {{param}}.",
         "minlength": "The minimum allowed length is {{param}}.",
         "email": "It is not a valid email.",
+        "min": "The minimum allowed is {{param}}.",
+        "max": "The maximum allowed is {{param}}.",
         "pattern": {
             "numeric": "The valid format is numeric.",
             "alphabet": "The valid format is alphabetical.",
@@ -12,8 +14,6 @@
             "alphaNumeric": "The valid format is alphanumeric.",
             "custom": "The valid format is alphanumeric and the '.' is allowed"
         },
-        "min": "The minimum allowed is {{param}}.",
-        "max": "The maximum allowed is {{param}}.",
         "avoidMultipleZero": "Can't start with multiple zeros"
     }
 }

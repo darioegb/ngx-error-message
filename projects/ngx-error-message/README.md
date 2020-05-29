@@ -8,7 +8,7 @@ Latest version available for each version of Angular
 
 | ngx-error-message | Angular     |
 |-------------------|-------------|
-| 1.0.0             | 9.x 8.x 7.x |
+| 1.2.0             | 9.x 8.x 7.x |
 
 ## Install
 
@@ -95,6 +95,8 @@ Then, if you want to display a message for each error, our json file needs to lo
         "maxlength": "The maximum length allowed is {{param}}.",
         "minlength": "The minimum allowed length is {{param}}.",
         "email": "It is not a valid email.",
+        "min": "The minimum allowed is {{param}}.",
+        "max": "The maximum allowed is {{param}}.",
         "pattern": {
             "numeric": "The valid format is numeric.",
             "alphabet": "The valid format is alphabetical.",
@@ -102,9 +104,7 @@ Then, if you want to display a message for each error, our json file needs to lo
             "capitalLetters": "The valid format is capital letters.",
             "alphaNumeric": "The valid format is alphanumeric.",
             "ip": "The IP address is not correct."
-        },
-        "min": "The minimum allowed is {{param}}.",
-        "max": "The maximum allowed is {{param}}.",
+        }
     }
   }
 ```
@@ -125,6 +125,7 @@ Add This class in your styles.css file. You feel free to customization, or ignor
 
 After configuration you can used the directive as follow example
 ```html
+  <input type="password" formControlName="password" placeholder="Password" class="form-control">
   <!-- Example to use directive default example  -->
   <ng-template ngxErrorMessage [control]="formControls.password"></ng-template>
 ```
@@ -147,16 +148,14 @@ The control parameter for this directive is obligatory. Also you can add optiona
 ## Patterns validations created in libary
 ```javascript
 export const regEx = {
-    phoneNumber: /(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})/,
-    email: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+[.]+[a-zA-Z0-9]+$/,
-    websiteUrl: /^(https?:\/\/)?([\w\d-_]+)\.([\w\d-_\.]+)\/?\??([^#\n\r]*)?#?([^\n\r]*)/,
-    requiredRegex: /^((?!actual).)*$/,
-    numeric: /^\d+$/,
-    smallLetters: /^[a-z]+$/,
-    capitalLetters: /^[A-Z]+$/,
-    alphabet: /^[a-zA-Z\s]+$/,
-    alphaNumeric: /^[a-zA-Z0-9\s]+$/,
-    ip: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+    phoneNumber: '(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})',
+    websiteUrl: '^(https?:\/\/)?([\w\d-_]+)\.([\w\d-_\.]+)\/?\??([^#\n\r]*)?#?([^\n\r]*)',
+    numeric: '^\d+$',
+    smallLetters: '^[a-z]+$',
+    capitalLetters: '^[A-Z]+$',
+    alphabet: '^[a-zA-Z\s]+$',
+    alphaNumeric: '^[a-zA-Z0-9\s]+$',
+    ip: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$'
 };
 ``` 
 You can use these patterns if you like in your formControl in the pattern validator by importing the RegEx constant and use it as the example described above.
@@ -185,17 +184,18 @@ ngOnInit() {
 After that you must add new validation pattern inside the object with key as a pattern.
 
 ```json
-  "Validations": {
+  "validations": {
       "pattern": {
           "custom": "The valid format is alphanumeric and the '.' is allowed"
       }
   }
 ```
 
-In your html file add the patternKey name
+In your html file add the patternKey atribute to directive
 
 ```html
-    <ng-template ngxErrorMessage [control]="formControls.username" patternKey="custom"></ng-template>
+   <input type="text" formControlName="username" placeholder="Username" class="form-control">
+  <ng-template ngxErrorMessage [control]="formControls.username" patternKey="custom"></ng-template>
 ```
 
 ### new custom validation
@@ -220,7 +220,7 @@ If we need to add new custom validator just create the validator function o set 
 After add to languaje file the message for this validation. Don't forget the validation message must named equal that validation error name.
 
 ```json
-  "Validations": {
+  "validations": {
       "avoidMultipleZero": "Can't start with multiple zeros"
   }
 ```
