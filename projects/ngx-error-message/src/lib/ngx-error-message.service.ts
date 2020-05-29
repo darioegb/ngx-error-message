@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ValidationErrors, FormControl } from '@angular/forms';
 
-import { regEx } from './ngx-error-message-constant';
+import { regEx, requiredRegex } from './ngx-error-message-constant';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
@@ -47,93 +47,39 @@ export class NgxErrorMessageService {
     return this.errorMessage;
   }
 
+  /**
+   * @description Toggle error container class to the formControl
+   * @param invalid formControl status
+   * @param key formControlKey
+   */
   toggleErrorContainer(invalid: boolean, key: string) {
-    const input = document.querySelector<HTMLInputElement>(`[formcontrolname="${key}"], [ng-reflect-name="${key}"]`);
+    const element = document.querySelector<HTMLElement>(`[formcontrolname="${key}"], [ng-reflect-name="${key}"]`);
     if (invalid) {
-      input.classList.add('error-container');
+      element.classList.add('error-container');
     } else {
-      input.classList.remove('error-container');
+      element.classList.remove('error-container');
     }
   }
 
-  /**
-   * @description This method set error message for current key
-   * @param key error key
-   * @param value error value
-   * @param patternKey custom pattern key
-   */
   private setErrorMessage(key: string, value?: any, patternKey?: string) {
     // for validations who have requiredValue
-    const requiredValue = this.getValueByRegexFromObject(value, regEx.requiredRegex);
-    if (key === 'pattern') {
-      this.errorMessage = this.patternMatchExpression(value, patternKey);
-    } else {
-      this.errorMessage = this.getMessage(key, requiredValue);
-    }
+    const requiredValue = (value) ? this.getValueByRegexFromObject(value, requiredRegex) : null;
+    this.errorMessage = (key === 'pattern') ? this.patternMatchExpression(value, patternKey) : this.getMessage(key, requiredValue);
   }
 
-  /**
-   * @description This method check if error value match with some pattern expresion,
-   * In case to success get error message for that pattern
-   * @param value errorValue
-   * @param patternKey custom pattern key
-   * @returns string
-   */
   private patternMatchExpression(value: any, patternKey?: string): string {
     let errorMessage = '';
-    const patternMap = {
-      [this.getStringFromRegex(regEx.phoneNumber.source)]: {
-        validate: regEx.phoneNumber,
-        message: 'phoneNumber'
-      },
-      [this.getStringFromRegex(regEx.email.source)]: {
-        validate: regEx.email,
-        message: 'email'
-      },
-      [this.getStringFromRegex(regEx.websiteUrl.source)]: {
-        validate: regEx.websiteUrl,
-        message: 'websiteUrl'
-      },
-      [this.getStringFromRegex(regEx.alphabet.source)]: {
-        validate: regEx.alphabet,
-        message: 'alphabet'
-      },
-      [this.getStringFromRegex(regEx.numeric.source)]: {
-        validate: regEx.numeric,
-        message: 'numeric'
-      },
-      [this.getStringFromRegex(regEx.alphaNumeric.source)]: {
-        validate: regEx.alphaNumeric,
-        message: 'alphaNumeric'
-      },
-      [this.getStringFromRegex(regEx.ip.source)]: {
-        validate: regEx.ip,
-        message: 'ip'
-      }
-    };
-
-    const patternType = patternMap[value.requiredPattern];
-    if (patternType && !patternType.validate.test(value.actualValue)) {
-      errorMessage = this.getMessageFromPattern(patternType.message);
-    } else if (!new RegExp(value.requiredPattern).test(value.actualValue)) {
-      errorMessage = this.getMessageFromPattern(patternKey);
+    const regExpDefault = Object.entries(regEx).find(([_, val]) => val === value.requiredPattern);
+    const regeExp = (regExpDefault) ? new RegExp(regExpDefault[1]) : new RegExp(value.requiredPattern);
+    const messageKey = (regExpDefault) ? regExpDefault[0] : patternKey;
+    if (!regeExp.test(value.actualValue)) {
+      errorMessage = this.getMessageFromPattern(messageKey);
     }
-
     return errorMessage;
   }
 
-  private getStringFromRegex(regex: string) {
-    return '/' + regex + '/';
-  }
-
   private getValueByRegexFromObject(obj, regex: RegExp) {
-    const re = new RegExp(regex);
-    for (const key in obj) {
-      if (re.test(key)) {
-        return obj[key];
-      }
-    }
-    return null;
+    return (Object.entries(obj).find(([key, _]) => regex.test(key))[1]) as string;
   }
 
   private getMessage(key: string, param?: string): string {
