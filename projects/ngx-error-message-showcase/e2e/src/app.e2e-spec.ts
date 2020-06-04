@@ -10,8 +10,16 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('ngx-error-message-showcase app is running!');
+    expect(page.getTitleText()).toEqual('ngx-error-message-showcase');
   });
+  //  it('blur input firstName', () => {
+  //   const firstName = component.nameControls.firstName;
+  //   firstName.setValue(null);
+  //   const inputEl = <HTMLInputElement>fixture.debugElement.nativeElement.querySelector('input[formcontrolname="firstName"]');
+  //   inputEl.dispatchEvent(new InputEvent('blur'));
+  //   fixture.detectChanges();
+  //   expect(inputEl.classList).toContain('error-container');
+  // });
 
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser

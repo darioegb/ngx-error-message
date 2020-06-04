@@ -1,31 +1,99 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxErrorMessageModule } from 'projects/ngx-error-message/src/public-api';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpLoaderFactory } from './app.module';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
+      imports: [
+        HttpClientModule,
+        TranslateModule.forRoot({
+          defaultLanguage: 'en',
+          useDefaultLang: true,
+          loader: {
+            provide: TranslateLoader,
+            useFactory: (HttpLoaderFactory),
+            deps: [HttpClient]
+          }
+        }),
+        ReactiveFormsModule,
+        NgxErrorMessageModule
+      ]
     }).compileComponents();
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'ngx-error-message-showcase'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('ngx-error-message-showcase');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
     fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('ngx-error-message-showcase app is running!');
   });
+
+  it('should create the app', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('form invalid when empty', () => {
+    expect(component.form.valid).toBeFalsy();
+  });
+
+  it('should set name formGroup', () => {
+    const firstName = component.nameControls.firstName;
+    const lastName = component.nameControls.lastName;
+    expect(firstName.valid).toBeFalsy();
+    expect(lastName.valid).toBeFalsy();
+    firstName.setValue(1234);
+    expect(firstName.hasError('pattern')).toBeTruthy();
+    firstName.setValue('John');
+    expect(firstName.valid).toBeTruthy();
+  });
+
+  it('should add alias', () => {
+    component.addAlias();
+    const addedALias = component.getAliasControl(1);
+    expect(addedALias.valid).toBeFalsy();
+    addedALias.setValue('John%1');
+    expect(addedALias.hasError('pattern')).toBeTruthy();
+    addedALias.setValue('John1');
+    expect(addedALias.valid).toBeTruthy();
+  });
+
+  it('should fail submit', () => {
+    component.onSubmit();
+    expect(component.form.valid).toBeFalsy();
+  });
+
+  it('should submit', () => {
+    const form = component.form;
+    form.patchValue({
+      name: {
+        firstName: 'John',
+        lastName: 'Doe'
+      },
+      username: 'jd1',
+      password: 123456,
+      email: 'jd1@yopmail.com',
+      aliases: ['monster']
+    })
+    component.onSubmit();
+    expect(form.valid).toBeTruthy();
+  });
+
+  it('should set salary', () => {
+    const salary = component.formControls.salary;
+    salary.setValue('00200');
+    expect(component.avoidMultipleZero(salary).avoidMultipleZero).toBeTruthy();
+    salary.setValue('3000');
+    expect(component.avoidMultipleZero(salary)).toBeNull();
+  });
+
 });
