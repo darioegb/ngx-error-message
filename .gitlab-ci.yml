@@ -15,9 +15,8 @@ sonarcloud-check:
     paths:
       - node_modules/
       - .sonar/cache
-  before_script:
-    - export CHROME_BIN='/usr/bin/chromium'
   script:
+    - export CHROME_BIN='/usr/bin/chromium'
     - npm run test:prod
     - npm run lint
     - sonar-scanner
