@@ -31,15 +31,19 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['Chrome', 'ChromeHeadlessNoSandbox'],
     singleRun: false,
     restartOnFileChange: true,
     browserDisconnectTolerance: 3,
     browserNoActivityTimeout: 2147483647,
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
-          base: 'ChromeHeadless',
-          flags: ['--no-sandbox', '--disable-setuid-sandbox']
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-web-security'
+        ]
       }
     }
   });
