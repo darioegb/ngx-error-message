@@ -1,6 +1,9 @@
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateLoader
+} from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxErrorMessageModule } from 'projects/ngx-error-message/src/public-api';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -11,9 +14,7 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+      declarations: [AppComponent],
       imports: [
         HttpClientModule,
         TranslateModule.forRoot({
@@ -21,13 +22,13 @@ describe('AppComponent', () => {
           useDefaultLang: true,
           loader: {
             provide: TranslateLoader,
-            useFactory: (HttpLoaderFactory),
-            deps: [HttpClient]
-          }
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+          },
         }),
         ReactiveFormsModule,
-        NgxErrorMessageModule
-      ]
+        NgxErrorMessageModule,
+      ],
     }).compileComponents();
   }));
 
@@ -77,13 +78,13 @@ describe('AppComponent', () => {
     form.patchValue({
       name: {
         firstName: 'John',
-        lastName: 'Doe'
+        lastName: 'Doe',
       },
       username: 'jd1',
       password: 123456,
       email: 'jd1@yopmail.com',
-      aliases: ['monster']
-    })
+      aliases: ['monster'],
+    });
     component.onSubmit();
     expect(form.valid).toBeTruthy();
   });
@@ -95,5 +96,4 @@ describe('AppComponent', () => {
     salary.setValue('3000');
     expect(component.avoidMultipleZero(salary)).toBeNull();
   });
-
 });

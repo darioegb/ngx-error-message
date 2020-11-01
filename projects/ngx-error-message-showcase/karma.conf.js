@@ -33,6 +33,14 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    browserDisconnectTolerance: 3,
+    browserNoActivityTimeout: 2147483647,
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+          base: 'ChromeHeadless',
+          flags: ['--no-sandbox', '--disable-setuid-sandbox']
+      }
+    }
   });
 };

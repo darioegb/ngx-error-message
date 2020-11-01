@@ -3,17 +3,18 @@ variables:
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
 sonarcloud-check:
   before_script:
-    - npm install  
+    - npm install
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   cache:
     key: "${CI_JOB_NAME}"
     paths:
-      - node_modules/  
+      - node_modules/
       - .sonar/cache
   script:
-    - npm run test  
+    - npm run test:prod
+    - npm run lint
     - sonar-scanner
   only:
     - merge_requests
