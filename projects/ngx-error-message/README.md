@@ -1,4 +1,16 @@
 # NgxErrorMessage
+[![pipeline status](https://gitlab.com/darioegb/ngx-error-message/badges/master/pipeline.svg)](https://gitlab.com/darioegb/ngx-error-message/-/commits/master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=alert_status)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=bugs)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=code_smells)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=coverage)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=sqale_index)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=ncloc)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=security_rating)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
 
 ## Features
  - Dynamic component display error for inpunt fields in reactive form dynamically.
