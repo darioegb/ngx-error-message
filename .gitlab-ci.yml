@@ -23,15 +23,13 @@ test:
   image: trion/ng-cli-karma
   allow_failure: false
   script:
-    - ng test --code-coverage --progress false --watch false
+    - npm run test-prod
+    - npm run lint
+#    - sonar-scanner
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   artifacts:
     paths:
       - coverage/
-  script:
-    - npm run test-prod
-    - npm run lint
-#    - sonar-scanner
   only:
     - merge_requests
     - master
