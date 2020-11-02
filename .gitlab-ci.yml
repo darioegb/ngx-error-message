@@ -11,7 +11,8 @@ sonarcloud-check:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   services:
-    - trion/ng-cli
+    - trion/ng-cli-karma
+  allow_failure: false
   cache:
     key: "${CI_JOB_NAME}"
     paths:
