@@ -1,42 +1,84 @@
-<div class="container">
-    <h1>{{title}}</h1>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-horizontal">
-        <div formGroupName="name">
-            <div class="form-group col-lg-10">
-                <input type="text" formControlName="firstName" placeholder="FirstName" class="form-control">
-                <ng-template ngxErrorMessage [control]="nameControls.firstName"></ng-template>
-            </div>
-            <div class="form-group col-lg-10">
-                <input type="text" formControlName="lastName" placeholder="LastName" class="form-control">
-                <ng-template ngxErrorMessage [control]="nameControls.lastName"></ng-template>
-            </div>
-        </div>
-        <div class="form-group col-lg-10">
-            <input type="text" formControlName="username" placeholder="Username" class="form-control">
-            <ng-template ngxErrorMessage [control]="formControls.username" patternKey="custom"></ng-template>
-        </div>
-        <div class="form-group col-lg-10">
-            <input type="password" formControlName="password" placeholder="Password" class="form-control">
-            <ng-template ngxErrorMessage [control]="formControls.password"></ng-template>
-        </div>
-        <div class="form-group col-lg-10">
-            <input type="email" formControlName="email" placeholder="Email" class="form-control">
-            <ng-template ngxErrorMessage [control]="formControls.email"></ng-template>
-        </div>
-        <div class="form-group col-lg-10">
-            <input type="text" formControlName="salary" placeholder="Salary" class="form-control">
-            <ng-template ngxErrorMessage [control]="formControls.salary"></ng-template>
-        </div>
-        <div formArrayName="aliases" class="col-lg-10">
-            <h3>Aliases</h3> <button type="button" (click)="addAlias()" class="btn btn-secondary">Add Alias</button>
-            <div *ngFor="let alias of aliases.controls; let i=index" class="form-group">
-                <input type="text" [formControlName]="i" placeholder="Alias" class="form-control">
-                <ng-template ngxErrorMessage [control]="getAliasControl(i)"></ng-template>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
-            Save
-        </button>
-    </form>
-    <blockquote *ngIf="formValue">{{ formValue | json }}</blockquote>
+<div class='container'>
+  <h1>{{ title }}</h1>
+  <form [formGroup]='form' (ngSubmit)='onSubmit()' class='form-horizontal'>
+    <div formGroupName='name'>
+      <div class='form-group col-lg-10'>
+        <input
+          type='text'
+          formControlName='firstName'
+          placeholder='FirstName'
+          class='form-control'
+          ngxErrorMessage
+        />
+      </div>
+      <div class='form-group col-lg-10'>
+        <input
+          type='text'
+          formControlName='lastName'
+          placeholder='LastName'
+          class='form-control'
+          ngxErrorMessage
+        />
+      </div>
+    </div>
+    <div class='form-group col-lg-10'>
+      <input
+        type='text'
+        formControlName='username'
+        placeholder='Username'
+        class='form-control'
+        ngxErrorMessage
+        patternKey='custom'
+      />
+    </div>
+    <div class='form-group col-lg-10'>
+      <input
+        type='password'
+        formControlName='password'
+        placeholder='Password'
+        class='form-control'
+        ngxErrorMessage
+      />
+    </div>
+    <div class='form-group col-lg-10'>
+      <input
+        type='email'
+        formControlName='email'
+        placeholder='Email'
+        class='form-control'
+        ngxErrorMessage
+      />
+    </div>
+    <div class='form-group col-lg-10'>
+      <input
+        type='text'
+        formControlName='salary'
+        placeholder='Salary'
+        class='form-control'
+        ngxErrorMessage
+      />
+    </div>
+    <div formArrayName='aliases' class='col-lg-10'>
+      <h3>Aliases</h3>
+      <button type='button' (click)='addAlias()' class='btn btn-secondary'>
+        Add Alias
+      </button>
+      <div
+        *ngFor='let alias of aliases.controls; let i = index'
+        class='form-group'
+      >
+        <input
+          type='text'
+          [formControlName]='i'
+          placeholder='Alias'
+          class='form-control'
+          ngxErrorMessage
+        />
+      </div>
+    </div>
+    <button type='submit' class='btn btn-primary' [disabled]='form.invalid'>
+      Save
+    </button>
+  </form>
+  <blockquote *ngIf='formValue'>{{ formValue | json }}</blockquote>
 </div>

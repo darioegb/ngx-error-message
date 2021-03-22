@@ -60,7 +60,7 @@ describe('AppComponent', () => {
 
   it('should add alias', () => {
     component.addAlias();
-    const addedALias = component.getAliasControl(1);
+    const addedALias = component.aliases.controls[1];
     expect(addedALias.valid).toBeFalsy();
     addedALias.setValue('John%1');
     expect(addedALias.hasError('pattern')).toBeTruthy();

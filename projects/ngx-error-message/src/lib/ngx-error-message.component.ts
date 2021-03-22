@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { NgxErrorMessageService } from './ngx-error-message.service';
 
 @Component({
@@ -18,7 +18,7 @@ import { NgxErrorMessageService } from './ngx-error-message.service';
   ],
 })
 export class NgxErrorMessageComponent implements OnInit {
-  @Input() control: FormControl;
+  @Input() control: AbstractControl;
   @Input() patternKey?: string;
   private formControlName: string;
 
@@ -52,10 +52,9 @@ export class NgxErrorMessageComponent implements OnInit {
     const element = document.querySelector<HTMLElement>(
       `[formcontrolname='${key}'], [ng-reflect-name='${key}']`
     );
-    if (invalid) {
-      element.classList.add('error-container');
-    } else {
-      element.classList.remove('error-container');
-    }
+    const errorClass = 'error-container';
+    invalid
+      ? element.classList.add(errorClass)
+      : element.classList.remove(errorClass);
   }
 }

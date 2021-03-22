@@ -42,7 +42,6 @@ sonarcloud-check:
   dependencies:
     - test:karma
   only:
-    - merge_requests
     - master
     - develop
 
