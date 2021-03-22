@@ -2,16 +2,8 @@
 
 [![pipeline status](https://gitlab.com/darioegb/ngx-error-message/badges/master/pipeline.svg)](https://gitlab.com/darioegb/ngx-error-message/-/commits/master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=alert_status)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=bugs)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=code_smells)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=coverage)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=sqale_index)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=ncloc)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=security_rating)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
 
 ## Features
  - Dynamic component display error for inpunt fields in reactive form dynamically.
@@ -21,6 +13,7 @@ Latest version available for each version of Angular
 
 | ngx-error-message | Angular     |
 |-------------------|-------------|
+| 2.0.0             | 9.x 8.x 7.x |
 | 1.3.0             | 9.x 8.x 7.x |
 
 ## Live Example
@@ -115,12 +108,14 @@ Then, if you want to display a message for each error, our json file needs to lo
         "min": "The minimum allowed is {{param}}.",
         "max": "The maximum allowed is {{param}}.",
         "pattern": {
-            "numeric": "The valid format is numeric.",
+           "numeric": "The valid format is numeric.",
             "alphabet": "The valid format is alphabetical.",
             "smallLetters": "The valid format is lowercase letters.",
             "capitalLetters": "The valid format is capital letters.",
             "alphaNumeric": "The valid format is alphanumeric.",
-            "ip": "The IP address is not correct."
+            "phoneNumber": "Invalid phoneNumber.",
+            "websiteUrl": "Invalid website url.",
+            "ip": "Invalid IP address.",
         }
     }
   }
@@ -142,9 +137,8 @@ Add This class in your styles.css file. You feel free to customization, or ignor
 
 After configuration you can used the directive as follow example
 ```html
-  <input type="password" formControlName="password" placeholder="Password" class="form-control">
   <!-- Example to use directive default example  -->
-  <ng-template ngxErrorMessage [control]="formControls.password"></ng-template>
+  <input type="password" formControlName="password" placeholder="Password" class="form-control" ngxErrorMessage>
 ```
 
 ```typescript
@@ -165,14 +159,14 @@ The control parameter for this directive is obligatory. Also you can add optiona
 ## Patterns validations created in libary
 ```javascript
 export const regEx = {
-    phoneNumber: '(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})',
-    websiteUrl: '^(https?:\/\/)?([\w\d-_]+)\.([\w\d-_\.]+)\/?\??([^#\n\r]*)?#?([^\n\r]*)',
-    numeric: '^\d+$',
-    smallLetters: '^[a-z]+$',
-    capitalLetters: '^[A-Z]+$',
-    alphabet: '^[a-zA-Z\s]+$',
-    alphaNumeric: '^[a-zA-Z0-9\s]+$',
-    ip: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$'
+  phoneNumber: /(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})/,
+  websiteUrl: /^(https?:\/\/)?([\w\d-_]+)\.([\w\d-_\.]+)\/?\??([^#\n\r]*)?#?([^\n\r]*)/,
+  numeric: /^\d+$/,
+  smallLetters: /^[a-z]+$/,
+  capitalLetters: /^[A-Z]+$/,
+  alphabet: /^[a-zA-Z\s\u00C0-\u017F]+$/,
+  alphaNumeric: /^[a-zA-Z0-9\s\u00C0-\u017F]+$/,
+  ip: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
 };
 ``` 
 You can use these patterns if you like in your formControl in the pattern validator by importing the RegEx constant and use it as the example described above.
@@ -211,8 +205,7 @@ After that you must add new validation pattern inside the object with key as a p
 In your html file add the patternKey atribute to directive
 
 ```html
-   <input type="text" formControlName="username" placeholder="Username" class="form-control">
-  <ng-template ngxErrorMessage [control]="formControls.username" patternKey="custom"></ng-template>
+   <input type="text" formControlName="username" placeholder="Username" class="form-control" ngxErrorMessage patternKey="custom">
 ```
 
 ### new custom validation
@@ -238,6 +231,7 @@ After add to languaje file the message for this validation. Don't forget the val
 
 ```json
   "validations": {
+      // Others validations 
       "avoidMultipleZero": "Can't start with multiple zeros"
   }
 ```

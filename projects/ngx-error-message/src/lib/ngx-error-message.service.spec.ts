@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { TranslateTestingModule } from 'ngx-translate-testing';
 import { ENGLISH_TRANSLATIONS } from '../test';
+import { regEx } from './ngx-error-message-constant';
 
 import { NgxErrorMessageService } from './ngx-error-message.service';
 
@@ -26,6 +27,7 @@ describe('NgxErrorMessageService', () => {
         ],
       ],
       email: [null, [Validators.required, Validators.email]],
+      phone: [null, [Validators.required, Validators.pattern(regEx.phoneNumber)]],
     });
   }
 
@@ -63,7 +65,9 @@ describe('NgxErrorMessageService', () => {
     const group = initForm();
     const control = group.controls.username as FormControl;
     control.setValue('thisIsAlongTestUserName');
-    expect(service.getErrorMessage(control)).toContain('The maximum length allowed is' );
+    expect(service.getErrorMessage(control)).toContain(
+      'The maximum length allowed is'
+    );
   });
 
   it('#getErrorMessage with patternKey should return message when formControl is invalid', () => {
@@ -72,6 +76,15 @@ describe('NgxErrorMessageService', () => {
     control.setValue('test$');
     expect(service.getErrorMessage(control, 'custom')).toBe(
       ENGLISH_TRANSLATIONS.validations.pattern.custom
+    );
+  });
+
+  it('#getErrorMessage should return message when formControl is invalid and use default regex', () => {
+    const group = initForm();
+    const control = group.controls.phone as FormControl;
+    control.setValue('isNotPhoneNumber');
+    expect(service.getErrorMessage(control)).toBe(
+      ENGLISH_TRANSLATIONS.validations.pattern.phoneNumber
     );
   });
 });

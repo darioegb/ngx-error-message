@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ValidationErrors, FormControl } from '@angular/forms';
+import { ValidationErrors, AbstractControl } from '@angular/forms';
 
 import { regEx, requiredRegex } from './ngx-error-message-constant';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,42 +8,29 @@ import { TranslateService } from '@ngx-translate/core';
   providedIn: 'root',
 })
 export class NgxErrorMessageService {
-  private errorMessages: any;
+  private errorMessages: { [x: string]: string };
   private errorMessage: string;
 
   constructor(private translate: TranslateService) {
-    this.translate.get('validations').subscribe((res) => {
-      this.errorMessages = res;
-    });
+    this.translate
+      .get('validations')
+      .subscribe((res) => (this.errorMessages = res));
   }
 
-  /**
-   * @description This method check if form control is no valid
-   * @param control the formControl to valid
-   * @param rules the rules to display errors
-   */
-  isNotValid(control: FormControl): boolean {
+  isNotValid(control: AbstractControl): boolean {
     return control.invalid && control.touched;
   }
 
-  /**
-   * @description This method get error message to display
-   * @param control the formControl to valid
-   * @param patternKey custom pattern key
-   * @returns string
-   */
-  getErrorMessage(control: FormControl, patternKey?: string): string {
+  getErrorMessage(control: AbstractControl, patternKey?: string): string {
     const controlErrors: ValidationErrors = control.errors;
     const lastError = Object.entries(controlErrors).pop();
-    if (typeof lastError[1] !== 'boolean') {
-      this.setErrorMessage(lastError[0], lastError[1], patternKey);
-    } else {
-      this.setErrorMessage(lastError[0]);
-    }
+    typeof lastError[1] !== 'boolean'
+      ? this.setErrorMessage(lastError[0], lastError[1], patternKey)
+      : this.setErrorMessage(lastError[0]);
     return this.errorMessage;
   }
 
-  private setErrorMessage(key: string, value?: any, patternKey?: string) {
+  private setErrorMessage(key: string, value?: undefined, patternKey?: string) {
     // for validations who have requiredValue
     const requiredValue = value
       ? this.getValueByRegexFromObject(value, requiredRegex)
@@ -54,19 +41,20 @@ export class NgxErrorMessageService {
         : this.getMessage(key, requiredValue);
   }
 
-  private patternMatchExpression(value: any, patternKey?: string): string {
-    let errorMessage = '';
+  private patternMatchExpression(
+    value: { requiredPattern: string | RegExp; actualValue: string },
+    patternKey?: string
+  ): string {
     const regExpDefault = Object.entries(regEx).find(
-      ([_, val]) => val === value.requiredPattern
+      ([_, val]) => val.toString() === value.requiredPattern
     );
-    const regeExp = regExpDefault
-      ? new RegExp(regExpDefault[1])
+    const regeExp: RegExp = regExpDefault
+      ? regExpDefault[1]
       : new RegExp(value.requiredPattern);
     const messageKey = regExpDefault ? regExpDefault[0] : patternKey;
-    if (!regeExp.test(value.actualValue)) {
-      errorMessage = this.getMessageFromPattern(messageKey);
-    }
-    return errorMessage;
+    return !regeExp.test(value.actualValue)
+      ? this.getMessageFromPattern(messageKey)
+      : '';
   }
 
   private getValueByRegexFromObject(obj, regex: RegExp) {

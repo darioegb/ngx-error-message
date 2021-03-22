@@ -22,14 +22,14 @@ import { ENGLISH_TRANSLATIONS } from '../test';
         formControlName='email'
         placeholder='Email'
         class='form-control'
+        ngxErrorMessage
       />
-      <ng-template ngxErrorMessage [control]='formControls.email'></ng-template>
     </div>
   </form>`,
 })
 class TestHostComponent implements OnInit {
   form: FormGroup;
-  formValue: any;
+  formValue: unknown;
 
   constructor(private fb: FormBuilder) {}
 
