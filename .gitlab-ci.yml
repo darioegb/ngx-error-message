@@ -43,7 +43,6 @@ sonarcloud-check:
     - test:karma
   only:
     - master
-    - develop
 
 deploy:
   stage: deploy
@@ -54,4 +53,4 @@ deploy:
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     - npm publish
   only:
-    - tag
+    - tags
