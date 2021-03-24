@@ -31,7 +31,6 @@ export class NgxErrorMessageService {
   }
 
   private setErrorMessage(key: string, value?: undefined, patternKey?: string) {
-    // for validations who have requiredValue
     const requiredValue = value
       ? this.getValueByRegexFromObject(value, requiredRegex)
       : null;
@@ -48,13 +47,8 @@ export class NgxErrorMessageService {
     const regExpDefault = Object.entries(regEx).find(
       ([_, val]) => val.toString() === value.requiredPattern
     );
-    const regeExp: RegExp = regExpDefault
-      ? regExpDefault[1]
-      : new RegExp(value.requiredPattern);
     const messageKey = regExpDefault ? regExpDefault[0] : patternKey;
-    return !regeExp.test(value.actualValue)
-      ? this.getMessageFromPattern(messageKey)
-      : '';
+    return this.getMessageFromPattern(messageKey);
   }
 
   private getValueByRegexFromObject(obj, regex: RegExp) {
