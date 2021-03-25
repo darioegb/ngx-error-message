@@ -48,9 +48,6 @@ deploy:
   stage: deploy
   image: trion/ng-cli
   script:
-    - ng build ngx-error-message --prod
-    - cd dist/ngx-error-message
-    - npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-    - npm publish
+    - ng build ngx-error-message --prod && cd dist/ngx-error-message && echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc && npm publish
   only:
     - tags
