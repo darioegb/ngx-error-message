@@ -43,6 +43,7 @@ sonarcloud-check:
     - test:karma
   only:
     - master
+    - develop
 
 deploy:
   stage: deploy
