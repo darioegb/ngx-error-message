@@ -38,7 +38,8 @@ https://github.com/ngx-translate/core
 
 ## Setup
 
-**step 1:** Add NgxErrorMessageModule to appModule, make sure you have configured ngx-translate as well
+**step 1** 
+Add NgxErrorMessageModule to appModule, make sure you have configured ngx-translate as well
 
 ```typescript
   import { BrowserModule } from '@angular/platform-browser';
@@ -79,8 +80,7 @@ https://github.com/ngx-translate/core
 ```
 
 **step  2**
-**Add error message configuration in JSON file**
- Ngx-translate and others internationalizations packages manage json files for each idiom thant manage. For example is your application manage english langague you must create in assets/i18n/en.json, in the file you will have all the errors you need in your application. Every property in the json will be named as the error displayed by the form (using reactive forms), for example, when a field has an error you can write form.get('field').errors and receive the error object, by example:
+  Add the error message settings in the JSON file. Ngx-translate and other internationalization packages manage json files for each language used in the application. For example, if your application manages the English language you must create it in assets /i18n/en.json, in the file you will have all the errors you need in it. Each property in the json will be named as the error displayed by the form (using reactive forms), for example when a field has an error, you can write form.get ('field') .errors and receive the error object as the following:
 ```javascript
   // form.get('field').errors
   // The field is required and displays the error
@@ -155,7 +155,7 @@ ngOnInit() {
 //  Easy trick for get formControls in html and in typescript
 get formControls() { return this.form.controls; }
 ```
-The control parameter for this directive is obligatory. Also you can add optional parameter **patternKey** it recive the name of custom pattern does not cover in default validations.
+You can add optional parameter **patternKey** it recive the name of custom pattern does not cover in default validations.
 
 ## Patterns validations created in libary
 ```javascript
@@ -176,7 +176,6 @@ You can use these patterns if you like in your formControl in the pattern valida
 
 | Input      | Required | Description                             |
 |------------|----------|-----------------------------------------|
-| control    | true     | FormControl object                      |
 | patternKey | false    | Pattern name as you called in json file |
 
 ## Customization validations
@@ -230,7 +229,7 @@ If we need to add new custom validator just create the validator function o set 
 ```
 After add to languaje file the message for this validation. Don't forget the validation message must named equal that validation error name.
 
-```json
+```javascript
   "validations": {
       // Others validations 
       "avoidMultipleZero": "Can't start with multiple zeros"

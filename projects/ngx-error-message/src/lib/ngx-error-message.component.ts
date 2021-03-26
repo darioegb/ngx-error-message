@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { NgControl } from '@angular/forms';
 import { NgxErrorMessageService } from './ngx-error-message.service';
 
 @Component({
@@ -18,37 +18,30 @@ import { NgxErrorMessageService } from './ngx-error-message.service';
   ],
 })
 export class NgxErrorMessageComponent implements OnInit {
-  @Input() control: AbstractControl;
+  @Input() ngControl: NgControl;
   @Input() patternKey?: string;
-  private formControlName: string;
+  private formControlName: string | number;
 
   constructor(private errorMessageService: NgxErrorMessageService) {}
 
   ngOnInit() {
-    this.formControlName = this.getFormControlName();
+    this.formControlName = this.ngControl.name;
   }
 
   isNotValid(): boolean {
-    const invalid = this.errorMessageService.isNotValid(this.control);
+    const invalid = this.errorMessageService.isNotValid(this.ngControl.control);
     this.toggleErrorContainer(invalid, this.formControlName);
     return invalid;
   }
 
   getErrorMessage(): string {
     return this.errorMessageService.getErrorMessage(
-      this.control,
+      this.ngControl.control,
       this.patternKey
     );
   }
 
-  private getFormControlName(): string {
-    const formGroup = this.control.parent.controls;
-    return Object.keys(formGroup).find(
-      (name) => this.control === formGroup[name]
-    );
-  }
-
-  private toggleErrorContainer(invalid: boolean, key: string) {
+  private toggleErrorContainer(invalid: boolean, key: string | number) {
     const element = document.querySelector<HTMLElement>(
       `[formcontrolname='${key}'], [ng-reflect-name='${key}']`
     );

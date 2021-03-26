@@ -84,7 +84,6 @@ describe('NgxErrorMessageComponent', () => {
   it('#ngOnInit should set error to formControl', () => {
     const control = component.form.controls.email;
 
-    component.ngOnInit();
     control.markAsTouched();
     fixture.detectChanges();
     const errorElement = (fixture.nativeElement as HTMLElement).querySelector(

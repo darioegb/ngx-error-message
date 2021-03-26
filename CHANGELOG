@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.2] - 2021-03-26
+### Added
+- Update documentation
+- Code optimization
+
+## [2.0.1] - 2021-03-24
+### Added
+- Upgrade to angular 11
+- Code optimization
+
 ## [2.0.0] - 2021-03-22
 ### Added
 - Update coverage to ngx-error-message

@@ -30,7 +30,7 @@ export class NgxErrorMessageDirective implements OnInit {
 
     const componentRef = hostViewContainerRef.createComponent(factory);
 
-    componentRef.instance.control = this.ngControl.control;
+    componentRef.instance.ngControl = this.ngControl;
     componentRef.instance.patternKey = this.patternKey;
   }
 }

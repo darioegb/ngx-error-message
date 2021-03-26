@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   providedIn: 'root',
 })
 export class NgxErrorMessageService {
-  private errorMessages: { [x: string]: string };
+  private errorMessages: { [key: string]: string };
   private errorMessage: string;
 
   constructor(private translate: TranslateService) {
@@ -35,9 +35,9 @@ export class NgxErrorMessageService {
       ? this.getValueByRegexFromObject(value, requiredRegex)
       : null;
     this.errorMessage =
-      key === 'pattern'
-        ? this.patternMatchExpression(value, patternKey)
-        : this.getMessage(key, requiredValue);
+      key !== 'pattern'
+        ? this.getMessage(key, requiredValue)
+        : this.patternMatchExpression(value, patternKey);
   }
 
   private patternMatchExpression(
@@ -51,8 +51,11 @@ export class NgxErrorMessageService {
     return this.getMessageFromPattern(messageKey);
   }
 
-  private getValueByRegexFromObject(obj, regex: RegExp) {
-    return Object.entries(obj).find(([key, _]) => regex.test(key))[1] as string;
+  private getValueByRegexFromObject(
+    obj: { [key: string]: unknown } | ArrayLike<unknown>,
+    regex: RegExp
+  ) {
+    return Object.entries(obj).find(([key]) => regex.test(key))[1] as string;
   }
 
   private getMessage(key: string, param?: string): string {
