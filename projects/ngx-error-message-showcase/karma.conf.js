@@ -19,7 +19,7 @@ module.exports = function (config) {
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage/ngx-error-message'),
-      reports: ['html', 'lcovonly', 'text-summary'],
+      reports: ['html', 'text-summary'],
       fixWebpackSourcePaths: true,
       thresholds: {
         statements: 80,

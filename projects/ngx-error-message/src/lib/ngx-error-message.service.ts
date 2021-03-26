@@ -14,7 +14,7 @@ export class NgxErrorMessageService {
   constructor(private translate: TranslateService) {
     this.translate
       .get('validations')
-      .subscribe((res) => (this.errorMessages = res));
+      .subscribe({ next: (res) => (this.errorMessages = res) });
   }
 
   isNotValid(control: AbstractControl): boolean {
