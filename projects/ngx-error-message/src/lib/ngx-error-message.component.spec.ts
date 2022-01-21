@@ -9,8 +9,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { OnInit } from '@angular/core';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgxErrorMessageDirective } from './ngx-error-message.directive';
 import { ENGLISH_TRANSLATIONS } from '../test';
 
@@ -28,20 +27,21 @@ import { ENGLISH_TRANSLATIONS } from '../test';
   </form>`,
 })
 class TestHostComponent implements OnInit {
-  form: FormGroup;
+  form!: FormGroup;
   formValue: unknown;
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {
+  get formControls() {
+    return this.form.controls;
+  }
+
+  ngOnInit(): void {
     this.form = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
     });
   }
 
-  get formControls() {
-    return this.form.controls;
-  }
 
   onSubmit() {
     if (this.form.invalid) {
@@ -82,7 +82,7 @@ describe('NgxErrorMessageComponent', () => {
   });
 
   it('#ngOnInit should set error to formControl', () => {
-    const control = component.form.controls.email;
+    const control = component.form.controls['email'];
 
     control.markAsTouched();
     fixture.detectChanges();
@@ -91,7 +91,7 @@ describe('NgxErrorMessageComponent', () => {
     );
 
     expect(control.errors).toBeDefined();
-    expect(errorElement.innerHTML).toBe(
+    expect(errorElement && errorElement.innerHTML).toBe(
       ENGLISH_TRANSLATIONS.validations.required
     );
   });

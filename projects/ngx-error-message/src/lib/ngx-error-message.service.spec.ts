@@ -16,8 +16,7 @@ describe('NgxErrorMessageService', () => {
   let service: NgxErrorMessageService;
   let fb: FormBuilder;
 
-  function initForm(): FormGroup {
-    return fb.group({
+  const initForm = (): FormGroup => fb.group({
       username: [
         null,
         [
@@ -29,7 +28,6 @@ describe('NgxErrorMessageService', () => {
       email: [null, [Validators.required, Validators.email]],
       phone: [null, [Validators.required, Validators.pattern(regEx.phoneNumber)]],
     });
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,13 +47,13 @@ describe('NgxErrorMessageService', () => {
 
   it('#isNotValid should return false when formControl is invalid', () => {
     const group = initForm();
-    const control = group.controls.email as FormControl;
+    const control = group.controls['email'] as FormControl;
     expect(service.isNotValid(control)).toBeFalsy();
   });
 
   it('#getErrorMessage should return message when formControl is invalid', () => {
     const group = initForm();
-    const control = group.controls.username as FormControl;
+    const control = group.controls['username'] as FormControl;
     expect(service.getErrorMessage(control)).toBe(
       ENGLISH_TRANSLATIONS.validations.required
     );
@@ -63,7 +61,7 @@ describe('NgxErrorMessageService', () => {
 
   it('#getErrorMessage with param should return message when formControl is invalid', () => {
     const group = initForm();
-    const control = group.controls.username as FormControl;
+    const control = group.controls['username'] as FormControl;
     control.setValue('thisIsAlongTestUserName');
     expect(service.getErrorMessage(control)).toContain(
       'The maximum length allowed is'
@@ -72,7 +70,7 @@ describe('NgxErrorMessageService', () => {
 
   it('#getErrorMessage with patternKey should return message when formControl is invalid', () => {
     const group = initForm();
-    const control = group.controls.username as FormControl;
+    const control = group.controls['username'] as FormControl;
     control.setValue('test$');
     expect(service.getErrorMessage(control, 'custom')).toBe(
       ENGLISH_TRANSLATIONS.validations.pattern.custom
@@ -81,7 +79,7 @@ describe('NgxErrorMessageService', () => {
 
   it('#getErrorMessage should return message when formControl is invalid and use default regex', () => {
     const group = initForm();
-    const control = group.controls.phone as FormControl;
+    const control = group.controls['phone'] as FormControl;
     control.setValue('isNotPhoneNumber');
     expect(service.getErrorMessage(control)).toBe(
       ENGLISH_TRANSLATIONS.validations.pattern.phoneNumber

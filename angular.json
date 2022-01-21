@@ -19,7 +19,8 @@
             "production": {
               "tsConfig": "projects/ngx-error-message/tsconfig.lib.prod.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -30,14 +31,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngx-error-message/tsconfig.lib.json",
-              "projects/ngx-error-message/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ngx-error-message/**/*.ts",
+              "projects/ngx-error-message/**/*.html"
             ]
           }
         }
@@ -63,7 +61,6 @@
             "polyfills": "projects/ngx-error-message-showcase/src/polyfills.ts",
             "tsConfig": "projects/ngx-error-message-showcase/tsconfig.app.json",
             "preserveSymlinks": true,
-            "aot": true,
             "assets": [
               "projects/ngx-error-message-showcase/src/favicon.ico",
               "projects/ngx-error-message-showcase/src/assets"
@@ -71,7 +68,13 @@
             "styles": [
               "projects/ngx-error-message-showcase/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -84,7 +87,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -102,7 +104,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -139,19 +142,6 @@
             "codeCoverage": true
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-error-message-showcase/tsconfig.app.json",
-              "projects/ngx-error-message-showcase/tsconfig.spec.json",
-              "projects/ngx-error-message-showcase/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -169,6 +159,7 @@
   },
   "defaultProject": "ngx-error-message",
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

@@ -11,21 +11,26 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter'),
+      require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
-    coverageIstanbulReporter: {
+    coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/ngx-error-message'),
-      reports: ['html', 'text-summary'],
-      fixWebpackSourcePaths: true,
-      thresholds: {
-        statements: 80,
-        lines: 80,
-        branches: 80,
-        functions: 80
+      reporters: [
+        { type: 'lcovonly', subdir: '.' },
+        { type: 'html', subdir: 'report-html/ngx-error-message-showcase' },
+        { type: 'text-summary', subdir: '.', file: 'text-summary.txt' }
+      ],
+      check: {
+        global: {
+          statements: 80,
+          branches: 80,
+          functions: 80,
+          lines: 80,
+        }
       }
     },
     reporters: ['progress', 'kjhtml'],

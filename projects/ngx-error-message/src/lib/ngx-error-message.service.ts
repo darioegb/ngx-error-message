@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ValidationErrors, AbstractControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 import { regEx, requiredRegex } from './ngx-error-message-constant';
 import { TranslateService } from '@ngx-translate/core';
+import { GenericObject, JsonMessage } from './ngx-error-message-interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NgxErrorMessageService {
-  private errorMessages: { [key: string]: string };
-  private errorMessage: string;
+  private errorMessages!: JsonMessage<string>;
+  private errorMessage!: string;
 
   constructor(private translate: TranslateService) {
     this.translate
@@ -22,18 +23,25 @@ export class NgxErrorMessageService {
   }
 
   getErrorMessage(control: AbstractControl, patternKey?: string): string {
-    const controlErrors: ValidationErrors = control.errors;
-    const lastError = Object.entries(controlErrors).pop();
-    typeof lastError[1] !== 'boolean'
-      ? this.setErrorMessage(lastError[0], lastError[1], patternKey)
-      : this.setErrorMessage(lastError[0]);
+    const controlErrors = control.errors;
+    const lastError = controlErrors && Object.entries(controlErrors).pop();
+    if (lastError) {
+      const lastErrorType = typeof lastError[1] !== 'boolean';
+      lastErrorType
+        ? this.setErrorMessage(lastError[0], lastError[1], patternKey)
+        : this.setErrorMessage(lastError[0]);
+    }
     return this.errorMessage;
   }
 
-  private setErrorMessage(key: string, value?: undefined, patternKey?: string) {
+  private setErrorMessage(
+    key: string,
+    value?: GenericObject<unknown> | undefined,
+    patternKey?: string
+  ): void {
     const requiredValue = value
       ? this.getValueByRegexFromObject(value, requiredRegex)
-      : null;
+      : undefined;
     this.errorMessage =
       key !== 'pattern'
         ? this.getMessage(key, requiredValue)
@@ -41,30 +49,30 @@ export class NgxErrorMessageService {
   }
 
   private patternMatchExpression(
-    value: { requiredPattern: string | RegExp; actualValue: string },
+    value: GenericObject<unknown> | undefined,
     patternKey?: string
   ): string {
-    const regExpDefault = Object.entries(regEx).find(
-      ([_, val]) => val.toString() === value.requiredPattern
+    const regExpDefault = value && Object.entries(regEx).find(
+      ([_, val]) => val.toString() === value['requiredPattern']
     );
     const messageKey = regExpDefault ? regExpDefault[0] : patternKey;
-    return this.getMessageFromPattern(messageKey);
+    return this.getMessageFromPattern(messageKey as string);
   }
 
   private getValueByRegexFromObject(
-    obj: { [key: string]: unknown } | ArrayLike<unknown>,
+    obj: GenericObject<unknown>,
     regex: RegExp
-  ) {
-    return Object.entries(obj).find(([key]) => regex.test(key))[1] as string;
+  ): string | undefined {
+    const findValue = Object.entries(obj).find(([key]) => regex.test(key));
+    return findValue && findValue[1] as string;
   }
 
   private getMessage(key: string, param?: string): string {
-    return param
-      ? this.errorMessages[key].replace('{{param}}', param)
-      : this.errorMessages[key];
+    const errorMessage = this.errorMessages[key] as string;
+    return param ? errorMessage.replace('{{param}}', param) : errorMessage;
   }
 
-  private getMessageFromPattern(key: string) {
-    return this.errorMessages.pattern[key];
+  private getMessageFromPattern(key: string): string {
+    return (this.errorMessages['pattern'] as GenericObject<string>)[key];
   }
 }

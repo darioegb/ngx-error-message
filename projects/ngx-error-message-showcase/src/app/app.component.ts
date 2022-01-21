@@ -17,7 +17,7 @@ import { regEx } from '../../../ngx-error-message/src/public-api';
 })
 export class AppComponent implements OnInit {
   title = 'ngx-error-message-showcase';
-  form: FormGroup;
+  form!: FormGroup;
   formValue: unknown;
 
   constructor(private fb: FormBuilder) {}
@@ -77,11 +77,11 @@ export class AppComponent implements OnInit {
   }
 
   get nameControls() {
-    return (this.formControls.name as FormGroup).controls;
+    return (this.formControls['name'] as FormGroup).controls;
   }
 
   get aliases() {
-    return this.formControls.aliases as FormArray;
+    return this.formControls['aliases'] as FormArray;
   }
 
   addAlias() {
@@ -97,7 +97,7 @@ export class AppComponent implements OnInit {
   avoidMultipleZero(control: AbstractControl) {
     const value = control.value;
     const isZeros = value ? value.startsWith('00') : false;
-    return isZeros ? { avoidMultipleZero: true } : null;
+    return isZeros ? { avoidMultipleZero: true } : undefined;
   }
 
   onSubmit() {
