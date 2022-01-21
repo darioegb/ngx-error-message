@@ -20,7 +20,6 @@ module.exports = function (config) {
     coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/ngx-error-message'),
       reporters: [
-        { type: 'lcovonly', subdir: '.' },
         { type: 'html', subdir: 'report-html/ngx-error-message-showcase' },
         { type: 'text-summary', subdir: '.', file: 'text-summary.txt' }
       ],
