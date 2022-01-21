@@ -13,6 +13,7 @@ Latest version available for each version of Angular
 
 | ngx-error-message | Angular       |
 |-------------------|---------------|
+| 2.1.0             | 13.x to 9.x   |
 | 2.0.1             | 11.x to 8.x   |
 | 2.0.0             | 11.x to 8.x   |
 | 1.3.0             | 9.x 8.x 7.x   |
@@ -238,7 +239,7 @@ After add to languaje file the message for this validation. Don't forget the val
 
 ## Test
 
-Ngx-toastf-showcase is the testing project. Use ng s to run it.
+Ngx-error-message-showcase is the testing project. Use ng s to run it.
 
 ## License
 

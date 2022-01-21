@@ -48,8 +48,8 @@ describe('AppComponent', () => {
   });
 
   it('should set name formGroup', () => {
-    const firstName = component.nameControls.firstName;
-    const lastName = component.nameControls.lastName;
+    const firstName = component.nameControls['firstName'];
+    const lastName = component.nameControls['lastName'];
     expect(firstName.valid).toBeFalsy();
     expect(lastName.valid).toBeFalsy();
     firstName.setValue(1234);
@@ -90,10 +90,10 @@ describe('AppComponent', () => {
   });
 
   it('should set salary', () => {
-    const salary = component.formControls.salary;
+    const salary = component.formControls['salary'];
     salary.setValue('00200');
-    expect(component.avoidMultipleZero(salary).avoidMultipleZero).toBeTruthy();
+    expect(component.avoidMultipleZero(salary)?.avoidMultipleZero).toBeTruthy();
     salary.setValue('3000');
-    expect(component.avoidMultipleZero(salary)).toBeNull();
+    expect(component.avoidMultipleZero(salary)).toBeUndefined();
   });
 });
