@@ -45,16 +45,10 @@ describe('NgxErrorMessageService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#isNotValid should return false when formControl is invalid', () => {
-    const group = initForm();
-    const control = group.controls['email'] as FormControl;
-    expect(service.isNotValid(control)).toBeFalsy();
-  });
-
   it('#getErrorMessage should return message when formControl is invalid', () => {
     const group = initForm();
     const control = group.controls['username'] as FormControl;
-    expect(service.getErrorMessage(control)).toBe(
+    expect(service.getErrorMessage(control.errors)).toBe(
       ENGLISH_TRANSLATIONS.validations.required
     );
   });
@@ -63,7 +57,7 @@ describe('NgxErrorMessageService', () => {
     const group = initForm();
     const control = group.controls['username'] as FormControl;
     control.setValue('thisIsAlongTestUserName');
-    expect(service.getErrorMessage(control)).toContain(
+    expect(service.getErrorMessage(control.errors)).toContain(
       'The maximum length allowed is'
     );
   });
@@ -72,7 +66,7 @@ describe('NgxErrorMessageService', () => {
     const group = initForm();
     const control = group.controls['username'] as FormControl;
     control.setValue('test$');
-    expect(service.getErrorMessage(control, 'custom')).toBe(
+    expect(service.getErrorMessage(control.errors, 'custom')).toBe(
       ENGLISH_TRANSLATIONS.validations.pattern.custom
     );
   });
@@ -81,7 +75,7 @@ describe('NgxErrorMessageService', () => {
     const group = initForm();
     const control = group.controls['phone'] as FormControl;
     control.setValue('isNotPhoneNumber');
-    expect(service.getErrorMessage(control)).toBe(
+    expect(service.getErrorMessage(control.errors)).toBe(
       ENGLISH_TRANSLATIONS.validations.pattern.phoneNumber
     );
   });

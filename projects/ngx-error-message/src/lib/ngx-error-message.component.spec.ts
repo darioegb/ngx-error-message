@@ -12,6 +12,7 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { NgxErrorMessageDirective } from './ngx-error-message.directive';
 import { ENGLISH_TRANSLATIONS } from '../test';
+import { NgxErrorMessagePipe } from './ngx-error-message.pipe';
 
 @Component({
   template: ` <form [formGroup]='form' class='form-horizontal'>
@@ -61,6 +62,7 @@ describe('NgxErrorMessageComponent', () => {
         NgxErrorMessageComponent,
         NgxErrorMessageDirective,
         TestHostComponent,
+        NgxErrorMessagePipe,
       ],
       imports: [
         ReactiveFormsModule,
@@ -87,7 +89,7 @@ describe('NgxErrorMessageComponent', () => {
     control.markAsTouched();
     fixture.detectChanges();
     const errorElement = (fixture.nativeElement as HTMLElement).querySelector(
-      '.error-message small'
+      '.error-message'
     );
 
     expect(control.errors).toBeDefined();

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { ValidationErrors } from '@angular/forms';
 
 import { regEx, requiredRegex } from './ngx-error-message-constant';
 import { TranslateService } from '@ngx-translate/core';
-import { GenericObject, JsonMessage } from './ngx-error-message-interfaces';
+import { JsonMessage } from './ngx-error-message-interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +18,7 @@ export class NgxErrorMessageService {
       .subscribe({ next: (res) => (this.errorMessages = res) });
   }
 
-  isNotValid(control: AbstractControl): boolean {
-    return control.invalid && control.touched;
-  }
-
-  getErrorMessage(control: AbstractControl, patternKey?: string): string {
-    const controlErrors = control.errors;
+  getErrorMessage(controlErrors: ValidationErrors | null, patternKey?: string): string {
     const lastError = controlErrors && Object.entries(controlErrors).pop();
     if (lastError) {
       const lastErrorType = typeof lastError[1] !== 'boolean';
@@ -36,7 +31,7 @@ export class NgxErrorMessageService {
 
   private setErrorMessage(
     key: string,
-    value?: GenericObject<unknown> | undefined,
+    value?: Record<string, unknown> | undefined,
     patternKey?: string
   ): void {
     const requiredValue = value
@@ -49,7 +44,7 @@ export class NgxErrorMessageService {
   }
 
   private patternMatchExpression(
-    value: GenericObject<unknown> | undefined,
+    value: Record<string, unknown> | undefined,
     patternKey?: string
   ): string {
     const regExpDefault = value && Object.entries(regEx).find(
@@ -60,7 +55,7 @@ export class NgxErrorMessageService {
   }
 
   private getValueByRegexFromObject(
-    obj: GenericObject<unknown>,
+    obj: Record<string, unknown>,
     regex: RegExp
   ): string | undefined {
     const findValue = Object.entries(obj).find(([key]) => regex.test(key));
@@ -73,6 +68,6 @@ export class NgxErrorMessageService {
   }
 
   private getMessageFromPattern(key: string): string {
-    return (this.errorMessages['pattern'] as GenericObject<string>)[key];
+    return (this.errorMessages['pattern'] as Record<string, string>)[key];
   }
 }

@@ -11,8 +11,7 @@ import { NgxErrorMessageComponent } from './ngx-error-message.component';
   selector: '[ngxErrorMessage]',
 })
 export class NgxErrorMessageDirective implements OnInit {
-  @Input()
-  control!: FormControl;
+  @Input() control!: FormControl;
   @Input() patternKey?: string;
 
   constructor(

@@ -4,11 +4,14 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NgxErrorMessageComponent } from './ngx-error-message.component';
 import { NgxErrorMessageDirective } from './ngx-error-message.directive';
+import { NgxErrorMessagePipe } from './ngx-error-message.pipe';
+import { NgxErrorMessageService } from './ngx-error-message.service';
 
 @NgModule({
     declarations: [
         NgxErrorMessageComponent,
-        NgxErrorMessageDirective
+        NgxErrorMessageDirective,
+        NgxErrorMessagePipe
     ],
     imports: [
         CommonModule,
@@ -18,4 +21,6 @@ import { NgxErrorMessageDirective } from './ngx-error-message.directive';
         NgxErrorMessageDirective
     ]
 })
-export class NgxErrorMessageModule { }
+export class NgxErrorMessageModule {
+  constructor(private _: NgxErrorMessageService) {}
+ }
