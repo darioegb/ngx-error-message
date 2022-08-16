@@ -4,7 +4,7 @@ import {
   TranslateModule,
   TranslateLoader
 } from '@ngx-translate/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxErrorMessageModule } from 'projects/ngx-error-message/src/public-api';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from './app.module';
@@ -26,6 +26,7 @@ describe('AppComponent', () => {
             deps: [HttpClient],
           },
         }),
+        FormsModule,
         ReactiveFormsModule,
         NgxErrorMessageModule,
       ],

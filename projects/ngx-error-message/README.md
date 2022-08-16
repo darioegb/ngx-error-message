@@ -13,6 +13,8 @@ Latest version available for each version of Angular
 
 | ngx-error-message | Angular       |
 |-------------------|---------------|
+| 2.2.1             | 14.x to 10.x  |
+| 2.2.0             | 14.x to 10.x  |
 | 2.1.0             | 13.x to 9.x   |
 | 2.0.1             | 11.x to 8.x   |
 | 2.0.0             | 11.x to 8.x   |

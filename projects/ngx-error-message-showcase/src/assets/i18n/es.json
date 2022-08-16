@@ -1,0 +1,22 @@
+{
+  "validations": {
+    "required": "El campo es obligatorio.",
+    "maxlength": "La longitud máxima permitida es {{param}}.",
+    "minlength": "La longitud mínima permitida es {{param}}.",
+    "email": "No es un correo electrónico válido.",
+    "min": "El mínimo permitido es {{param}}.",
+    "max": "El máximo permitido es {{param}}.",
+    "pattern": {
+      "numeric": "El formato válido es numérico.",
+      "alphabet": "El formato válido es alfabético.",
+      "smallLetters": "El formato válido son letras minúsculas.",
+      "capitalLetters": "El formato válido son letras mayúsculas.",
+      "alphaNumeric": "El formato válido es alfanumérico.",
+      "phoneNumber": "PhoneNumber no válido.",
+      "websiteUrl": "URL del sitio web no válida",
+      "ip": "Dirección IP no válida.",
+      "custom": "The valid format is alphanumeric and the '.' is allowed"
+    },
+    "avoidMultipleZero": "Can't start with multiple zeros"
+  }
+}
