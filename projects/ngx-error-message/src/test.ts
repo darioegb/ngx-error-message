@@ -50,3 +50,9 @@ export const ENGLISH_TRANSLATIONS = {
     avoidMultipleZero: `Can't start with multiple zeros`,
   },
 };
+
+export const SPANISH_TRANSLATIONS = {
+  validations: {
+    required: 'El campo es requerido.',
+  }
+};

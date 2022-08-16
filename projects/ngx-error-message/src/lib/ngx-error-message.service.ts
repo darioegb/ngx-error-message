@@ -13,9 +13,7 @@ export class NgxErrorMessageService {
   private errorMessage!: string;
 
   constructor(private translate: TranslateService) {
-    this.translate
-      .get('validations')
-      .subscribe({ next: (res) => (this.errorMessages = res) });
+    this.getTranslations();
   }
 
   getErrorMessage(controlErrors: ValidationErrors | null, patternKey?: string): string {
@@ -27,6 +25,12 @@ export class NgxErrorMessageService {
         : this.setErrorMessage(lastError[0]);
     }
     return this.errorMessage;
+  }
+
+  getTranslations() {
+    this.translate
+      .get('validations')
+      .subscribe({ next: (res) => (this.errorMessages = res) });
   }
 
   private setErrorMessage(

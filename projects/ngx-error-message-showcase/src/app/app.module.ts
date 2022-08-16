@@ -5,7 +5,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxErrorMessageModule } from '../../../ngx-error-message/src/lib/ngx-error-message.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -28,6 +28,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
+    FormsModule,
     ReactiveFormsModule,
     NgxErrorMessageModule
   ],

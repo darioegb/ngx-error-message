@@ -6,6 +6,7 @@ import {
   AbstractControl,
   FormArray,
 } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { regEx } from '../../../ngx-error-message/src/public-api';
@@ -17,10 +18,21 @@ import { regEx } from '../../../ngx-error-message/src/public-api';
 })
 export class AppComponent implements OnInit {
   title = 'ngx-error-message-showcase';
+  languajes = [
+    {
+      key: 'English',
+      value: 'en',
+    },
+    {
+      key: 'Spanish',
+      value: 'es',
+    },
+  ];
+  languaje!: string;
   form!: FormGroup;
   formValue: unknown;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private translate: TranslateService) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -70,6 +82,10 @@ export class AppComponent implements OnInit {
         this.formValue = null;
       }
     });
+
+    const lang = localStorage.getItem('lang');
+    this.languaje = lang ? lang : this.translate.defaultLang;
+    this.translate.setDefaultLang(this.languaje);
   }
 
   get formControls() {
@@ -105,5 +121,10 @@ export class AppComponent implements OnInit {
       return;
     }
     this.formValue = this.form.value;
+  }
+
+  changeLanguaje() {
+    this.translate.use(this.languaje);
+    localStorage.setItem('lang', this.languaje);
   }
 }
