@@ -4,8 +4,8 @@ import { TranslateTestingModule } from 'ngx-translate-testing';
 
 import { NgxErrorMessageComponent } from './ngx-error-message.component';
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -28,10 +28,10 @@ import { NgxErrorMessagePipe } from './ngx-error-message.pipe';
   </form>`,
 })
 class TestHostComponent implements OnInit {
-  form!: FormGroup;
+  form!: UntypedFormGroup;
   formValue: unknown;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) {}
 
   get formControls() {
     return this.form.controls;
@@ -69,7 +69,7 @@ describe('NgxErrorMessageComponent', () => {
         HttpClientTestingModule,
         TranslateTestingModule.withTranslations('en', ENGLISH_TRANSLATIONS),
       ],
-      providers: [FormBuilder],
+      providers: [UntypedFormBuilder],
     }).compileComponents();
   }));
 

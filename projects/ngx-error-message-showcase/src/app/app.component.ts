@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  FormBuilder,
+  UntypedFormGroup,
+  UntypedFormBuilder,
   Validators,
   AbstractControl,
-  FormArray,
+  UntypedFormArray,
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -29,10 +29,10 @@ export class AppComponent implements OnInit {
     },
   ];
   languaje!: string;
-  form!: FormGroup;
+  form!: UntypedFormGroup;
   formValue: unknown;
 
-  constructor(private fb: FormBuilder, private translate: TranslateService) {}
+  constructor(private fb: UntypedFormBuilder, private translate: TranslateService) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -93,11 +93,11 @@ export class AppComponent implements OnInit {
   }
 
   get nameControls() {
-    return (this.formControls['name'] as FormGroup).controls;
+    return (this.formControls['name'] as UntypedFormGroup).controls;
   }
 
   get aliases() {
-    return this.formControls['aliases'] as FormArray;
+    return this.formControls['aliases'] as UntypedFormArray;
   }
 
   addAlias() {

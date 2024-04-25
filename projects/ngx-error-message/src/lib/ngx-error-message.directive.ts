@@ -4,14 +4,14 @@ import {
   OnInit,
   Input,
 } from '@angular/core';
-import { FormControl, NgControl } from '@angular/forms';
+import { UntypedFormControl, NgControl } from '@angular/forms';
 import { NgxErrorMessageComponent } from './ngx-error-message.component';
 
 @Directive({
   selector: '[ngxErrorMessage]',
 })
 export class NgxErrorMessageDirective implements OnInit {
-  @Input() control!: FormControl;
+  @Input() control!: UntypedFormControl;
   @Input() patternKey?: string;
 
   constructor(
