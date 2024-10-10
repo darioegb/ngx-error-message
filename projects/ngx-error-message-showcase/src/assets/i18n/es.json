@@ -1,6 +1,26 @@
 {
+  "templateDrivenForms": {
+    "title": "Formulario basado en plantillas"
+  },
+  "reactiveForms": {
+    "title": "Formulario reactivo"
+  },
+  "fields": {
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "email": "Correo electrónico",
+    "salary": "Salario",
+    "alias": "Alias",
+    "name": "Nombre"
+  },
+  "buttons": {
+    "add": "Añadir {{value}}",
+    "save": "Guardar"
+  },
   "validations": {
-    "required": "El campo es obligatorio.",
+    "required": "{{fieldName}} es obligatorio.",
     "maxlength": "La longitud máxima permitida es {{param}}.",
     "minlength": "La longitud mínima permitida es {{param}}.",
     "email": "No es un correo electrónico válido.",
@@ -15,8 +35,9 @@
       "phoneNumber": "PhoneNumber no válido.",
       "websiteUrl": "URL del sitio web no válida",
       "ip": "Dirección IP no válida.",
-      "custom": "The valid format is alphanumeric and the '.' is allowed"
+      "custom": "El formato válido es alfanumérico y el '.' esta permitido"
     },
-    "avoidMultipleZero": "Can't start with multiple zeros"
+    "avoidMultipleZero": "No puede empezar con varios ceros",
+    "usernameTaken": "Este nombre de usuario ya está usado."
   }
 }

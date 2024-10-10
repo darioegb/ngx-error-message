@@ -1,33 +1,38 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { ValidationErrors } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { NgxErrorMessageService } from './ngx-error-message.service';
+import { Pipe, PipeTransform, inject } from '@angular/core'
+import { ValidationErrors } from '@angular/forms'
+import { NgxErrorMessageService } from './ngx-error-message.service'
 
 @Pipe({
   name: 'ngxErrorMessage',
-  pure: false,
 })
 export class NgxErrorMessagePipe implements PipeTransform {
-  private cachedData = '';
-  private cachedError: ValidationErrors | null = null;
+  #errorMessageService = inject(NgxErrorMessageService)
+  #cachedData!: string
+  #cachedError = ''
+  #cachedLang = ''
 
-  constructor(private errorMessageService: NgxErrorMessageService, private translate: TranslateService) {
-    this.translate.onLangChange
-      .subscribe(() => {
-        this.cachedError = null;
-        errorMessageService.getTranslations();
-      });
-  }
-
-  transform(value: ValidationErrors | null, patternKey?: string): string {
-    if (value !== this.cachedError) {
-      this.cachedError = value;
-      this.cachedData = this.errorMessageService.getErrorMessage(
-        value,
-        patternKey
-      );
+  transform(
+    value: ValidationErrors | null,
+    lang?: string,
+    patternKey?: string,
+    fieldName?: string,
+  ): string {
+    if (!value) {
+      return ''
     }
-    return this.cachedData;
+    if (lang !== this.#cachedLang) {
+      this.#cachedLang = lang ?? ''
+      this.#cachedError = ''
+    }
+    const [lastErrorKey] = Object.keys(value).slice(-1)
+    if (lastErrorKey !== this.#cachedError) {
+      this.#cachedError = lastErrorKey
+      this.#cachedData = this.#errorMessageService.getErrorMessage(
+        value,
+        patternKey,
+        fieldName,
+      )
+    }
+    return this.#cachedData ?? ''
   }
-
 }

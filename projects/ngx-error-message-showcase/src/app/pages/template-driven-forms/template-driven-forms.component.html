@@ -1,0 +1,109 @@
+<div class="form-container">
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="form-horizontal">
+    <h2>{{ 'templateDrivenForms.title' | translate }}</h2>
+    <div class="mb-3">
+      <input
+        type="text"
+        name="firstName"
+        [(ngModel)]="model.name.firstName"
+        [placeholder]="'fields.firstName' | translate"
+        class="form-control"
+        required
+        [pattern]="patterns.alphabet"
+        [ngxErrorMessage]="'fields.firstName' | translate"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        name="lastName"
+        [(ngModel)]="model.name.lastName"
+        [placeholder]="'fields.lastName' | translate"
+        class="form-control"
+        required
+        [pattern]="patterns.alphabet"
+        [ngxErrorMessage]="'fields.lastName' | translate"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        name="username"
+        [(ngModel)]="model.username"
+        [placeholder]="'fields.username' | translate"
+        class="form-control"
+        required
+        maxlength="50"
+        pattern="^[a-zA-Z0-9.]+$"
+        [ngxErrorMessage]="'fields.username' | translate"
+        patternKey="custom"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="model.password"
+        [placeholder]="'fields.password' | translate"
+        class="form-control"
+        required
+        minlength="6"
+        maxlength="50"
+        [pattern]="patterns.alphaNumeric"
+        [ngxErrorMessage]="'fields.password' | translate"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="model.email"
+        [placeholder]="'fields.email' | translate"
+        class="form-control"
+        required
+        email
+        [ngxErrorMessage]="'fields.email' | translate"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        name="salary"
+        [(ngModel)]="model.salary"
+        [placeholder]="'fields.salary' | translate"
+        class="form-control"
+        [pattern]="patterns.numeric"
+        avoidMultipleZero
+        [ngxErrorMessage]="'fields.salary' | translate"
+      />
+    </div>
+    <div class="mb-3">
+      <button type="button" (click)="addAlias()" class="btn btn-secondary">
+        {{ 'buttons.add' | translate: { value: 'Alias' } }}
+      </button>
+      <div
+        *ngFor="
+          let alias of model.aliases;
+          let i = index;
+          trackBy: trackByIndex
+        "
+        class="mb-3"
+      >
+        <input
+          type="text"
+          [(ngModel)]="model.aliases[i]"
+          name="alias{{ i }}"
+          [placeholder]="'fields.alias' | translate"
+          class="form-control"
+          required
+          [pattern]="patterns.alphaNumeric"
+          [ngxErrorMessage]="'fields.alias' | translate"
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      {{ 'buttons.save' | translate }}
+    </button>
+  </form>
+  <blockquote *ngIf="form.valid">{{ model | json }}</blockquote>
+</div>
