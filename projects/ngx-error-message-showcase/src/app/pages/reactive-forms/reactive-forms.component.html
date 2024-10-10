@@ -1,0 +1,85 @@
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-horizontal">
+    <h2>{{ 'reactiveForms.title' | translate }}</h2>
+    <div formGroupName="name">
+      <div class="mb-3">
+        <input
+          type="text"
+          formControlName="firstName"
+          [placeholder]="'fields.firstName' | translate"
+          class="form-control"
+          [ngxErrorMessage]="'fields.firstName' | translate"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="text"
+          formControlName="lastName"
+          [placeholder]="'fields.lastName' | translate"
+          class="form-control"
+          [ngxErrorMessage]="'fields.lastName' | translate"
+        />
+      </div>
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        formControlName="username"
+        [placeholder]="'fields.username' | translate"
+        class="form-control"
+        [ngxErrorMessage]="'fields.username' | translate"
+        patternKey="custom"
+      />
+      <app-spinner
+        *ngIf="formControls['username'].pending"
+        class="mt-2"
+      ></app-spinner>
+    </div>
+    <div class="mb-3">
+      <input
+        type="password"
+        formControlName="password"
+        [placeholder]="'fields.password' | translate"
+        class="form-control"
+        [ngxErrorMessage]="'fields.password' | translate"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="email"
+        formControlName="email"
+        [placeholder]="'fields.email' | translate"
+        class="form-control"
+        [ngxErrorMessage]="'fields.email' | translate"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        formControlName="salary"
+        [placeholder]="'fields.salary' | translate"
+        class="form-control"
+        [ngxErrorMessage]="'fields.salary' | translate"
+      />
+    </div>
+    <div formArrayName="aliases" class="mb-3">
+      <h3>Aliases</h3>
+      <button type="button" (click)="addAlias()" class="btn btn-secondary">
+        Add Alias
+      </button>
+      <div *ngFor="let alias of aliases.controls; let i = index" class="mb-3">
+        <input
+          type="text"
+          [formControlName]="i"
+          [placeholder]="'fields.alias' | translate"
+          class="form-control"
+          [ngxErrorMessage]="'fields.alias' | translate"
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      Save
+    </button>
+  </form>
+  <blockquote *ngIf="formValue">{{ formValue | json }}</blockquote>
+</div>

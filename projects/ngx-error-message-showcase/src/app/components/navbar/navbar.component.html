@@ -1,0 +1,30 @@
+<header class="navbar bg-primary">
+  <div class="container-fluid flex-column flex-md-row gap-4">
+    <div class="d-flex gap-2">
+      <button
+        class="navbar-toggler d-md-none"
+        type="button"
+        (click)="toggleSidebar()"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <span class="navbar-brand text-white">Ngx Error Message Showcase</span>
+    </div>
+    <div class="form-floating col-6 col-md-4">
+      <select
+        class="form-select"
+        id="changeLanguaje"
+        aria-label="Floating label select example"
+        [(ngModel)]="languaje"
+        (change)="changeLanguaje()"
+        [ngModelOptions]="{ standalone: true }"
+        [disabled]="withoutInternationalization"
+      >
+        <option [value]="item.value" *ngFor="let item of languajes">
+          {{ item.key }}
+        </option>
+      </select>
+      <label for="changeLanguaje">Select a languaje</label>
+    </div>
+  </div>
+</header>

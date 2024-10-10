@@ -1,23 +1,39 @@
 {
-    "name": "ngx-error-message",
-    "version": "2.2.1",
-    "dependencies": {
-      "tslib": "^2.1.0"
-    },
-    "author": {
-        "name": "Dario E Gonzalez B",
-        "email": "darioegb@gmail.com"
-    },
-    "description": "A package to display error messages in reative forms",
-    "keywords": [
-        "ngx-error-message",
-        "ng-error",
-        "error message",
-        "angular handler error"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://gitlab.com/darioegb/ngx-error-message/"
-    },
-    "license": "MIT"
+  "name": "ngx-error-message",
+  "version": "3.0.0",
+  "dependencies": {
+    "tslib": "^2.1.0"
+  },
+  "author": {
+    "name": "Dario E Gonzalez B",
+    "email": "darioegb@gmail.com"
+  },
+  "description": "A package to display error messages in angular forms",
+  "keywords": [
+    "ngx-error-message",
+    "ng-error",
+    "error message",
+    "angular handler error",
+    "angular",
+    "form validation",
+    "error handling",
+    "angular forms",
+    "validation messages",
+    "angular error messages"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darioegb/ngx-error-message.git"
+  },
+  "optionalDependencies": {
+    "@ngx-translate/core": ">=14.0.0",
+    "@ngx-translate/http-loader": ">=7.0.0"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=14.0.0",
+    "@angular/common": ">=14.0.0",
+    "@angular/forms": ">=14.0.0"
+  },
+  "sideEffects": false,
+  "license": "MIT"
 }

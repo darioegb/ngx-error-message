@@ -1,20 +1,21 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
-import 'zone.js';
-import 'zone.js/testing';
-import { getTestBed } from '@angular/core/testing';
+import 'zone.js'
+import 'zone.js/testing'
+import { getTestBed } from '@angular/core/testing'
 import {
   BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from '@angular/platform-browser-dynamic/testing';
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing'
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting(), {
-    teardown: { destroyAfterEach: false }
-}
-);
+  platformBrowserDynamicTesting(),
+  {
+    teardown: { destroyAfterEach: false },
+  },
+)
 
 // translation const
 export const ENGLISH_TRANSLATIONS = {
@@ -38,10 +39,10 @@ export const ENGLISH_TRANSLATIONS = {
     },
     avoidMultipleZero: `Can't start with multiple zeros`,
   },
-};
+}
 
 export const SPANISH_TRANSLATIONS = {
   validations: {
     required: 'El campo es requerido.',
-  }
-};
+  },
+}

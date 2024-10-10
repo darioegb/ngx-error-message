@@ -1,77 +1,101 @@
-import { Injectable } from '@angular/core';
-import { ValidationErrors } from '@angular/forms';
+import { Inject, Injectable, Optional } from '@angular/core'
+import { ValidationErrors } from '@angular/forms'
 
-import { regEx, requiredRegex } from './ngx-error-message-constant';
-import { TranslateService } from '@ngx-translate/core';
-import { JsonMessage } from './ngx-error-message-interfaces';
+import { regEx, requiredRegex } from './ngx-error-message-constant'
+import { TranslateService } from '@ngx-translate/core'
+import { ErrorMessageConfig } from './ngx-error-message-interfaces'
+import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class NgxErrorMessageService {
-  private errorMessages!: JsonMessage<string>;
-  private errorMessage!: string;
+  constructor(
+    @Inject(ERROR_MESSAGE_CONFIG)
+    private readonly config: ErrorMessageConfig,
+    @Optional() private readonly translate?: TranslateService,
+  ) {}
 
-  constructor(private translate: TranslateService) {
-    this.getTranslations();
-  }
-
-  getErrorMessage(controlErrors: ValidationErrors | null, patternKey?: string): string {
-    const lastError = controlErrors && Object.entries(controlErrors).pop();
-    if (lastError) {
-      const lastErrorType = typeof lastError[1] !== 'boolean';
-      lastErrorType
-        ? this.setErrorMessage(lastError[0], lastError[1], patternKey)
-        : this.setErrorMessage(lastError[0]);
+  getErrorMessage(
+    controlErrors: ValidationErrors,
+    patternKey?: string,
+    fieldName?: string,
+  ) {
+    const lastError = Object.entries(controlErrors).pop()
+    if (!lastError) {
+      return ''
     }
-    return this.errorMessage;
+
+    const [errorKey, errorValue] = lastError!
+
+    if (typeof errorValue === 'boolean') {
+      return this.#getMessage(errorKey, fieldName)
+    }
+
+    if (errorKey === 'pattern') {
+      const patternErrorKey = this.#patternMatchExpression(
+        errorValue,
+        patternKey,
+      )
+      return this.#getMessage(patternErrorKey, fieldName)
+    }
+    const requiredValue = this.#getValueByRegexFromObject(
+      errorValue,
+      requiredRegex,
+    )
+    return this.#getMessage(errorKey, fieldName, requiredValue)
   }
 
-  getTranslations() {
-    this.translate
-      .get('validations')
-      .subscribe({ next: (res) => (this.errorMessages = res) });
-  }
-
-  private setErrorMessage(
-    key: string,
-    value?: Record<string, unknown> | undefined,
-    patternKey?: string
-  ): void {
-    const requiredValue = value
-      ? this.getValueByRegexFromObject(value, requiredRegex)
-      : undefined;
-    this.errorMessage =
-      key !== 'pattern'
-        ? this.getMessage(key, requiredValue)
-        : this.patternMatchExpression(value, patternKey);
-  }
-
-  private patternMatchExpression(
-    value: Record<string, unknown> | undefined,
-    patternKey?: string
+  #patternMatchExpression(
+    value: Record<string, unknown>,
+    patternKey?: string,
   ): string {
-    const regExpDefault = value && Object.entries(regEx).find(
-      ([_, val]) => val.toString() === value['requiredPattern']
-    );
-    const messageKey = regExpDefault ? regExpDefault[0] : patternKey;
-    return this.getMessageFromPattern(messageKey as string);
+    const pattern = value['requiredPattern'] as string
+    const regExpDefault = Object.entries(regEx).find(
+      ([, val]) => val.toString() === pattern,
+    )
+    return `${this.config.patternsPrefix}.${regExpDefault ? regExpDefault[0] : patternKey}`
   }
 
-  private getValueByRegexFromObject(
+  #getValueByRegexFromObject(
     obj: Record<string, unknown>,
-    regex: RegExp
+    regex: RegExp,
+  ): string {
+    const [, findValue] =
+      Object.entries(obj).find(([key]) => regex.test(key)) ?? []
+    return findValue as string
+  }
+
+  #interpolateMessage(message: string, params: Record<string, string>): string {
+    return message.replace(/\{\{(\w+)\}\}/g, (_, key) => params[key] ?? '')
+  }
+
+  #getNestedMessage(
+    obj: Record<string, unknown>,
+    path: string,
   ): string | undefined {
-    const findValue = Object.entries(obj).find(([key]) => regex.test(key));
-    return findValue && findValue[1] as string;
+    return path
+      .split('.')
+      .reduce(
+        (acc, key) => acc && (acc[key] as never),
+        obj,
+      ) as unknown as string
   }
 
-  private getMessage(key: string, param?: string): string {
-    const errorMessage = this.errorMessages[key] as string;
-    return param ? errorMessage.replace('{{param}}', param) : errorMessage;
-  }
+  #getMessage(key: string, fieldName?: string, param?: string): string {
+    const options = {
+      ...(fieldName && { fieldName }),
+      ...(param && { param }),
+    }
+    if (Object.keys(this.config.errorMessages!).length > 0) {
+      const messageTemplate =
+        this.#getNestedMessage(this.config.errorMessages!, key) ?? ''
+      return this.#interpolateMessage(messageTemplate, options)
+    }
 
-  private getMessageFromPattern(key: string): string {
-    return (this.errorMessages['pattern'] as Record<string, string>)[key];
+    return param || fieldName
+      ? this.translate?.instant(
+          `${this.config.validationsPrefix}.${key}`,
+          options,
+        )
+      : this.translate?.instant(`${this.config.validationsPrefix}.${key}`)
   }
 }

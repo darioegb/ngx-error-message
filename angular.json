@@ -110,18 +110,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-error-message-showcase:build"
+            "buildTarget": "ngx-error-message-showcase:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-error-message-showcase:build:production"
+              "buildTarget": "ngx-error-message-showcase:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-error-message-showcase:build"
+            "buildTarget": "ngx-error-message-showcase:build"
           }
         },
         "test": {
@@ -140,18 +140,6 @@
             ],
             "scripts": [],
             "codeCoverage": true
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/ngx-error-message-showcase/e2e/protractor.conf.js",
-            "devServerTarget": "ngx-error-message-showcase:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "ngx-error-message-showcase:serve:production"
-            }
           }
         }
       }

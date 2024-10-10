@@ -1,0 +1,85 @@
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-horizontal">
+    <h2>Without Internationalization form</h2>
+    <div formGroupName="name">
+      <div class="mb-3">
+        <input
+          type="text"
+          formControlName="firstName"
+          placeholder="First Name"
+          class="form-control"
+          ngxErrorMessage
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="text"
+          formControlName="lastName"
+          placeholder="Last Name"
+          class="form-control"
+          ngxErrorMessage
+        />
+      </div>
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        formControlName="username"
+        placeholder="Username"
+        class="form-control"
+        ngxErrorMessage
+        patternKey="custom"
+      />
+      <app-spinner
+        *ngIf="formControls['username'].pending"
+        class="mt-2"
+      ></app-spinner>
+    </div>
+    <div class="mb-3">
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+        class="form-control"
+        ngxErrorMessage
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Email"
+        class="form-control"
+        ngxErrorMessage
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        formControlName="salary"
+        placeholder="Salary"
+        class="form-control"
+        ngxErrorMessage
+      />
+    </div>
+    <div formArrayName="aliases" class="mb-3">
+      <h3>Aliases</h3>
+      <button type="button" (click)="addAlias()" class="btn btn-secondary">
+        Add Alias
+      </button>
+      <div *ngFor="let alias of aliases.controls; let i = index" class="mb-3">
+        <input
+          type="text"
+          [formControlName]="i"
+          placeholder="Alias"
+          class="form-control"
+          ngxErrorMessage
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      Save
+    </button>
+  </form>
+  <blockquote *ngIf="formValue">{{ formValue | json }}</blockquote>
+</div>

@@ -1,0 +1,13 @@
+.sidebar {
+  background-color: whitesmoke;
+  transition: transform 0.3s ease;
+
+  &.collapsed {
+    transform: translateX(-100%);
+  }
+
+  @media (width >= 48rem) {
+    height: 100%;
+    transform: none !important;
+  }
+}
