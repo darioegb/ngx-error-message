@@ -29,8 +29,8 @@ export class NgxErrorMessageDirective implements OnInit {
   @Input() when: ErrorWhenType | ErrorWhenType[] = ['invalid', 'touched']
 
   #fieldName: string = ''
-  #ngControl = inject(NgControl)
-  #container = inject(ViewContainerRef)
+  readonly #ngControl = inject(NgControl)
+  readonly #container = inject(ViewContainerRef)
   #componentRef?: ComponentRef<NgxErrorMessageComponent>
 
   ngOnInit(): void {

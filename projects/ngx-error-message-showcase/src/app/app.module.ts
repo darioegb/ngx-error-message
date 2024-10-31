@@ -17,7 +17,6 @@ import {
 } from './pages'
 import { AppRoutingModule } from './app-routing.module'
 import { AvoidMultipleZeroValidatorDirective } from './directives/avoid-mutiple-zero-validator.directive'
-import { WithoutInternationalizationModule } from './pages/without-internationalization/without-internationalization.module'
 import { ComponentsModule } from './components/components.module'
 
 export function HttpLoaderFactory(http: HttpClient) {

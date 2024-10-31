@@ -24,7 +24,7 @@ export class NgxErrorMessageService {
       return ''
     }
 
-    const [errorKey, errorValue] = lastError!
+    const [errorKey, errorValue] = lastError
 
     if (typeof errorValue === 'boolean') {
       return this.#getMessage(errorKey, fieldName)

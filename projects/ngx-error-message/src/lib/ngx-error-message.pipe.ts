@@ -6,7 +6,7 @@ import { NgxErrorMessageService } from './ngx-error-message.service'
   name: 'ngxErrorMessage',
 })
 export class NgxErrorMessagePipe implements PipeTransform {
-  #errorMessageService = inject(NgxErrorMessageService)
+  readonly #errorMessageService = inject(NgxErrorMessageService)
   #cachedData!: string
   #cachedError = ''
   #cachedLang = ''

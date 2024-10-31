@@ -28,11 +28,11 @@ export class NgxErrorMessageComponent implements OnInit, OnDestroy {
   @Input() patternKey?: string
 
   protected lang?: string
-  #translate = inject(TranslateService)
-  #elementRef = inject(ElementRef)
-  #renderer = inject(Renderer2)
+  readonly #translate = inject(TranslateService)
+  readonly #elementRef = inject(ElementRef)
+  readonly #renderer = inject(Renderer2)
+  readonly #destroy$ = new Subject<void>()
   #previousErrorState = false
-  #destroy$ = new Subject<void>()
 
   get hasError(): boolean {
     const invalid = Array.isArray(this.when)
