@@ -1,14 +1,20 @@
+const octetPattern = '(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})'
+const countryCode = '\\+?[-.\\s]?\\d{1,2}[-.\\s]?'
+const areaCode = '\\(?\\d{3}\\)?'
+const phoneNumber = '\\d{3}[-.\\s]?\\d{4}'
+
 export const regEx = {
-  phoneNumber:
-    /(\+?[-.\s]?\d{1,2}[-.\s]?)?(\(?\d{3}\)?|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}/,
+  phoneNumber: new RegExp(
+    `^(${countryCode})?${areaCode}[-.\\s]?${phoneNumber}$`,
+  ),
   websiteUrl:
-    /^(https?:\/\/)?([\w\d-]+)\.([\w\d.-]+)\/?[\w\d.-]*\??[^#\n\r]*#?[^#\n\r]*$/,
+    /^(https?:\/\/)?([\w\d-]+(\.[\w\d-]+)+)(\/[\w\d.-]*)*\/?(\?[\w\d=&]*)?(#[\w\d-]*)?$/,
   numeric: /^\d+$/,
   smallLetters: /^[a-z]+$/,
   capitalLetters: /^[A-Z]+$/,
   alphabet: /^[a-zA-Z\s\u00C0-\u017F]+$/,
   alphaNumeric: /^[a-zA-Z0-9\s\u00C0-\u017F]+$/,
-  ip: /^(25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})(\.(25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})){3}$/,
+  ip: new RegExp(`^(${octetPattern})(\\.(${octetPattern})){3}$`),
 }
 
 export const requiredRegex = /^((?!actual).)*$/
