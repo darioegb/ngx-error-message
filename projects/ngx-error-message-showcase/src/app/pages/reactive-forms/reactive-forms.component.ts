@@ -48,7 +48,7 @@ export class ReactiveFormsComponent {
           validators: [
             Validators.required,
             Validators.maxLength(50),
-            Validators.pattern('^[a-zA-Z0-9.]+$'),
+            Validators.pattern(regEx.websiteUrl),
           ],
           asyncValidators: [this.usernameValidator],
           updateOn: 'blur',
