@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://res.cloudinary.com/dyjeeqbka/image/upload/f_auto,q_auto/xwccvvoehzdyzgeqvvz4">
+    <img src="https://res.cloudinary.com/dyjeeqbka/image/upload/f_auto,q_auto/xwccvvoehzdyzgeqvvz4" alt="Plume UI logo" width="300" />
+  </a>
+</p>
+
 # NgxErrorMessage
 
 ![pipeline status](https://github.com/darioegb/ngx-error-message/actions/workflows/ci.yml/badge.svg)
