@@ -21,9 +21,10 @@ import {
 } from 'projects/ngx-error-message/src/public-api'
 
 @Component({
-  selector: 'app-without-internationalization',
-  templateUrl: './without-internationalization.component.html',
-  styleUrl: './without-internationalization.component.scss',
+    selector: 'app-without-internationalization',
+    templateUrl: './without-internationalization.component.html',
+    styleUrl: './without-internationalization.component.scss',
+    standalone: false
 })
 export class WithoutInternationalizationComponent {
   form!: FormGroup

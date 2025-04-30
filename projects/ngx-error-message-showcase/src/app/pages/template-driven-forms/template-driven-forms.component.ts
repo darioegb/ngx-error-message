@@ -5,9 +5,10 @@ import {
 } from 'projects/ngx-error-message/src/public-api'
 
 @Component({
-  selector: 'app-template-driven-forms',
-  templateUrl: './template-driven-forms.component.html',
-  styleUrl: './template-driven-forms.component.scss',
+    selector: 'app-template-driven-forms',
+    templateUrl: './template-driven-forms.component.html',
+    styleUrl: './template-driven-forms.component.scss',
+    standalone: false
 })
 export class TemplateDrivenFormsComponent {
   model = {

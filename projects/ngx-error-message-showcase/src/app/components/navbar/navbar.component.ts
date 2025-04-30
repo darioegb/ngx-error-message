@@ -5,9 +5,10 @@ import { TranslateService } from '@ngx-translate/core'
 import { NavigationEnd, Router } from '@angular/router'
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss',
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.scss',
+    standalone: false
 })
 export class NavbarComponent implements OnInit {
   languaje!: string

@@ -21,9 +21,10 @@ import {
 } from 'projects/ngx-error-message/src/public-api'
 
 @Component({
-  selector: 'app-reactive-forms',
-  templateUrl: './reactive-forms.component.html',
-  styleUrl: './reactive-forms.component.scss',
+    selector: 'app-reactive-forms',
+    templateUrl: './reactive-forms.component.html',
+    styleUrl: './reactive-forms.component.scss',
+    standalone: false
 })
 export class ReactiveFormsComponent {
   form!: FormGroup

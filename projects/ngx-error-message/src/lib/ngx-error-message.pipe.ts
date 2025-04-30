@@ -4,6 +4,7 @@ import { NgxErrorMessageService } from './ngx-error-message.service'
 
 @Pipe({
   name: 'ngxErrorMessage',
+  standalone: false,
 })
 export class NgxErrorMessagePipe implements PipeTransform {
   readonly #errorMessageService = inject(NgxErrorMessageService)

@@ -12,6 +12,7 @@ import { ClassNames, ErrorWhenType } from './ngx-error-message-interfaces'
 
 @Directive({
   selector: '[ngxErrorMessage]',
+  standalone: false,
 })
 export class NgxErrorMessageDirective implements OnInit {
   @Input() set ngxErrorMessage(value: string) {

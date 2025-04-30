@@ -7,14 +7,15 @@ import {
 } from '@angular/forms'
 
 @Directive({
-  selector: '[avoidMultipleZero]',
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: AvoidMultipleZeroValidatorDirective,
-      multi: true,
-    },
-  ],
+    selector: '[avoidMultipleZero]',
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: AvoidMultipleZeroValidatorDirective,
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class AvoidMultipleZeroValidatorDirective implements Validator {
   validate(control: AbstractControl): ValidationErrors | null {
