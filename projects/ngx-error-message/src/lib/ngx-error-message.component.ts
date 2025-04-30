@@ -19,7 +19,6 @@ import { ClassNames, ErrorWhenType } from './ngx-error-message-interfaces'
       ngControl.errors | ngxErrorMessage: lang : patternKey : fieldName
     }}</small>
   `,
-  standalone: false,
 })
 export class NgxErrorMessageComponent implements OnInit, OnDestroy {
   @Input() classNames!: ClassNames

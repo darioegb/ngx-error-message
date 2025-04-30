@@ -40,7 +40,6 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
       />
     </div>
   </form>`,
-  standalone: false,
 })
 class TestHostComponent implements OnInit {
   form!: FormGroup
