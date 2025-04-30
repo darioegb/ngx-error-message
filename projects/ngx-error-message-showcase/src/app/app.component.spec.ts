@@ -6,7 +6,7 @@ import {
 } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxErrorMessageModule } from 'projects/ngx-error-message/src/public-api';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpLoaderFactory } from './app.module';
 
 describe('AppComponent', () => {
@@ -14,23 +14,21 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports: [
-        HttpClientModule,
-        TranslateModule.forRoot({
-          defaultLanguage: 'en',
-          useDefaultLang: true,
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-          },
+    declarations: [AppComponent],
+    imports: [TranslateModule.forRoot({
+            defaultLanguage: 'en',
+            useDefaultLang: true,
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
         }),
         FormsModule,
         ReactiveFormsModule,
-        NgxErrorMessageModule,
-      ],
-    }).compileComponents();
+        NgxErrorMessageModule],
+    providers: [provideHttpClient(withInterceptorsFromDi())]
+}).compileComponents();
   }));
 
   beforeEach(() => {

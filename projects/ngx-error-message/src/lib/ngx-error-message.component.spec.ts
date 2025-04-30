@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'
-import { HttpClientTestingModule } from '@angular/common/http/testing'
+import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 
 import { NgxErrorMessageComponent } from './ngx-error-message.component'
@@ -16,6 +16,7 @@ import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { TranslateService } from '@ngx-translate/core'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 @Component({
   template: `<form [formGroup]="form" class="form-horizontal">
@@ -80,7 +81,6 @@ describe('NgxErrorMessageComponent', () => {
       ],
       imports: [
         ReactiveFormsModule,
-        HttpClientTestingModule,
         TranslateTestingModule.withTranslations('en', ENGLISH_TRANSLATIONS),
       ],
       providers: [
@@ -94,6 +94,8 @@ describe('NgxErrorMessageComponent', () => {
             errorMessages: {},
           },
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     }).compileComponents()
   }))

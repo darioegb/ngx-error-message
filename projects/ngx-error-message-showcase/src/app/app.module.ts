@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
-import { HttpClientModule, HttpClient } from '@angular/common/http'
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import {
   TranslateModule,
   TranslateLoader,
@@ -23,33 +23,27 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http)
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    ReactiveFormsComponent,
-    TemplateDrivenFormsComponent,
-    AvoidMultipleZeroValidatorDirective,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      useDefaultLang: true,
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-    FormsModule,
-    ReactiveFormsModule,
-    NgxErrorMessageModule.forRoot(),
-    ComponentsModule,
-  ],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        ReactiveFormsComponent,
+        TemplateDrivenFormsComponent,
+        AvoidMultipleZeroValidatorDirective,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        TranslateModule.forRoot({
+            defaultLanguage: 'en',
+            useDefaultLang: true,
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+        }),
+        FormsModule,
+        ReactiveFormsModule,
+        NgxErrorMessageModule.forRoot(),
+        ComponentsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
   constructor(private translate: TranslateService) {
     const lang = localStorage.getItem('lang')

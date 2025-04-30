@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing'
+import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { TestBed } from '@angular/core/testing'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ENGLISH_TRANSLATIONS } from '../test'
@@ -7,6 +7,7 @@ import { regEx } from './ngx-error-message-constant'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { TranslateTestingModule } from 'ngx-translate-testing'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 describe('NgxErrorMessageService', () => {
   let fb: FormBuilder
@@ -34,7 +35,6 @@ describe('NgxErrorMessageService', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [
-          HttpClientTestingModule,
           TranslateTestingModule.withTranslations('en', ENGLISH_TRANSLATIONS),
         ],
         providers: [
@@ -48,6 +48,8 @@ describe('NgxErrorMessageService', () => {
               errorMessages: {},
             },
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       })
       fb = TestBed.inject(FormBuilder)
@@ -123,7 +125,7 @@ describe('NgxErrorMessageService', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
+        imports: [],
         providers: [
           FormBuilder,
           NgxErrorMessageService,
@@ -135,6 +137,8 @@ describe('NgxErrorMessageService', () => {
               errorMessages: ENGLISH_TRANSLATIONS.validations,
             },
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       })
       fb = TestBed.inject(FormBuilder)
