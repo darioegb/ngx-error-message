@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing'
+import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { TestBed } from '@angular/core/testing'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ENGLISH_TRANSLATIONS } from '../test'
@@ -7,6 +7,7 @@ import { regEx } from './ngx-error-message-constant'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { TranslateTestingModule } from 'ngx-translate-testing'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 describe('NgxErrorMessageService', () => {
   let fb: FormBuilder
@@ -34,7 +35,6 @@ describe('NgxErrorMessageService', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [
-          HttpClientTestingModule,
           TranslateTestingModule.withTranslations('en', ENGLISH_TRANSLATIONS),
         ],
         providers: [
@@ -48,6 +48,8 @@ describe('NgxErrorMessageService', () => {
               errorMessages: {},
             },
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       })
       fb = TestBed.inject(FormBuilder)
@@ -58,7 +60,7 @@ describe('NgxErrorMessageService', () => {
       expect(service).toBeTruthy()
     })
 
-    it('#getErrorMessage should return message when formControl is invalid', () => {
+    it('getErrorMessage should return message when formControl is invalid', () => {
       const group = initForm()
       const control = group.controls['username']
       expect(service.getErrorMessage(control.errors!)).toBe(
@@ -66,7 +68,7 @@ describe('NgxErrorMessageService', () => {
       )
     })
 
-    it('#getErrorMessage with param should return message when formControl is invalid', () => {
+    it('getErrorMessage with param should return message when formControl is invalid', () => {
       const group = initForm()
       const control = group.controls['username']
       control.setValue('thisIsAlongTestUserName')
@@ -75,7 +77,7 @@ describe('NgxErrorMessageService', () => {
       )
     })
 
-    it('#getErrorMessage with patternKey should return message when formControl is invalid', () => {
+    it('getErrorMessage with patternKey should return message when formControl is invalid', () => {
       const group = initForm()
       const control = group.controls['username']
       control.setValue('test$')
@@ -84,7 +86,7 @@ describe('NgxErrorMessageService', () => {
       )
     })
 
-    it('#getErrorMessage should return message when formControl is invalid and use default regex', () => {
+    it('getErrorMessage should return message when formControl is invalid and use default regex', () => {
       const group = initForm()
       const control = group.controls['phone']
       control.setValue('isNotPhoneNumber')
@@ -93,14 +95,14 @@ describe('NgxErrorMessageService', () => {
       )
     })
 
-    it('#getErrorMessage should return empty string when there are no errors', () => {
+    it('getErrorMessage should return empty string when there are no errors', () => {
       const group = initForm()
       const control = group.controls['username']
       control.setErrors(null)
       expect(service.getErrorMessage(control.errors || {})).toBe('')
     })
 
-    it('#getErrorMessage should return translated message when translate service is provided', () => {
+    it('getErrorMessage should return translated message when translate service is provided', () => {
       const group = initForm()
       const control = group.controls['email']
       control.setErrors({ email: true })
@@ -109,7 +111,7 @@ describe('NgxErrorMessageService', () => {
       )
     })
 
-    it('#getErrorMessage should interpolate message with param', () => {
+    it('getErrorMessage should interpolate message with param', () => {
       const group = initForm()
       const control = group.controls['username']
       control.setErrors({ maxlength: { requiredLength: 10, actualLength: 15 } })
@@ -123,7 +125,7 @@ describe('NgxErrorMessageService', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
+        imports: [],
         providers: [
           FormBuilder,
           NgxErrorMessageService,
@@ -135,13 +137,15 @@ describe('NgxErrorMessageService', () => {
               errorMessages: ENGLISH_TRANSLATIONS.validations,
             },
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       })
       fb = TestBed.inject(FormBuilder)
       service = TestBed.inject(NgxErrorMessageService)
     })
 
-    it('#getErrorMessage should return message for custom pattern key', () => {
+    it('getErrorMessage should return message for custom pattern key', () => {
       const group = initForm()
       const control = group.controls['phone']
       control.setErrors({ pattern: { requiredPattern: regEx.phoneNumber } })

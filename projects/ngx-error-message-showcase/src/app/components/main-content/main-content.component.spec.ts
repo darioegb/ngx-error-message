@@ -11,7 +11,7 @@ describe('MainContentComponent', () => {
       imports: [MainContentComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(MainContentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -19,5 +19,10 @@ describe('MainContentComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render the main content container', () => {
+    const mainContentElement = fixture.debugElement.nativeElement.querySelector('.content');
+    expect(mainContentElement).toBeTruthy();
   });
 });

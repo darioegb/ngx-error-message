@@ -11,7 +11,7 @@ describe('SpinnerComponent', () => {
       imports: [SpinnerComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(SpinnerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -19,5 +19,10 @@ describe('SpinnerComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render the spinner element', () => {
+    const spinnerElement = fixture.debugElement.nativeElement.querySelector('.spinner');
+    expect(spinnerElement).toBeTruthy();
   });
 });

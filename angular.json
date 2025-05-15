@@ -53,12 +53,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ngx-error-message-showcase",
+            "outputPath": {
+              "base": "dist/ngx-error-message-showcase"
+            },
             "index": "projects/ngx-error-message-showcase/src/index.html",
-            "main": "projects/ngx-error-message-showcase/src/main.ts",
-            "polyfills": "projects/ngx-error-message-showcase/src/polyfills.ts",
+            "polyfills": [
+              "projects/ngx-error-message-showcase/src/polyfills.ts"
+            ],
             "tsConfig": "projects/ngx-error-message-showcase/tsconfig.app.json",
             "preserveSymlinks": true,
             "assets": [
@@ -69,12 +72,11 @@
               "projects/ngx-error-message-showcase/src/styles.scss"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "projects/ngx-error-message-showcase/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -89,8 +91,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",

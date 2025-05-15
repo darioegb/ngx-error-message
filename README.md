@@ -21,8 +21,8 @@ Latest version available for each version of Angular
 
 | ngx-error-message | Angular      |
 | ----------------- | ------------ |
-| 3.0.1             | 14.x to 18.x |
-| 3.0.0             | 14.x to 18.x |
+| 3.0.1             | 16.x to 19.x |
+| 3.0.0             | 16.x to 19.x |
 | 2.2.1             | 10.x to 14.x |
 | 2.2.0             | 10.x to 14.x |
 | 2.1.0             | 9.x to 13.x  |
@@ -53,7 +53,78 @@ For more information about ngx-translate, refer to the [ngx-translate GitHub rep
 ## Setup
 
 **Step 1:**
-Add `NgxErrorMessageModule` to your app module. Make sure you have also configured ngx-translate. This module allows you to configure custom error messages for forms. You can configure the module globally using forRoot or in specific modules using forChild.
+If you are using Angular standalone components (Angular >= 14), install the library using the `provideNgxErrorMessage` provider in your bootstrap configuration, and configure `@ngx-translate` as follows:
+
+```typescript
+import { provideNgxErrorMessage } from 'ngx-error-message'
+import { importProvidersFrom } from '@angular/core'
+import { HttpClientModule, HttpClient } from '@angular/common/http'
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core'
+import { TranslateHttpLoader } from '@ngx-translate/http-loader'
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http) // Make sure your assets files are in default assets/i18n/*
+}
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(
+      HttpClientModule,
+      TranslateModule.forRoot({
+        defaultLanguage: 'en',
+        useDefaultLang: true,
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient],
+        },
+      }),
+    ),
+    provideNgxErrorMessage(),
+    // ...other providers
+  ],
+})
+```
+
+For applications using NgModules (or for compatibility with Angular versions below 14), continue to use the module import method (this is the only way for ngx-error-message version 3.0.1 and below), and configure `@ngx-translate` as follows:
+
+```typescript
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
+import { HttpClientModule, HttpClient } from '@angular/common/http'
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core'
+import { TranslateHttpLoader } from '@ngx-translate/http-loader'
+import { NgxErrorMessageModule } from 'ngx-error-message'
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http) // Make sure your assets files are in default assets/i18n/*
+}
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule, // Required module for ngx-translate
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      useDefaultLang: true,
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
+    NgxErrorMessageModule.forRoot(), // NgxErrorMessageModule added default config
+    // other modules...
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+This module allows you to configure custom error messages for forms. You can configure the module globally using forRoot or in specific modules using forChild.
 
 ### Global Default configuration
 

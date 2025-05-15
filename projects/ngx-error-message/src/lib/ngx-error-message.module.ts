@@ -10,12 +10,13 @@ import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    TranslateModule,
     NgxErrorMessageComponent,
     NgxErrorMessageDirective,
     NgxErrorMessagePipe,
   ],
-  imports: [CommonModule, TranslateModule],
   exports: [NgxErrorMessageDirective],
 })
 export class NgxErrorMessageModule {

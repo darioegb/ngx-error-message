@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing'
+import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { waitForAsync, TestBed } from '@angular/core/testing'
 import { BrowserModule } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
@@ -9,6 +9,7 @@ import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
 import { runInInjectionContext } from '@angular/core'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { NgxErrorMessageService } from './ngx-error-message.service'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 describe('NgxErrorMessagePipe', () => {
   let pipe: NgxErrorMessagePipe
@@ -18,7 +19,6 @@ describe('NgxErrorMessagePipe', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserModule,
-        HttpClientTestingModule,
         TranslateTestingModule.withTranslations({
           en: ENGLISH_TRANSLATIONS,
           es: SPANISH_TRANSLATIONS,
@@ -34,6 +34,8 @@ describe('NgxErrorMessagePipe', () => {
             errorMessages: {},
           },
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     })
     translate = TestBed.inject(TranslateService)

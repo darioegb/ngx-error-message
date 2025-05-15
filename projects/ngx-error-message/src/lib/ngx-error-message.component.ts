@@ -2,25 +2,28 @@ import {
   Component,
   Input,
   OnInit,
-  OnDestroy,
   ElementRef,
   Renderer2,
   inject,
 } from '@angular/core'
 import { NgControl } from '@angular/forms'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
-import { Subject, distinctUntilChanged, takeUntil } from 'rxjs'
+import { Subject, distinctUntilChanged } from 'rxjs'
 import { ClassNames, ErrorWhenType } from './ngx-error-message-interfaces'
+import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
 
 @Component({
   selector: 'ngx-error-message',
   template: `
-    <small *ngIf="hasError" [class]="classNames.message">{{
-      ngControl.errors | ngxErrorMessage: lang : patternKey : fieldName
-    }}</small>
+    @if (hasError) {
+      <small [class]="classNames.message">{{
+        ngControl.errors | ngxErrorMessage: lang : patternKey : fieldName
+      }}</small>
+    }
   `,
+  imports: [NgxErrorMessagePipe],
 })
-export class NgxErrorMessageComponent implements OnInit, OnDestroy {
+export class NgxErrorMessageComponent implements OnInit {
   @Input() classNames!: ClassNames
   @Input() fieldName!: string
   @Input() ngControl!: NgControl
@@ -28,42 +31,37 @@ export class NgxErrorMessageComponent implements OnInit, OnDestroy {
   @Input() patternKey?: string
 
   protected lang?: string
-  readonly #translate = inject(TranslateService)
-  readonly #elementRef = inject(ElementRef)
-  readonly #renderer = inject(Renderer2)
-  readonly #destroy$ = new Subject<void>()
-  #previousErrorState = false
+  private readonly translate = inject(TranslateService)
+  private readonly elementRef = inject(ElementRef)
+  private readonly renderer = inject(Renderer2)
+  private readonly destroy$ = new Subject<void>()
+  private previousErrorState = false
 
   get hasError(): boolean {
     const invalid = Array.isArray(this.when)
       ? this.when.every((condition) => this.ngControl[condition])
       : this.ngControl[this.when]
-    if (this.#previousErrorState !== invalid) {
-      this.#previousErrorState = !!invalid
-      this.#updateErrorContainer(!!invalid)
+    if (this.previousErrorState !== invalid) {
+      this.previousErrorState = !!invalid
+      this.updateErrorContainer(!!invalid)
     }
     return !!invalid
   }
 
   ngOnInit(): void {
-    this.#translate.onLangChange
-      .pipe(distinctUntilChanged(), takeUntil(this.#destroy$))
+    this.translate.onLangChange
+      .pipe(distinctUntilChanged())
       .subscribe(({ lang }: LangChangeEvent) => (this.lang = lang))
   }
 
-  ngOnDestroy(): void {
-    this.#destroy$.next()
-    this.#destroy$.complete()
-  }
-
-  #updateErrorContainer(invalid: boolean): void {
-    const inputElement = this.#elementRef.nativeElement.previousElementSibling
+  private updateErrorContainer(invalid: boolean): void {
+    const inputElement = this.elementRef.nativeElement.previousElementSibling
     if (!inputElement) {
       return
     }
     const errorClass = this.classNames.control
     invalid
-      ? this.#renderer.addClass(inputElement, errorClass)
-      : this.#renderer.removeClass(inputElement, errorClass)
+      ? this.renderer.addClass(inputElement, errorClass)
+      : this.renderer.removeClass(inputElement, errorClass)
   }
 }

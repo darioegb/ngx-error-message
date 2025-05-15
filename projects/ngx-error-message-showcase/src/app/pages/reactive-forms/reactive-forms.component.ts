@@ -1,12 +1,5 @@
 import { Component, inject } from '@angular/core'
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  UntypedFormArray,
-  AbstractControl,
-  ValidationErrors,
-} from '@angular/forms'
+import { FormGroup, FormBuilder, Validators, UntypedFormArray, AbstractControl, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import {
   Observable,
   catchError,
@@ -19,11 +12,16 @@ import {
 import {
   regEx,
 } from 'projects/ngx-error-message/src/public-api'
+import { NgxErrorMessageDirective } from '../../../../../ngx-error-message/src/lib/ngx-error-message.directive';
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { JsonPipe } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-reactive-forms',
-  templateUrl: './reactive-forms.component.html',
-  styleUrl: './reactive-forms.component.scss',
+    selector: 'app-reactive-forms',
+    templateUrl: './reactive-forms.component.html',
+    styleUrl: './reactive-forms.component.scss',
+    imports: [FormsModule, ReactiveFormsModule, NgxErrorMessageDirective, SpinnerComponent, JsonPipe, TranslateModule]
 })
 export class ReactiveFormsComponent {
   form!: FormGroup
@@ -48,7 +46,7 @@ export class ReactiveFormsComponent {
           validators: [
             Validators.required,
             Validators.maxLength(50),
-            Validators.pattern(regEx.websiteUrl),
+            Validators.pattern('^[a-zA-Z0-9.]+$'),
           ],
           asyncValidators: [this.usernameValidator],
           updateOn: 'blur',
@@ -67,7 +65,6 @@ export class ReactiveFormsComponent {
       salary: ['', [Validators.pattern(regEx.numeric), this.avoidMultipleZero]],
       aliases: this.#fb.array([
         this.#fb.control('', [
-          Validators.required,
           Validators.pattern(regEx.alphaNumeric),
         ]),
       ]),

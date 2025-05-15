@@ -6,6 +6,8 @@ import {
   UntypedFormArray,
   AbstractControl,
   ValidationErrors,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms'
 import {
   Observable,
@@ -16,14 +18,47 @@ import {
   of,
 } from 'rxjs'
 
-import {
-  regEx,
-} from 'projects/ngx-error-message/src/public-api'
+import { regEx } from 'projects/ngx-error-message/src/public-api'
+import { NgxErrorMessageDirective } from '../../../../../ngx-error-message/src/lib/ngx-error-message.directive'
+import { SpinnerComponent } from '../../components/spinner/spinner.component'
+import { JsonPipe } from '@angular/common'
+import { provideNgxErrorMessage } from 'projects/ngx-error-message/src/lib/provide-ngx-error-message'
 
 @Component({
   selector: 'app-without-internationalization',
   templateUrl: './without-internationalization.component.html',
   styleUrl: './without-internationalization.component.scss',
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgxErrorMessageDirective,
+    SpinnerComponent,
+    JsonPipe,
+  ],
+  providers: [
+    provideNgxErrorMessage({
+      errorMessages: {
+        required: 'This field is required.',
+        maxlength: 'The maximum allowed length is {{param}}.',
+        minlength: 'The minimum allowed length is {{param}}.',
+        email: 'This is not a valid email address.',
+        min: 'The minimum allowed value is {{param}}.',
+        max: 'The maximum allowed value is {{param}}.',
+        pattern: {
+          numeric: 'The valid format is numeric.',
+          alphabet: 'The valid format is alphabetic.',
+          smallLetters: 'The valid format is lowercase letters.',
+          capitalLetters: 'The valid format is uppercase letters.',
+          alphaNumeric: 'The valid format is alphanumeric.',
+          phoneNumber: 'Invalid phone number.',
+          websiteUrl: 'Invalid website URL.',
+          ip: 'Invalid IP address.',
+          custom: "The valid format is alphanumeric and '.' is allowed.",
+        },
+        avoidMultipleZero: 'It cannot start with multiple zeros.',
+      },
+    }),
+  ],
 })
 export class WithoutInternationalizationComponent {
   form!: FormGroup
@@ -67,7 +102,6 @@ export class WithoutInternationalizationComponent {
       salary: ['', [Validators.pattern(regEx.numeric), this.avoidMultipleZero]],
       aliases: this.#fb.array([
         this.#fb.control('', [
-          Validators.required,
           Validators.pattern(regEx.alphaNumeric),
         ]),
       ]),

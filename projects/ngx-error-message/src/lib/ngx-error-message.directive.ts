@@ -15,11 +15,11 @@ import { ClassNames, ErrorWhenType } from './ngx-error-message-interfaces'
 })
 export class NgxErrorMessageDirective implements OnInit {
   @Input() set ngxErrorMessage(value: string) {
-    this.#fieldName = value
-    if (!this.#componentRef) {
+    this.fieldName = value
+    if (!this.componentRef) {
       return
     }
-    this.#componentRef.instance.fieldName = this.#fieldName
+    this.componentRef.instance.fieldName = this.fieldName
   }
   @Input() classNames: ClassNames = {
     control: 'error-container',
@@ -28,24 +28,24 @@ export class NgxErrorMessageDirective implements OnInit {
   @Input() patternKey?: string
   @Input() when: ErrorWhenType | ErrorWhenType[] = ['invalid', 'touched']
 
-  #fieldName: string = ''
-  readonly #ngControl = inject(NgControl)
-  readonly #container = inject(ViewContainerRef)
-  #componentRef?: ComponentRef<NgxErrorMessageComponent>
+  private fieldName: string = ''
+  private readonly ngControl = inject(NgControl)
+  private readonly container = inject(ViewContainerRef)
+  private componentRef?: ComponentRef<NgxErrorMessageComponent>
 
   ngOnInit(): void {
-    const hostViewContainerRef = this.#container
-    if (!this.#componentRef) {
+    const hostViewContainerRef = this.container
+    if (!this.componentRef) {
       hostViewContainerRef.clear()
-      this.#componentRef = hostViewContainerRef.createComponent(
+      this.componentRef = hostViewContainerRef.createComponent(
         NgxErrorMessageComponent,
       )
     }
-    const instance = this.#componentRef.instance
+    const instance = this.componentRef.instance
     instance.classNames = this.classNames
-    instance.ngControl = this.#ngControl
+    instance.ngControl = this.ngControl
     instance.patternKey = this.patternKey
     instance.when = this.when
-    instance.fieldName = this.#fieldName
+    instance.fieldName = this.fieldName
   }
 }

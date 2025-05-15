@@ -2,11 +2,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-spinner',
-  template: `
+    selector: 'app-spinner',
+    template: `
     <div class="spinner"></div>
   `,
-  styles: [`
+    styles: [`
     .spinner {
       border: 4px solid rgba(0, 0, 0, 0.1);
       border-left-color: #000;
