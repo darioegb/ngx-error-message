@@ -14,8 +14,7 @@ import {
             useExisting: AvoidMultipleZeroValidatorDirective,
             multi: true,
         },
-    ],
-    standalone: false
+    ]
 })
 export class AvoidMultipleZeroValidatorDirective implements Validator {
   validate(control: AbstractControl): ValidationErrors | null {

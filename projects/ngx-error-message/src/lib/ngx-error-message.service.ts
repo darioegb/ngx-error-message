@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core'
+import { Injectable, inject } from '@angular/core'
 import { ValidationErrors } from '@angular/forms'
 
 import { regEx, requiredRegex } from './ngx-error-message-constant'
@@ -8,11 +8,8 @@ import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 
 @Injectable()
 export class NgxErrorMessageService {
-  constructor(
-    @Inject(ERROR_MESSAGE_CONFIG)
-    private readonly config: ErrorMessageConfig,
-    @Optional() private readonly translate?: TranslateService,
-  ) {}
+  private readonly config = inject<ErrorMessageConfig>(ERROR_MESSAGE_CONFIG)
+  private readonly translate = inject(TranslateService, { optional: true })
 
   getErrorMessage(
     controlErrors: ValidationErrors,
@@ -27,24 +24,24 @@ export class NgxErrorMessageService {
     const [errorKey, errorValue] = lastError
 
     if (typeof errorValue === 'boolean') {
-      return this.#getMessage(errorKey, fieldName)
+      return this.getMessage(errorKey, fieldName)
     }
 
     if (errorKey === 'pattern') {
-      const patternErrorKey = this.#patternMatchExpression(
+      const patternErrorKey = this.patternMatchExpression(
         errorValue,
         patternKey,
       )
-      return this.#getMessage(patternErrorKey, fieldName)
+      return this.getMessage(patternErrorKey, fieldName)
     }
-    const requiredValue = this.#getValueByRegexFromObject(
+    const requiredValue = this.getValueByRegexFromObject(
       errorValue,
       requiredRegex,
     )
-    return this.#getMessage(errorKey, fieldName, requiredValue)
+    return this.getMessage(errorKey, fieldName, requiredValue)
   }
 
-  #patternMatchExpression(
+  private patternMatchExpression(
     value: Record<string, unknown>,
     patternKey?: string,
   ): string {
@@ -55,7 +52,7 @@ export class NgxErrorMessageService {
     return `${this.config.patternsPrefix}.${regExpDefault ? regExpDefault[0] : patternKey}`
   }
 
-  #getValueByRegexFromObject(
+  private getValueByRegexFromObject(
     obj: Record<string, unknown>,
     regex: RegExp,
   ): string {
@@ -64,11 +61,14 @@ export class NgxErrorMessageService {
     return findValue as string
   }
 
-  #interpolateMessage(message: string, params: Record<string, string>): string {
+  private interpolateMessage(
+    message: string,
+    params: Record<string, string>,
+  ): string {
     return message.replace(/\{\{(\w+)\}\}/g, (_, key) => params[key] ?? '')
   }
 
-  #getNestedMessage(
+  private getNestedMessage(
     obj: Record<string, unknown>,
     path: string,
   ): string | undefined {
@@ -80,15 +80,15 @@ export class NgxErrorMessageService {
       ) as unknown as string
   }
 
-  #getMessage(key: string, fieldName?: string, param?: string): string {
+  private getMessage(key: string, fieldName?: string, param?: string): string {
     const options = {
       ...(fieldName && { fieldName }),
       ...(param && { param }),
     }
     if (Object.keys(this.config.errorMessages!).length > 0) {
       const messageTemplate =
-        this.#getNestedMessage(this.config.errorMessages!, key) ?? ''
-      return this.#interpolateMessage(messageTemplate, options)
+        this.getNestedMessage(this.config.errorMessages!, key) ?? ''
+      return this.interpolateMessage(messageTemplate, options)
     }
 
     return param || fieldName

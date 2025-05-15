@@ -6,10 +6,10 @@ import { NgxErrorMessageService } from './ngx-error-message.service'
   name: 'ngxErrorMessage',
 })
 export class NgxErrorMessagePipe implements PipeTransform {
-  readonly #errorMessageService = inject(NgxErrorMessageService)
-  #cachedData!: string
-  #cachedError = ''
-  #cachedLang = ''
+  private readonly errorMessageService = inject(NgxErrorMessageService)
+  private cachedData!: string
+  private cachedError = ''
+  private cachedLang = ''
 
   transform(
     value: ValidationErrors | null,
@@ -20,19 +20,19 @@ export class NgxErrorMessagePipe implements PipeTransform {
     if (!value) {
       return ''
     }
-    if (lang !== this.#cachedLang) {
-      this.#cachedLang = lang ?? ''
-      this.#cachedError = ''
+    if (lang !== this.cachedLang) {
+      this.cachedLang = lang ?? ''
+      this.cachedError = ''
     }
     const [lastErrorKey] = Object.keys(value).slice(-1)
-    if (lastErrorKey !== this.#cachedError) {
-      this.#cachedError = lastErrorKey
-      this.#cachedData = this.#errorMessageService.getErrorMessage(
+    if (lastErrorKey !== this.cachedError) {
+      this.cachedError = lastErrorKey
+      this.cachedData = this.errorMessageService.getErrorMessage(
         value,
         patternKey,
         fieldName,
       )
     }
-    return this.#cachedData ?? ''
+    return this.cachedData ?? ''
   }
 }

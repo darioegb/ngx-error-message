@@ -1,6 +1,6 @@
 {
   "name": "ngx-error-message",
-  "version": "3.0.1",
+  "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +9,10 @@
     "test:prod": "ng test ngx-error-message --code-coverage --watch=false --browsers=ChromeHeadlessNoSandbox",
     "lint": "ng lint",
     "lint:prod": "ng lint ngx-error-message --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "update:changelog": "node scripts/update-changelog.js",
+    "update:package-version": "node scripts/update-package-version.js",
+    "update:readme": "node scripts/update-readme.js"
   },
   "private": true,
   "dependencies": {
@@ -47,6 +50,7 @@
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "^7.10.0",
     "@typescript-eslint/parser": "^7.10.0",
+    "auto-changelog": "^2.5.0",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
@@ -63,6 +67,7 @@
     "karma-jasmine-html-reporter": "^2.1.0",
     "ng-packagr": "^19.2.2",
     "prettier": "^3.2.5",
+    "semver": "^7.7.1",
     "ts-node": "~8.3.0",
     "typescript": "~5.8.3"
   }

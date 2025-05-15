@@ -1,98 +1,96 @@
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import {
-  TranslateModule,
-  TranslateLoader
-} from '@ngx-translate/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxErrorMessageModule } from 'projects/ngx-error-message/src/public-api';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { HttpLoaderFactory } from './app.module';
+import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing'
+import { AppComponent } from './app.component'
+import { TranslateService, TranslateModule } from '@ngx-translate/core'
+import { ActivatedRoute } from '@angular/router'
+import { NavbarComponent } from './components/navbar/navbar.component'
+import { SidebarComponent } from './components/sidebar/sidebar.component'
+import { MainContentComponent } from './components/main-content/main-content.component'
+import { of } from 'rxjs'
+import { TranslateTestingModule } from 'ngx-translate-testing'
+import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import { provideHttpClientTesting } from '@angular/common/http/testing'
 
 describe('AppComponent', () => {
-  let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
+  let component: AppComponent
+  let fixture: ComponentFixture<AppComponent>
+  let translateService: TranslateService
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [AppComponent],
-    imports: [TranslateModule.forRoot({
-            defaultLanguage: 'en',
-            useDefaultLang: true,
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient],
-            },
-        }),
-        FormsModule,
-        ReactiveFormsModule,
-        NgxErrorMessageModule],
-    providers: [provideHttpClient(withInterceptorsFromDi())]
-}).compileComponents();
-  }));
+      imports: [
+        TranslateTestingModule.withTranslations({
+          en: ENGLISH_TRANSLATIONS,
+          es: SPANISH_TRANSLATIONS,
+        }).withDefaultLanguage('en'),
+        NavbarComponent,
+        SidebarComponent,
+        MainContentComponent,
+        AppComponent,
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({}),
+            queryParams: of({}),
+          },
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    }).compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-    component.ngOnInit();
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(AppComponent)
+    component = fixture.componentInstance
+    translateService = TestBed.inject(TranslateService)
+    fixture.detectChanges()
+  })
 
   it('should create the app', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy()
+  })
+
+  it('should use the default language if no language is stored in localStorage', () => {
+    spyOn(localStorage, 'getItem').and.returnValue(null)
+    spyOn(translateService, 'use')
+
+    component = fixture.componentInstance
+    component.ngOnInit()
+    fixture.detectChanges()
+
+    expect(translateService.use).toHaveBeenCalledWith(
+      translateService.defaultLang,
+    )
+  })
+
+  it('should use the stored language from localStorage', () => {
+    const storedLang = 'es'
+    localStorage.setItem('lang', storedLang)
+    spyOn(localStorage, 'getItem').and.returnValue(storedLang)
+    spyOn(translateService, 'use')
+
+    component = fixture.componentInstance
+    component.ngOnInit()
+    fixture.detectChanges()
+
+    expect(translateService.use).toHaveBeenCalledWith(storedLang)
+  })
+
+  it('should render NavbarComponent', () => {
+    const navbarElement = fixture.debugElement.nativeElement.querySelector('app-navbar');
+    expect(navbarElement).toBeTruthy();
   });
 
-  it('form invalid when empty', () => {
-    expect(component.form.valid).toBeFalsy();
+  it('should render SidebarComponent', () => {
+    const sidebarElement = fixture.debugElement.nativeElement.querySelector('app-sidebar');
+    expect(sidebarElement).toBeTruthy();
   });
 
-  it('should set name formGroup', () => {
-    const firstName = component.nameControls['firstName'];
-    const lastName = component.nameControls['lastName'];
-    expect(firstName.valid).toBeFalsy();
-    expect(lastName.valid).toBeFalsy();
-    firstName.setValue(1234);
-    expect(firstName.hasError('pattern')).toBeTruthy();
-    firstName.setValue('John');
-    expect(firstName.valid).toBeTruthy();
+  it('should render MainContentComponent', () => {
+    const mainContentElement = fixture.debugElement.nativeElement.querySelector('app-main-content');
+    expect(mainContentElement).toBeTruthy();
   });
-
-  it('should add alias', () => {
-    component.addAlias();
-    const addedALias = component.aliases.controls[1];
-    expect(addedALias.valid).toBeFalsy();
-    addedALias.setValue('John%1');
-    expect(addedALias.hasError('pattern')).toBeTruthy();
-    addedALias.setValue('John1');
-    expect(addedALias.valid).toBeTruthy();
-  });
-
-  it('should fail submit', () => {
-    component.onSubmit();
-    expect(component.form.valid).toBeFalsy();
-  });
-
-  it('should submit', () => {
-    const form = component.form;
-    form.patchValue({
-      name: {
-        firstName: 'John',
-        lastName: 'Doe',
-      },
-      username: 'jd1',
-      password: 123456,
-      email: 'jd1@yopmail.com',
-      aliases: ['monster'],
-    });
-    component.onSubmit();
-    expect(form.valid).toBeTruthy();
-  });
-
-  it('should set salary', () => {
-    const salary = component.formControls['salary'];
-    salary.setValue('00200');
-    expect(component.avoidMultipleZero(salary)?.avoidMultipleZero).toBeTruthy();
-    salary.setValue('3000');
-    expect(component.avoidMultipleZero(salary)).toBeUndefined();
-  });
-});
+})

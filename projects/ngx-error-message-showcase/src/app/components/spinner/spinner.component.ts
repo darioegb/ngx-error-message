@@ -24,7 +24,6 @@ import { Component } from '@angular/core';
         transform: rotate(360deg);
       }
     }
-  `],
-    standalone: false
+  `]
 })
 export class SpinnerComponent {}
