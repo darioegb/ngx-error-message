@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 const semver = require('semver');
-const packageJsonPath = 'projects/ngx-translate-routes/package.json';
+const packageJsonPath = 'projects/ngx-error-message/package.json';
 const packageJson = require(`../${packageJsonPath}`);
 
 const currentVersion = packageJson.version;
