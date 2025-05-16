@@ -46,6 +46,7 @@ describe('ReactiveFormsComponent', () => {
   });
 
   it('should initialize the form with default values', () => {
+    component.form.controls['username'].enable();
     const formValues = component.form.value;
     expect(formValues).toEqual({
       name: {

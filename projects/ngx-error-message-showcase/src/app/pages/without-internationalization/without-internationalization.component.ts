@@ -63,11 +63,11 @@ import { provideNgxErrorMessage } from 'projects/ngx-error-message/src/lib/provi
 export class WithoutInternationalizationComponent {
   form!: FormGroup
   formValue: unknown
-  #fb = inject(FormBuilder)
+  private readonly fb = inject(FormBuilder)
 
   ngOnInit(): void {
-    this.form = this.#fb.group({
-      name: this.#fb.group({
+    this.form = this.fb.group({
+      name: this.fb.group({
         firstName: [
           '',
           [Validators.required, Validators.pattern(regEx.alphabet)],
@@ -100,10 +100,8 @@ export class WithoutInternationalizationComponent {
       ],
       email: ['', [Validators.required, Validators.email]],
       salary: ['', [Validators.pattern(regEx.numeric), this.avoidMultipleZero]],
-      aliases: this.#fb.array([
-        this.#fb.control('', [
-          Validators.pattern(regEx.alphaNumeric),
-        ]),
+      aliases: this.fb.array([
+        this.fb.control('', [Validators.pattern(regEx.alphaNumeric)]),
       ]),
     })
 
@@ -129,7 +127,7 @@ export class WithoutInternationalizationComponent {
 
   addAlias() {
     this.aliases.push(
-      this.#fb.control('', [
+      this.fb.control('', [
         Validators.required,
         Validators.pattern(regEx.alphaNumeric),
       ]),

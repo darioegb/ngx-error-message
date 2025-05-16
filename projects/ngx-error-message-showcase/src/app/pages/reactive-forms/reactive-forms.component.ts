@@ -1,5 +1,14 @@
 import { Component, inject } from '@angular/core'
-import { FormGroup, FormBuilder, Validators, UntypedFormArray, AbstractControl, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  UntypedFormArray,
+  AbstractControl,
+  ValidationErrors,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms'
 import {
   Observable,
   catchError,
@@ -9,28 +18,34 @@ import {
   of,
 } from 'rxjs'
 
-import {
-  regEx,
-} from 'projects/ngx-error-message/src/public-api'
-import { NgxErrorMessageDirective } from '../../../../../ngx-error-message/src/lib/ngx-error-message.directive';
-import { SpinnerComponent } from '../../components/spinner/spinner.component';
-import { JsonPipe } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { regEx } from 'projects/ngx-error-message/src/public-api'
+import { NgxErrorMessageDirective } from '../../../../../ngx-error-message/src/lib/ngx-error-message.directive'
+import { SpinnerComponent } from '../../components/spinner/spinner.component'
+import { JsonPipe } from '@angular/common'
+import { TranslateModule } from '@ngx-translate/core'
 
 @Component({
-    selector: 'app-reactive-forms',
-    templateUrl: './reactive-forms.component.html',
-    styleUrl: './reactive-forms.component.scss',
-    imports: [FormsModule, ReactiveFormsModule, NgxErrorMessageDirective, SpinnerComponent, JsonPipe, TranslateModule]
+  selector: 'app-reactive-forms',
+  templateUrl: './reactive-forms.component.html',
+  styleUrl: './reactive-forms.component.scss',
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgxErrorMessageDirective,
+    SpinnerComponent,
+    JsonPipe,
+    TranslateModule,
+  ],
 })
 export class ReactiveFormsComponent {
   form!: FormGroup
   formValue: unknown
-  #fb = inject(FormBuilder)
+  checkbox = true
+  private readonly fb = inject(FormBuilder)
 
   ngOnInit(): void {
-    this.form = this.#fb.group({
-      name: this.#fb.group({
+    this.form = this.fb.group({
+      name: this.fb.group({
         firstName: [
           '',
           [Validators.required, Validators.pattern(regEx.alphabet)],
@@ -41,7 +56,7 @@ export class ReactiveFormsComponent {
         ],
       }),
       username: [
-        '',
+        { value: '', disabled: this.checkbox },
         {
           validators: [
             Validators.required,
@@ -63,10 +78,8 @@ export class ReactiveFormsComponent {
       ],
       email: ['', [Validators.required, Validators.email]],
       salary: ['', [Validators.pattern(regEx.numeric), this.avoidMultipleZero]],
-      aliases: this.#fb.array([
-        this.#fb.control('', [
-          Validators.pattern(regEx.alphaNumeric),
-        ]),
+      aliases: this.fb.array([
+        this.fb.control('', [Validators.pattern(regEx.alphaNumeric)]),
       ]),
     })
 
@@ -92,7 +105,7 @@ export class ReactiveFormsComponent {
 
   addAlias() {
     this.aliases.push(
-      this.#fb.control('', [
+      this.fb.control('', [
         Validators.required,
         Validators.pattern(regEx.alphaNumeric),
       ]),
@@ -119,6 +132,13 @@ export class ReactiveFormsComponent {
       map((value) => (value === 'test' ? { usernameTaken: true } : null)),
       catchError(() => of(null)),
     )
+  }
+
+  onChangeCheckbox() {
+    this.checkbox
+      ? this.formControls['username'].disable()
+      : this.formControls['username'].enable()
+    this.formControls['username'].markAsUntouched()
   }
 
   onSubmit() {
