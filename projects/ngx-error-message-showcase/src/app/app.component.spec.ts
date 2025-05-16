@@ -1,6 +1,6 @@
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing'
 import { AppComponent } from './app.component'
-import { TranslateService, TranslateModule } from '@ngx-translate/core'
+import { TranslateService } from '@ngx-translate/core'
 import { ActivatedRoute } from '@angular/router'
 import { NavbarComponent } from './components/navbar/navbar.component'
 import { SidebarComponent } from './components/sidebar/sidebar.component'

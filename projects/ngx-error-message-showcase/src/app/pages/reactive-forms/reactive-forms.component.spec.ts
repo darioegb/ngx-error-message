@@ -1,6 +1,6 @@
 import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsComponent } from './reactive-forms.component';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { AbstractControl, FormBuilder, ValidationErrors } from '@angular/forms';
 import { NgxErrorMessageDirective } from 'projects/ngx-error-message/src/public-api';
 
@@ -11,13 +11,11 @@ describe('ReactiveFormsComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        TranslateModule.forRoot(),
         ReactiveFormsComponent,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         NgxErrorMessageDirective
       ],
-      providers: [
-        TranslateService
-      ]
+      providers: []
     }).compileComponents();
   }));
 

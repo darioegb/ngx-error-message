@@ -17,9 +17,7 @@ describe('TemplateDrivenFormsComponent', () => {
         TemplateDrivenFormsComponent,
         FormsModule,
         JsonPipe,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
       ],
       providers: [],
     }).compileComponents();

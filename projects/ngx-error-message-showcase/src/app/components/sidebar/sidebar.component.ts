@@ -10,10 +10,10 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
 })
 export class SidebarComponent implements OnInit {
   isCollapsed: boolean = true;
-  #sidebarService = inject(SidebarService)
+  private readonly sidebarService = inject(SidebarService)
 
   ngOnInit(): void {
-    this.#sidebarService.sidebarState$.subscribe(state => {
+    this.sidebarService.sidebarState$.subscribe(state => {
       this.isCollapsed = state;
     });
   }

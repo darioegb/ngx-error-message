@@ -1,8 +1,9 @@
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { NavbarComponent } from './navbar.component';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { DebugElement } from '@angular/core';
+import { ENGLISH_TRANSLATIONS } from '../../../test';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -13,12 +14,10 @@ describe('NavbarComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NavbarComponent,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         FormsModule
       ],
-      providers: [
-        TranslateService
-      ]
+      providers: []
     }).compileComponents();
   }));
 

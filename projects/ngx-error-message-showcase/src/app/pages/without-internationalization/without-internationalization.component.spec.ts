@@ -1,6 +1,6 @@
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { WithoutInternationalizationComponent } from './without-internationalization.component';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
 // Refactored test to include necessary providers for TranslateService
 
@@ -11,12 +11,10 @@ describe('WithoutInternationalizationComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        TranslateModule.forRoot(),
-        WithoutInternationalizationComponent
+        WithoutInternationalizationComponent,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
       ],
-      providers: [
-        TranslateService
-      ]
+      providers: []
     }).compileComponents();
   }));
 
