@@ -8,7 +8,7 @@ const angularVersion = versionsConfig.angularCompatibility;
 const readmeContent = fs.readFileSync(readmePath, 'utf8');
 
 const updatedReadmeContent = readmeContent.replace(
-  /(\| ngx-error-message \| Angular\s+\|\n\| ------------- \| ------------ \|\n)/,
+  /(\| ngx-error-message \| Angular\s+\|\n\| [-| ]+\| [-| ]+\|\n)/,
   `$1| ${newVersion}         | ${angularVersion} |\n`
 );
 
