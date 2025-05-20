@@ -125,51 +125,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 export class AppModule {}
 ```
 
-This module allows you to configure custom error messages for forms. You can configure the module globally using forRoot or in specific modules using forChild.
-
-### Global Default configuration
-
-```typescript
-import { BrowserModule } from '@angular/platform-browser'
-import { NgModule } from '@angular/core'
-import { HttpClientModule, HttpClient } from '@angular/common/http'
-import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateService,
-} from '@ngx-translate/core'
-import { TranslateHttpLoader } from '@ngx-translate/http-loader'
-
-// Part of configuration ngx-translate loader function
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http) // Make sure your assets files are in default assets/i18n/*
-}
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule, // Required module for ngx-translate
-    // Required ngx-translate module
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      useDefaultLang: true,
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-    NgxErrorMessageModule.forRoot(), // NgxErrorMessageModule added default config
-    // other modules...
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
-
 ### Global configuration with custom validationsPrefix and patternPrefix names
 
 ```typescript
@@ -208,7 +163,7 @@ export class AppModule {}
   }),
 ```
 
-**Step 2:**
+**Step 2 - SKIP This if you don't use internationalization:**
 Add the error message settings in the JSON file. Ngx-translate and other internationalization packages manage JSON files for each language used in the application. For example, if your application manages the English language, you must create it in `assets/i18n/en.json`. In this file, you will have all the errors you need. Each property in the JSON will be named as the error displayed by the form (using reactive forms). For example, when a field has an error, you can access the error object using `form.get('field').errors`. The error object will have the following structure:
 
 ```javascript
