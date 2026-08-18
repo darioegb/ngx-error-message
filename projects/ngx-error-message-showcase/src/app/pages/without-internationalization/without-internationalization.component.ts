@@ -18,7 +18,11 @@ import {
   of,
 } from 'rxjs'
 
-import { NgxErrorMessageDirective, provideNgxErrorMessage, regEx } from 'ngx-error-message'
+import {
+  NgxErrorMessageDirective,
+  provideNgxErrorMessage,
+  regEx,
+} from 'ngx-error-message'
 import { SpinnerComponent } from '../../components/spinner/spinner.component'
 import { JsonPipe } from '@angular/common'
 

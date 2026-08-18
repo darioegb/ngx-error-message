@@ -80,17 +80,20 @@ describe('AppComponent', () => {
   })
 
   it('should render NavbarComponent', () => {
-    const navbarElement = fixture.debugElement.nativeElement.querySelector('app-navbar');
-    expect(navbarElement).toBeTruthy();
-  });
+    const navbarElement =
+      fixture.debugElement.nativeElement.querySelector('app-navbar')
+    expect(navbarElement).toBeTruthy()
+  })
 
   it('should render SidebarComponent', () => {
-    const sidebarElement = fixture.debugElement.nativeElement.querySelector('app-sidebar');
-    expect(sidebarElement).toBeTruthy();
-  });
+    const sidebarElement =
+      fixture.debugElement.nativeElement.querySelector('app-sidebar')
+    expect(sidebarElement).toBeTruthy()
+  })
 
   it('should render MainContentComponent', () => {
-    const mainContentElement = fixture.debugElement.nativeElement.querySelector('app-main-content');
-    expect(mainContentElement).toBeTruthy();
-  });
+    const mainContentElement =
+      fixture.debugElement.nativeElement.querySelector('app-main-content')
+    expect(mainContentElement).toBeTruthy()
+  })
 })

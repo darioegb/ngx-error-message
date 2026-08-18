@@ -68,9 +68,7 @@
               "projects/ngx-error-message-showcase/src/favicon.ico",
               "projects/ngx-error-message-showcase/src/assets"
             ],
-            "styles": [
-              "projects/ngx-error-message-showcase/src/styles.scss"
-            ],
+            "styles": ["projects/ngx-error-message-showcase/src/styles.scss"],
             "scripts": [],
             "browser": "projects/ngx-error-message-showcase/src/main.ts"
           },
@@ -137,9 +135,7 @@
               "projects/ngx-error-message-showcase/src/favicon.ico",
               "projects/ngx-error-message-showcase/src/assets"
             ],
-            "styles": [
-              "projects/ngx-error-message-showcase/src/styles.scss"
-            ],
+            "styles": ["projects/ngx-error-message-showcase/src/styles.scss"],
             "scripts": [],
             "codeCoverage": true
           }
@@ -158,8 +154,6 @@
   },
   "cli": {
     "analytics": false,
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

@@ -3,13 +3,13 @@ import { SidebarService } from '../sidebar/sidebar.service'
 
 import { TranslateService } from '@ngx-translate/core'
 import { NavigationEnd, Router } from '@angular/router'
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'
 
 @Component({
-    selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrl: './navbar.component.scss',
-    imports: [FormsModule]
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.scss',
+  imports: [FormsModule],
 })
 export class NavbarComponent implements OnInit {
   languaje!: string

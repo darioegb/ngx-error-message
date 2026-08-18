@@ -1,7 +1,11 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core'
 import { provideRouter } from '@angular/router'
 
-import { provideHttpClient, HttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import {
+  provideHttpClient,
+  HttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http'
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 
@@ -10,7 +14,6 @@ import { provideNgxErrorMessage } from 'ngx-error-message'
 
 export const httpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http)
-
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,6 +30,6 @@ export const appConfig: ApplicationConfig = {
         },
       }),
     ),
-    provideNgxErrorMessage()
+    provideNgxErrorMessage(),
   ],
 }

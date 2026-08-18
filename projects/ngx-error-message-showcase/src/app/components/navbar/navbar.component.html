@@ -5,7 +5,7 @@
         class="navbar-toggler d-md-none"
         type="button"
         (click)="toggleSidebar()"
-        >
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <span class="navbar-brand text-white">Ngx Error Message Showcase</span>
@@ -19,7 +19,7 @@
         (change)="changeLanguaje()"
         [ngModelOptions]="{ standalone: true }"
         [disabled]="withoutInternationalization"
-        >
+      >
         @for (item of languajes; track item) {
           <option [value]="item.value">
             {{ item.key }}

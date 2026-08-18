@@ -1,28 +1,28 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { MainContentComponent } from './main-content.component';
+import { MainContentComponent } from './main-content.component'
 
 describe('MainContentComponent', () => {
-  let component: MainContentComponent;
-  let fixture: ComponentFixture<MainContentComponent>;
+  let component: MainContentComponent
+  let fixture: ComponentFixture<MainContentComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MainContentComponent]
-    })
-    .compileComponents();
+      imports: [MainContentComponent],
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(MainContentComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(MainContentComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    expect(component).toBeTruthy()
+  })
 
   it('should render the main content container', () => {
-    const mainContentElement = fixture.debugElement.nativeElement.querySelector('.content');
-    expect(mainContentElement).toBeTruthy();
-  });
-});
+    const mainContentElement =
+      fixture.debugElement.nativeElement.querySelector('.content')
+    expect(mainContentElement).toBeTruthy()
+  })
+})

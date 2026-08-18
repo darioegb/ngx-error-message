@@ -11,8 +11,8 @@ export const routes: Routes = [
   {
     path: 'without-internationalization',
     loadChildren: () =>
-      import(
-        './pages/without-internationalization/without-internationalization.routes'
-      ).then((r) => r.withoutInternationalizationRoutes),
+      import('./pages/without-internationalization/without-internationalization.routes').then(
+        (r) => r.withoutInternationalizationRoutes,
+      ),
   },
 ]

@@ -9,7 +9,7 @@
           [placeholder]="'fields.firstName' | translate"
           class="form-control"
           [ngxErrorMessage]="'fields.firstName' | translate"
-          />
+        />
       </div>
       <div class="mb-3">
         <input
@@ -18,7 +18,7 @@
           [placeholder]="'fields.lastName' | translate"
           class="form-control"
           [ngxErrorMessage]="'fields.lastName' | translate"
-          />
+        />
       </div>
     </div>
     <div class="form-check mb-3">
@@ -40,11 +40,9 @@
         class="form-control"
         [ngxErrorMessage]="'fields.username' | translate"
         patternKey="custom"
-        />
+      />
       @if (formControls['username'].pending) {
-        <app-spinner
-          class="mt-2"
-        ></app-spinner>
+        <app-spinner class="mt-2"></app-spinner>
       }
     </div>
     <div class="mb-3">
@@ -54,7 +52,7 @@
         [placeholder]="'fields.password' | translate"
         class="form-control"
         [ngxErrorMessage]="'fields.password' | translate"
-        />
+      />
     </div>
     <div class="mb-3">
       <input
@@ -63,7 +61,7 @@
         [placeholder]="'fields.email' | translate"
         class="form-control"
         [ngxErrorMessage]="'fields.email' | translate"
-        />
+      />
     </div>
     <div class="mb-3">
       <input
@@ -72,7 +70,7 @@
         [placeholder]="'fields.salary' | translate"
         class="form-control"
         [ngxErrorMessage]="'fields.salary' | translate"
-        />
+      />
     </div>
     <div formArrayName="aliases" class="mb-3">
       <h3>Aliases</h3>
@@ -87,7 +85,7 @@
             [placeholder]="'fields.alias' | translate"
             class="form-control"
             [ngxErrorMessage]="'fields.alias' | translate"
-            />
+          />
         </div>
       }
     </div>

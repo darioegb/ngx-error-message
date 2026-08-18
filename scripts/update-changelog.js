@@ -1,8 +1,8 @@
-const fs = require('fs');
-const execSync = require('child_process').execSync;
+const fs = require('fs')
+const execSync = require('child_process').execSync
 
-const changelogPath = 'CHANGELOG.md';
+const changelogPath = 'CHANGELOG.md'
 
-const newChangelog = execSync("npx auto-changelog --stdout").toString();
+const newChangelog = execSync('npx auto-changelog --stdout').toString()
 
-fs.writeFileSync(changelogPath, newChangelog);
+fs.writeFileSync(changelogPath, newChangelog)
