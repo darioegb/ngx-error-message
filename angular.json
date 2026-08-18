@@ -143,6 +143,15 @@
             "scripts": [],
             "codeCoverage": true
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngx-error-message-showcase/**/*.ts",
+              "projects/ngx-error-message-showcase/**/*.html"
+            ]
+          }
         }
       }
     }
