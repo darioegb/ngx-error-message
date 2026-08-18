@@ -72,10 +72,6 @@
               "projects/ngx-error-message-showcase/src/styles.scss"
             ],
             "scripts": [],
-            "extractLicenses": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true,
             "browser": "projects/ngx-error-message-showcase/src/main.ts"
           },
           "configurations": {
@@ -103,14 +99,20 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "extractLicenses": false,
+              "sourceMap": true,
+              "optimization": false,
+              "namedChunks": true
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "ngx-error-message-showcase:build"
+            "buildTarget": "ngx-error-message-showcase:build:development"
           },
           "configurations": {
             "production": {
