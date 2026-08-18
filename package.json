@@ -17,9 +17,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky",
-    "update:changelog": "node scripts/update-changelog.js",
-    "update:package-version": "node scripts/update-package-version.js",
-    "update:readme": "node scripts/update-readme.js"
+    "release": "semantic-release"
   },
   "private": true,
   "dependencies": {
@@ -48,10 +46,16 @@
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@eslint/js": "^9.0.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.6",
+    "@semantic-release/npm": "^12.0.2",
+    "@semantic-release/release-notes-generator": "^14.1.1",
     "@types/jasmine": "~4.0.3",
     "@types/node": "^22.0.0",
     "angular-eslint": "^19.8.1",
-    "auto-changelog": "^2.5.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^10.0.0",
     "husky": "^9.0.11",
@@ -66,7 +70,7 @@
     "ngx-translate-testing": "^6.0.1",
     "prettier": "^3.2.5",
     "puppeteer": "^22.9.0",
-    "semver": "^7.7.1",
+    "semantic-release": "^24.2.9",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.0.0"
   }
