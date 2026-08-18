@@ -1,4 +1,5 @@
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
+import { AbstractControl, FormGroup, UntypedFormArray } from '@angular/forms';
 import { WithoutInternationalizationComponent } from './without-internationalization.component';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
@@ -40,17 +41,17 @@ describe('WithoutInternationalizationComponent', () => {
   });
 
   it('should validate avoidMultipleZero custom validator', () => {
-    const control = { value: '00123' } as any;
+    const control = { value: '00123' } as AbstractControl;
     const result = component.avoidMultipleZero(control);
     expect(result).toEqual({ avoidMultipleZero: true });
 
-    const validControl = { value: '123' } as any;
+    const validControl = { value: '123' } as AbstractControl;
     const validResult = component.avoidMultipleZero(validControl);
     expect(validResult).toBeNull();
   });
 
   it('should validate usernameValidator asynchronously', (done) => {
-    const control = { value: 'test' } as any;
+    const control = { value: 'test' } as AbstractControl;
     component.usernameValidator(control).subscribe((result) => {
       expect(result).toEqual({ usernameTaken: true });
       done();
@@ -58,7 +59,7 @@ describe('WithoutInternationalizationComponent', () => {
   });
 
   it('should validate usernameValidator as valid for non-taken username', (done) => {
-    const control = { value: 'notTaken' } as any;
+    const control = { value: 'notTaken' } as AbstractControl;
     component.usernameValidator(control).subscribe((result) => {
       expect(result).toBeNull();
       done();
@@ -68,8 +69,8 @@ describe('WithoutInternationalizationComponent', () => {
   it('should return form controls, name controls, and aliases', () => {
     // Use .toEqual instead of .toBe for aliases, as they are different references but same content
     expect(component.formControls).toBe(component.form.controls);
-    expect(component.nameControls).toBe((component.formControls['name'] as any).controls);
-    expect(component.aliases.length).toBe((component.formControls['aliases'] as any).length);
+    expect(component.nameControls).toBe((component.formControls['name'] as FormGroup).controls);
+    expect(component.aliases.length).toBe((component.formControls['aliases'] as UntypedFormArray).length);
   });
 
   it('should not submit if form is invalid', () => {

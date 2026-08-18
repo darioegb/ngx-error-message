@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TemplateDrivenFormsComponent } from './template-driven-forms.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
@@ -94,14 +94,14 @@ describe('TemplateDrivenFormsComponent', () => {
 
   it('no debe llamar onSubmit ni loguear si el formulario es inválido', () => {
     spyOn(console, 'log');
-    const formMock = { invalid: true } as any;
+    const formMock = { invalid: true } as NgForm;
     component.onSubmit(formMock);
     expect(console.log).not.toHaveBeenCalled();
   });
 
   it('debe loguear en consola al hacer submit válido', () => {
     spyOn(console, 'log');
-    const formMock = { invalid: false } as any;
+    const formMock = { invalid: false } as NgForm;
     component.onSubmit(formMock);
     expect(console.log).toHaveBeenCalledWith('Form Submitted', component.model);
   });

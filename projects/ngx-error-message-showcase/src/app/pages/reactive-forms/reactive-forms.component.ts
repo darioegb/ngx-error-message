@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import {
   FormGroup,
   FormBuilder,
@@ -36,7 +36,7 @@ import { TranslateModule } from '@ngx-translate/core'
     TranslateModule,
   ],
 })
-export class ReactiveFormsComponent {
+export class ReactiveFormsComponent implements OnInit {
   form!: FormGroup
   formValue: unknown
   checkbox = true

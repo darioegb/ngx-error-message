@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import {
   FormGroup,
   FormBuilder,
@@ -58,7 +58,7 @@ import { JsonPipe } from '@angular/common'
     }),
   ],
 })
-export class WithoutInternationalizationComponent {
+export class WithoutInternationalizationComponent implements OnInit {
   form!: FormGroup
   formValue: unknown
   private readonly fb = inject(FormBuilder)

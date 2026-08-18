@@ -7,7 +7,7 @@ import {
 } from '@angular/forms'
 
 @Directive({
-    selector: '[avoidMultipleZero]',
+    selector: '[appAvoidMultipleZero]',
     providers: [
         {
             provide: NG_VALIDATORS,
