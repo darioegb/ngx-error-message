@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { NgForm, FormsModule } from '@angular/forms'
-import { regEx } from 'projects/ngx-error-message/src/public-api'
-import { NgxErrorMessageDirective } from '../../../../../ngx-error-message/src/lib/ngx-error-message.directive'
+import { NgxErrorMessageDirective, regEx } from 'ngx-error-message'
 import { AvoidMultipleZeroValidatorDirective } from '../../directives/avoid-mutiple-zero-validator.directive'
 import { JsonPipe } from '@angular/common'
 import { TranslateModule } from '@ngx-translate/core'

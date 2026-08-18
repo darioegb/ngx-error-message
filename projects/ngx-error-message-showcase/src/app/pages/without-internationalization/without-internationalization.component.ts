@@ -18,11 +18,9 @@ import {
   of,
 } from 'rxjs'
 
-import { regEx } from 'projects/ngx-error-message/src/public-api'
-import { NgxErrorMessageDirective } from '../../../../../ngx-error-message/src/lib/ngx-error-message.directive'
+import { NgxErrorMessageDirective, provideNgxErrorMessage, regEx } from 'ngx-error-message'
 import { SpinnerComponent } from '../../components/spinner/spinner.component'
 import { JsonPipe } from '@angular/common'
-import { provideNgxErrorMessage } from 'projects/ngx-error-message/src/lib/provide-ngx-error-message'
 
 @Component({
   selector: 'app-without-internationalization',

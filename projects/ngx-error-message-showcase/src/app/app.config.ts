@@ -6,7 +6,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 
 import { routes } from './app.routes'
-import { provideNgxErrorMessage } from 'projects/ngx-error-message/src/lib/provide-ngx-error-message'
+import { provideNgxErrorMessage } from 'ngx-error-message'
 
 export const httpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http)
