@@ -11,6 +11,8 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=coverage)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
 
+📖 **[Official Documentation](https://darioegb.github.io/ngx-error-message/)**
+
 ## Features
 
 - Dynamic directive that display error for input fields in reactive or template driven form dynamically.

@@ -17,7 +17,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "docs:start": "pnpm --prefix docs start",
+    "docs:build": "pnpm --prefix docs build",
+    "docs:serve": "pnpm --prefix docs serve",
+    "docs:i18n": "pnpm --prefix docs write-translations -- --locale es"
   },
   "private": true,
   "pnpm": {
