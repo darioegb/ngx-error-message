@@ -10,7 +10,7 @@ import {
 } from '@angular/forms'
 import { Component, OnInit, inject as inject_1 } from '@angular/core'
 import { NgxErrorMessageDirective } from './ngx-error-message.directive'
-import { ENGLISH_TRANSLATIONS } from '../test'
+import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { TranslateService } from '@ngx-translate/core'
@@ -74,7 +74,10 @@ describe('NgxErrorMessageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        TranslateTestingModule.withTranslations('en', ENGLISH_TRANSLATIONS),
+        TranslateTestingModule.withTranslations(
+          'en',
+          ENGLISH_TRANSLATIONS,
+        ).withTranslations('es', SPANISH_TRANSLATIONS),
         TestHostComponent,
       ],
       declarations: [],
@@ -97,6 +100,7 @@ describe('NgxErrorMessageComponent', () => {
 
   beforeEach(() => {
     translate = TestBed.inject(TranslateService)
+    translate.use('en')
     fixture = TestBed.createComponent(TestHostComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
@@ -141,16 +145,20 @@ describe('NgxErrorMessageComponent', () => {
     control.setValue('')
     fixture.detectChanges()
 
-    translate.use('es')
-    fixture.detectChanges()
-
     const errorElement = (fixture.nativeElement as HTMLElement).querySelector(
       'small.error-message',
     )
 
-    expect(errorElement).toBeTruthy()
+    translate.use('es')
+    fixture.detectChanges()
     expect(errorElement?.textContent).toBe(
-      ENGLISH_TRANSLATIONS.validations.required, // Update this to the Spanish translation when available
+      SPANISH_TRANSLATIONS.validations.required,
+    )
+
+    translate.use('en')
+    fixture.detectChanges()
+    expect(errorElement?.textContent).toBe(
+      ENGLISH_TRANSLATIONS.validations.required,
     )
   })
 })
