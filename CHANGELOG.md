@@ -1,3 +1,12 @@
+## 4.0.0-next.2 (2026-09-08)
+
+* chore: trigger CI release after git-notes channel repair ([ae73150](https://github.com/darioegb/ngx-error-message/commit/ae73150))
+* chore(release): 4.0.0-next.1 [skip ci] ([3e549fc](https://github.com/darioegb/ngx-error-message/commit/3e549fc))
+* chore(release): 4.0.0-next.1 [skip ci] ([ab2af15](https://github.com/darioegb/ngx-error-message/commit/ab2af15))
+* fix(docs): stop recording -next prereleases in the compatibility table ([23bc9fb](https://github.com/darioegb/ngx-error-message/commit/23bc9fb))
+* fix(release): pin v4 branch's npm dist-tag to "next" ([380c741](https://github.com/darioegb/ngx-error-message/commit/380c741))
+* feat: migrate to @ngx-translate/core 18 ([6182dd9](https://github.com/darioegb/ngx-error-message/commit/6182dd9))
+
 ## 4.0.0-next.1 (2026-09-08)
 
 * fix(docs): stop recording -next prereleases in the compatibility table ([23bc9fb](https://github.com/darioegb/ngx-error-message/commit/23bc9fb))
