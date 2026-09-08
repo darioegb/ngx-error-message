@@ -1,5 +1,25 @@
 ## 4.0.0-next.1 (2026-09-08)
 
+* fix(docs): stop recording -next prereleases in the compatibility table ([23bc9fb](https://github.com/darioegb/ngx-error-message/commit/23bc9fb))
+* fix(release): pin v4 branch's npm dist-tag to "next" ([380c741](https://github.com/darioegb/ngx-error-message/commit/380c741))
+* feat: migrate to @ngx-translate/core 18 ([6182dd9](https://github.com/darioegb/ngx-error-message/commit/6182dd9))
+* chore: migrate to Angular 20 ([7e6cf44](https://github.com/darioegb/ngx-error-message/commit/7e6cf44))
+* chore: migrate to Angular 21 ([8853fe4](https://github.com/darioegb/ngx-error-message/commit/8853fe4))
+* chore: migrate to Angular 22 ([486624f](https://github.com/darioegb/ngx-error-message/commit/486624f))
+* chore(release): 4.0.0-next.1 [skip ci] ([ab2af15](https://github.com/darioegb/ngx-error-message/commit/ab2af15))
+* chore(release): 4.0.0-next.1 [skip ci] ([b3c8d4d](https://github.com/darioegb/ngx-error-message/commit/b3c8d4d))
+* feat!: bump peer floor to Angular >=20, prepare v4 prerelease channel ([075d080](https://github.com/darioegb/ngx-error-message/commit/075d080))
+
+### BREAKING CHANGE
+
+* raises the minimum supported Angular version from
+14 to 20. Angular 16-19 consumers should stay on ngx-error-message
+3.x until they upgrade Angular.
+
+Co-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>
+
+## 4.0.0-next.1 (2026-09-08)
+
 * fix(release): pin v4 branch's npm dist-tag to "next" ([380c741](https://github.com/darioegb/ngx-error-message/commit/380c741))
 * chore: migrate to Angular 20 ([7e6cf44](https://github.com/darioegb/ngx-error-message/commit/7e6cf44))
 * chore: migrate to Angular 21 ([8853fe4](https://github.com/darioegb/ngx-error-message/commit/8853fe4))
