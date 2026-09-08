@@ -30,9 +30,9 @@
     "@ngx-translate/http-loader": ">=7.0.0"
   },
   "peerDependencies": {
-    "@angular/core": ">=14.0.0",
-    "@angular/common": ">=14.0.0",
-    "@angular/forms": ">=14.0.0"
+    "@angular/core": ">=20.0.0",
+    "@angular/common": ">=20.0.0",
+    "@angular/forms": ">=20.0.0"
   },
   "sideEffects": false,
   "license": "MIT"
