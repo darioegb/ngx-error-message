@@ -1,13 +1,6 @@
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing'
 import { AbstractControl, FormGroup, UntypedFormArray } from '@angular/forms'
 import { WithoutInternationalizationComponent } from './without-internationalization.component'
-import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader,
-} from '@ngx-translate/core'
-
-// Refactored test to include necessary providers for TranslateService
 
 describe('WithoutInternationalizationComponent', () => {
   let component: WithoutInternationalizationComponent
@@ -15,12 +8,7 @@ describe('WithoutInternationalizationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        WithoutInternationalizationComponent,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
-        }),
-      ],
+      imports: [WithoutInternationalizationComponent],
       providers: [],
     }).compileComponents()
   }))

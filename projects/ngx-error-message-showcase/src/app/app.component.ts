@@ -21,6 +21,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const lang = localStorage.getItem('lang')
-    this.translate.use(lang ? lang : this.translate.defaultLang)
+    this.translate.use(lang ? lang : this.translate.getFallbackLang()!)
   }
 }

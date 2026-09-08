@@ -3,7 +3,7 @@ import { NgForm, FormsModule } from '@angular/forms'
 import { NgxErrorMessageDirective, regEx } from 'ngx-error-message'
 import { AvoidMultipleZeroValidatorDirective } from '../../directives/avoid-mutiple-zero-validator.directive'
 import { JsonPipe } from '@angular/common'
-import { TranslateModule } from '@ngx-translate/core'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'app-template-driven-forms',
@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core'
     NgxErrorMessageDirective,
     AvoidMultipleZeroValidatorDirective,
     JsonPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class TemplateDrivenFormsComponent {

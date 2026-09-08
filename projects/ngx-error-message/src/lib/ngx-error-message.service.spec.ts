@@ -6,7 +6,7 @@ import { regEx } from './ngx-error-message-constant'
 
 import { NgxErrorMessageService } from './ngx-error-message.service'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
-import { TranslateTestingModule } from 'ngx-translate-testing'
+import { provideTestTranslateService } from '../testing/translate-testing'
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -38,10 +38,9 @@ describe('NgxErrorMessageService', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          TranslateTestingModule.withTranslations('en', ENGLISH_TRANSLATIONS),
-        ],
+        imports: [],
         providers: [
+          provideTestTranslateService({ en: ENGLISH_TRANSLATIONS }),
           FormBuilder,
           NgxErrorMessageService,
           {

@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { TranslateModule } from '@ngx-translate/core'
 
 import { NgxErrorMessageComponent } from './ngx-error-message.component'
 import { NgxErrorMessageDirective } from './ngx-error-message.directive'
@@ -12,7 +11,6 @@ import { NgxErrorMessageService } from './ngx-error-message.service'
 @NgModule({
   imports: [
     CommonModule,
-    TranslateModule,
     NgxErrorMessageComponent,
     NgxErrorMessageDirective,
     NgxErrorMessagePipe,

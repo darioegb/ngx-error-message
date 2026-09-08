@@ -2,7 +2,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { waitForAsync, TestBed } from '@angular/core/testing'
 import { BrowserModule } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
-import { TranslateTestingModule } from 'ngx-translate-testing'
+import { provideTestTranslateService } from '../testing/translate-testing'
 
 import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
 import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
@@ -21,14 +21,12 @@ describe('NgxErrorMessagePipe', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserModule,
-        TranslateTestingModule.withTranslations({
+      imports: [BrowserModule],
+      providers: [
+        provideTestTranslateService({
           en: ENGLISH_TRANSLATIONS,
           es: SPANISH_TRANSLATIONS,
         }),
-      ],
-      providers: [
         NgxErrorMessageService,
         {
           provide: ERROR_MESSAGE_CONFIG,

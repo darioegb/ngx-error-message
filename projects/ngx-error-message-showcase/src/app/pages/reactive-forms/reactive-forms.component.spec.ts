@@ -7,9 +7,9 @@ import {
 } from '@angular/core/testing'
 import { ReactiveFormsComponent } from './reactive-forms.component'
 import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader,
+  provideTranslateService,
+  provideTranslateLoader,
+  TranslateNoOpLoader,
 } from '@ngx-translate/core'
 import { AbstractControl, FormBuilder, ValidationErrors } from '@angular/forms'
 import { NgxErrorMessageDirective } from 'ngx-error-message'
@@ -20,14 +20,12 @@ describe('ReactiveFormsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsComponent,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
+      imports: [ReactiveFormsComponent, NgxErrorMessageDirective],
+      providers: [
+        provideTranslateService({
+          loader: provideTranslateLoader(TranslateNoOpLoader),
         }),
-        NgxErrorMessageDirective,
       ],
-      providers: [],
     }).compileComponents()
   }))
 

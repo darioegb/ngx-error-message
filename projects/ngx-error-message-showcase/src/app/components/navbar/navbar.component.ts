@@ -39,7 +39,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     const lang = localStorage.getItem('lang')
-    this.languaje = lang ? lang : this.translate.defaultLang
+    this.languaje = lang ? lang : this.translate.getFallbackLang()!
     this.sidebarService.sidebarState$.subscribe((state) => {
       this.isCollapsed = state
       this.cdr.markForCheck()

@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { TemplateDrivenFormsComponent } from './template-driven-forms.component'
 import { FormsModule, NgForm } from '@angular/forms'
 import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader,
+  provideTranslateService,
+  provideTranslateLoader,
+  TranslateNoOpLoader,
 } from '@ngx-translate/core'
 import { By } from '@angular/platform-browser'
 import { DebugElement } from '@angular/core'
@@ -17,15 +17,12 @@ describe('TemplateDrivenFormsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        TemplateDrivenFormsComponent,
-        FormsModule,
-        JsonPipe,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
+      imports: [TemplateDrivenFormsComponent, FormsModule, JsonPipe],
+      providers: [
+        provideTranslateService({
+          loader: provideTranslateLoader(TranslateNoOpLoader),
         }),
       ],
-      providers: [],
     }).compileComponents()
 
     fixture = TestBed.createComponent(TemplateDrivenFormsComponent)

@@ -23,8 +23,8 @@ Latest version available for each version of Angular
 
 | ngx-error-message | Angular      |
 | ----------------- | ------------ |
-| 4.0.0-next.1             | 20.x to 22.x |
-| 4.0.0-next.1             | 20.x to 22.x |
+| 4.0.0-next.1      | 20.x to 22.x |
+| 4.0.0-next.1      | 20.x to 22.x |
 | 3.1.1             | 16.x to 19.x |
 | 3.1.0             | 16.x to 19.x |
 | 3.0.1             | 16.x to 19.x |
@@ -63,29 +63,15 @@ If you are using Angular standalone components (Angular >= 14), install the libr
 
 ```typescript
 import { provideNgxErrorMessage } from 'ngx-error-message'
-import { importProvidersFrom } from '@angular/core'
-import { HttpClientModule, HttpClient } from '@angular/common/http'
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core'
-import { TranslateHttpLoader } from '@ngx-translate/http-loader'
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http) // Make sure your assets files are in default assets/i18n/*
-}
+import { provideHttpClient } from '@angular/common/http'
+import { provideTranslateService } from '@ngx-translate/core'
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(
-      HttpClientModule,
-      TranslateModule.forRoot({
-        defaultLanguage: 'en',
-        useDefaultLang: true,
-        loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient],
-        },
-      }),
-    ),
+    provideHttpClient(),
+    provideTranslateService({ fallbackLang: 'en' }),
+    provideTranslateHttpLoader(), // Make sure your assets files are in default assets/i18n/*
     provideNgxErrorMessage(),
     // ...other providers
   ],
@@ -97,34 +83,24 @@ For applications using NgModules (or for compatibility with Angular versions bel
 ```typescript
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
-import { HttpClientModule, HttpClient } from '@angular/common/http'
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core'
-import { TranslateHttpLoader } from '@ngx-translate/http-loader'
+import { provideHttpClient } from '@angular/common/http'
+import { provideTranslateService } from '@ngx-translate/core'
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
 import { NgxErrorMessageModule } from 'ngx-error-message'
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http) // Make sure your assets files are in default assets/i18n/*
-}
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, // Required module for ngx-translate
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      useDefaultLang: true,
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
     NgxErrorMessageModule.forRoot(), // NgxErrorMessageModule added default config
     // other modules...
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(),
+    provideTranslateService({ fallbackLang: 'en' }),
+    provideTranslateHttpLoader(), // Make sure your assets files are in default assets/i18n/*
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

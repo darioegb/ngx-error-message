@@ -27,7 +27,7 @@ import {
 import { NgxErrorMessageDirective, regEx } from 'ngx-error-message'
 import { SpinnerComponent } from '../../components/spinner/spinner.component'
 import { JsonPipe } from '@angular/common'
-import { TranslateModule } from '@ngx-translate/core'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'app-reactive-forms',
@@ -40,7 +40,7 @@ import { TranslateModule } from '@ngx-translate/core'
     NgxErrorMessageDirective,
     SpinnerComponent,
     JsonPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class ReactiveFormsComponent implements OnInit {

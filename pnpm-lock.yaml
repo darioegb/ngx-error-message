@@ -33,11 +33,11 @@ importers:
         specifier: ^22.1.5
         version: 22.1.5(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(@angular/platform-browser@22.1.5(@angular/animations@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1)))(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1)))(rxjs@7.5.7)
       '@ngx-translate/core':
-        specifier: ^14.0.0
-        version: 14.0.0(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7)
+        specifier: ^18.0.0
+        version: 18.0.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7)
       '@ngx-translate/http-loader':
-        specifier: ^7.0.0
-        version: 7.0.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@ngx-translate/core@14.0.0(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(rxjs@7.5.7)
+        specifier: ^18.0.0
+        version: 18.0.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(@ngx-translate/core@18.0.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))
       bootstrap:
         specifier: ^5.3.3
         version: 5.3.8(@popperjs/core@2.11.8)
@@ -144,9 +144,6 @@ importers:
       ng-packagr:
         specifier: ^22.1.1
         version: 22.1.1(@angular/compiler-cli@22.1.5(@angular/compiler@22.1.5)(typescript@6.0.3))(tslib@2.8.1)(typescript@6.0.3)
-      ngx-translate-testing:
-        specifier: ^6.0.1
-        version: 6.1.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(@ngx-translate/core@14.0.0(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(rxjs@7.5.7)
       prettier:
         specifier: ^3.2.5
         version: 3.9.6
@@ -1197,18 +1194,19 @@ packages:
       '@emnapi/core': ^1.7.1 || ^2.0.0-alpha.4
       '@emnapi/runtime': ^1.7.1 || ^2.0.0-alpha.4
 
-  '@ngx-translate/core@14.0.0':
-    resolution: {integrity: sha512-UevdwNCXMRCdJv//0kC8h2eSfmi02r29xeE8E9gJ1Al4D4jEJ7eiLPdjslTMc21oJNGguqqWeEVjf64SFtvw2w==}
+  '@ngx-translate/core@18.0.0':
+    resolution: {integrity: sha512-Z9u9AXaeuyeHHimivvJQvhal/LJNB+5tlH+FimSU4QQ61FrtRDqgyn6nfFbc6Cb+59NDZdsh4QeTJyPCldFUwA==}
     peerDependencies:
-      '@angular/core': '>=13.0.0'
-      rxjs: ^6.5.3 || ^7.4.0
+      '@angular/common': '>=18'
+      '@angular/core': '>=18'
+      rxjs: '>=7'
 
-  '@ngx-translate/http-loader@7.0.0':
-    resolution: {integrity: sha512-j+NpXXlcGVdyUNyY/qsJrqqeAdJdizCd+GKh3usXExSqy1aE9866jlAIL+xrfDU4w+LiMoma5pgE4emvFebZmA==}
+  '@ngx-translate/http-loader@18.0.0':
+    resolution: {integrity: sha512-p6QpNcU3rkCYjHbKVIadcYtml/Njpr0aLp8neJ4uJWQ4Xm9f09bIePhOjdjAFHupTptKqKrG1J2gSi3RSwgYeA==}
     peerDependencies:
-      '@angular/common': '>=13.0.0'
-      '@ngx-translate/core': '>=14.0.0'
-      rxjs: ^6.5.3 || ^7.4.0
+      '@angular/common': '>=18'
+      '@angular/core': '>=18'
+      '@ngx-translate/core': '>=18.0.0'
 
   '@octokit/auth-token@6.0.0':
     resolution: {integrity: sha512-P4YJBPdPSpWTQ1NU4XYdvHvXJJDxM6YwpS0FZHRgP7YFkdVxsWcpWGy/NVqlAA7PcPCnMacXlRm1y2PFZRWL/w==}
@@ -3831,14 +3829,6 @@ packages:
       tailwindcss:
         optional: true
 
-  ngx-translate-testing@6.1.0:
-    resolution: {integrity: sha512-uBrZkhZ/TV0d/L09xWd9TIGFS3XdEUU9Y6GUAtxo1tZu7Y+iNpYbWEUurQiC9BCR457HLKYWTAjAQ4P2HJLSwQ==}
-    peerDependencies:
-      '@angular/common': ^10.0.0-rc.0 || >=10.0.0
-      '@angular/core': ^10.0.0-rc.0 || >=10.0.0
-      '@ngx-translate/core': '>=14.0.0'
-      rxjs: '>=7.0.0'
-
   node-addon-api@6.1.0:
     resolution: {integrity: sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==}
 
@@ -6065,17 +6055,18 @@ snapshots:
       '@tybys/wasm-util': 0.10.3
     optional: true
 
-  '@ngx-translate/core@14.0.0(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7)':
+  '@ngx-translate/core@18.0.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7)':
     dependencies:
+      '@angular/common': 22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7)
       '@angular/core': 22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1)
       rxjs: 7.5.7
       tslib: 2.8.1
 
-  '@ngx-translate/http-loader@7.0.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@ngx-translate/core@14.0.0(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(rxjs@7.5.7)':
+  '@ngx-translate/http-loader@18.0.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(@ngx-translate/core@18.0.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))':
     dependencies:
       '@angular/common': 22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7)
-      '@ngx-translate/core': 14.0.0(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7)
-      rxjs: 7.5.7
+      '@angular/core': 22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1)
+      '@ngx-translate/core': 18.0.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7)
       tslib: 2.8.1
 
   '@octokit/auth-token@6.0.0': {}
@@ -8641,14 +8632,6 @@ snapshots:
       rollup: 4.62.4
     transitivePeerDependencies:
       - supports-color
-
-  ngx-translate-testing@6.1.0(@angular/common@22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(@ngx-translate/core@14.0.0(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7))(rxjs@7.5.7):
-    dependencies:
-      '@angular/common': 22.1.5(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7)
-      '@angular/core': 22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1)
-      '@ngx-translate/core': 14.0.0(@angular/core@22.1.5(@angular/compiler@22.1.5)(rxjs@7.5.7)(zone.js@0.15.1))(rxjs@7.5.7)
-      rxjs: 7.5.7
-      tslib: 2.8.1
 
   node-addon-api@6.1.0:
     optional: true

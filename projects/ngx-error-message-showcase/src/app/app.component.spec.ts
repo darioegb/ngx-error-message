@@ -6,7 +6,7 @@ import { NavbarComponent } from './components/navbar/navbar.component'
 import { SidebarComponent } from './components/sidebar/sidebar.component'
 import { MainContentComponent } from './components/main-content/main-content.component'
 import { of } from 'rxjs'
-import { TranslateTestingModule } from 'ngx-translate-testing'
+import { provideTestTranslateService } from '../testing/translate-testing'
 import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
 import {
   provideHttpClient,
@@ -23,16 +23,16 @@ describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        TranslateTestingModule.withTranslations({
-          en: ENGLISH_TRANSLATIONS,
-          es: SPANISH_TRANSLATIONS,
-        }).withDefaultLanguage('en'),
         NavbarComponent,
         SidebarComponent,
         MainContentComponent,
         AppComponent,
       ],
       providers: [
+        provideTestTranslateService({
+          en: ENGLISH_TRANSLATIONS,
+          es: SPANISH_TRANSLATIONS,
+        }),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -65,9 +65,7 @@ describe('AppComponent', () => {
     component.ngOnInit()
     fixture.detectChanges()
 
-    expect(translateService.use).toHaveBeenCalledWith(
-      translateService.defaultLang,
-    )
+    expect(translateService.use).toHaveBeenCalledWith('en')
   })
 
   it('should use the stored language from localStorage', () => {

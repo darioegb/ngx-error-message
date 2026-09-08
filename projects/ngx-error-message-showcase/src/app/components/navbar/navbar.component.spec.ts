@@ -1,9 +1,9 @@
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing'
 import { NavbarComponent } from './navbar.component'
 import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader,
+  provideTranslateService,
+  provideTranslateLoader,
+  TranslateNoOpLoader,
 } from '@ngx-translate/core'
 import { FormsModule } from '@angular/forms'
 import { DebugElement } from '@angular/core'
@@ -15,14 +15,12 @@ describe('NavbarComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NavbarComponent,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
+      imports: [NavbarComponent, FormsModule],
+      providers: [
+        provideTranslateService({
+          loader: provideTranslateLoader(TranslateNoOpLoader),
         }),
-        FormsModule,
       ],
-      providers: [],
     }).compileComponents()
   }))
 
@@ -35,6 +33,15 @@ describe('NavbarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy()
+  })
+
+  it('should use the stored language from localStorage', () => {
+    spyOn(localStorage, 'getItem').and.returnValue('es')
+
+    const newFixture = TestBed.createComponent(NavbarComponent)
+    newFixture.detectChanges()
+
+    expect(newFixture.componentInstance.languaje).toBe('es')
   })
 
   it('should render navigation links', () => {

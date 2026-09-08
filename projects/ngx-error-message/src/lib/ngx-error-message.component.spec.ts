@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'
 import { provideHttpClientTesting } from '@angular/common/http/testing'
-import { TranslateTestingModule } from 'ngx-translate-testing'
+import { provideTestTranslateService } from '../testing/translate-testing'
 
 import {
   ReactiveFormsModule,
@@ -82,16 +82,13 @@ describe('NgxErrorMessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        TranslateTestingModule.withTranslations(
-          'en',
-          ENGLISH_TRANSLATIONS,
-        ).withTranslations('es', SPANISH_TRANSLATIONS),
-        TestHostComponent,
-      ],
+      imports: [ReactiveFormsModule, TestHostComponent],
       declarations: [],
       providers: [
+        provideTestTranslateService({
+          en: ENGLISH_TRANSLATIONS,
+          es: SPANISH_TRANSLATIONS,
+        }),
         FormBuilder,
         NgxErrorMessageService,
         {
