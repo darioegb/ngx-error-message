@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
@@ -37,6 +38,7 @@ export class NgxErrorMessageComponent implements OnInit {
   private readonly elementRef = inject(ElementRef)
   private readonly renderer = inject(Renderer2)
   private readonly destroyRef = inject(DestroyRef)
+  private readonly cdr = inject(ChangeDetectorRef)
   private previousErrorState = false
 
   get hasError(): boolean {
@@ -58,7 +60,10 @@ export class NgxErrorMessageComponent implements OnInit {
         ),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(({ lang }: LangChangeEvent) => (this.lang = lang))
+      .subscribe(({ lang }: LangChangeEvent) => {
+        this.lang = lang
+        this.cdr.markForCheck()
+      })
   }
 
   private updateErrorContainer(invalid: boolean): void {

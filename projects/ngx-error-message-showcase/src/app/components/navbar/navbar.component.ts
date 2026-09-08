@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core'
 import { SidebarService } from '../sidebar/sidebar.service'
 
 import { TranslateService } from '@ngx-translate/core'
@@ -28,17 +28,20 @@ export class NavbarComponent implements OnInit {
   private readonly sidebarService = inject(SidebarService)
   private readonly translate = inject(TranslateService)
   private readonly router = inject(Router)
+  private readonly cdr = inject(ChangeDetectorRef)
 
   ngOnInit(): void {
     const lang = localStorage.getItem('lang')
     this.languaje = lang ? lang : this.translate.defaultLang
     this.sidebarService.sidebarState$.subscribe((state) => {
       this.isCollapsed = state
+      this.cdr.markForCheck()
     })
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.withoutInternationalization =
           this.router.url === '/without-internationalization'
+        this.cdr.markForCheck()
       }
     })
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core'
 import { SidebarService } from './sidebar.service'
 import { RouterLinkActive, RouterLink } from '@angular/router'
 
@@ -11,10 +11,12 @@ import { RouterLinkActive, RouterLink } from '@angular/router'
 export class SidebarComponent implements OnInit {
   isCollapsed: boolean = true
   private readonly sidebarService = inject(SidebarService)
+  private readonly cdr = inject(ChangeDetectorRef)
 
   ngOnInit(): void {
     this.sidebarService.sidebarState$.subscribe((state) => {
       this.isCollapsed = state
+      this.cdr.markForCheck()
     })
   }
 }

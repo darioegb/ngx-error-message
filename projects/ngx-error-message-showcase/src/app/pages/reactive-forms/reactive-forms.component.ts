@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core'
 import {
   FormGroup,
   FormBuilder,
@@ -41,6 +41,7 @@ export class ReactiveFormsComponent implements OnInit {
   formValue: unknown
   checkbox = true
   private readonly fb = inject(FormBuilder)
+  private readonly cdr = inject(ChangeDetectorRef)
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -86,6 +87,7 @@ export class ReactiveFormsComponent implements OnInit {
     this.form.statusChanges.pipe(distinctUntilChanged()).subscribe((status) => {
       if (status === 'INVALID') {
         this.formValue = null
+        this.cdr.markForCheck()
       }
     })
   }
