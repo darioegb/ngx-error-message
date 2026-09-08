@@ -83,7 +83,7 @@ export class NgxErrorMessageService {
   private getMessage(key: string, fieldName?: string, param?: string): string {
     const options = {
       ...(fieldName && { fieldName }),
-      ...(param && { param }),
+      ...(param !== undefined && { param }),
     }
     if (Object.keys(this.config.errorMessages!).length > 0) {
       const messageTemplate =
@@ -91,7 +91,7 @@ export class NgxErrorMessageService {
       return this.interpolateMessage(messageTemplate, options)
     }
 
-    return param || fieldName
+    return param !== undefined || fieldName
       ? this.translate?.instant(
           `${this.config.validationsPrefix}.${key}`,
           options,

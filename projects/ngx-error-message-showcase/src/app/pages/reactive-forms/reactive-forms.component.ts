@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import {
   FormGroup,
   FormBuilder,
@@ -18,8 +18,7 @@ import {
   of,
 } from 'rxjs'
 
-import { regEx } from 'projects/ngx-error-message/src/public-api'
-import { NgxErrorMessageDirective } from '../../../../../ngx-error-message/src/lib/ngx-error-message.directive'
+import { NgxErrorMessageDirective, regEx } from 'ngx-error-message'
 import { SpinnerComponent } from '../../components/spinner/spinner.component'
 import { JsonPipe } from '@angular/common'
 import { TranslateModule } from '@ngx-translate/core'
@@ -37,7 +36,7 @@ import { TranslateModule } from '@ngx-translate/core'
     TranslateModule,
   ],
 })
-export class ReactiveFormsComponent {
+export class ReactiveFormsComponent implements OnInit {
   form!: FormGroup
   formValue: unknown
   checkbox = true

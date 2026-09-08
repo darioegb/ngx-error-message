@@ -11,7 +11,7 @@
         required
         [pattern]="patterns.alphabet"
         [ngxErrorMessage]="'fields.firstName' | translate"
-        />
+      />
     </div>
     <div class="mb-3">
       <input
@@ -23,7 +23,7 @@
         required
         [pattern]="patterns.alphabet"
         [ngxErrorMessage]="'fields.lastName' | translate"
-        />
+      />
     </div>
     <div class="mb-3">
       <input
@@ -37,7 +37,7 @@
         pattern="^[a-zA-Z0-9.]+$"
         [ngxErrorMessage]="'fields.username' | translate"
         patternKey="custom"
-        />
+      />
     </div>
     <div class="mb-3">
       <input
@@ -51,7 +51,7 @@
         maxlength="50"
         [pattern]="patterns.alphaNumeric"
         [ngxErrorMessage]="'fields.password' | translate"
-        />
+      />
     </div>
     <div class="mb-3">
       <input
@@ -63,7 +63,7 @@
         required
         email
         [ngxErrorMessage]="'fields.email' | translate"
-        />
+      />
     </div>
     <div class="mb-3">
       <input
@@ -73,19 +73,16 @@
         [placeholder]="'fields.salary' | translate"
         class="form-control"
         [pattern]="patterns.numeric"
-        avoidMultipleZero
+        appAvoidMultipleZero
         [ngxErrorMessage]="'fields.salary' | translate"
-        />
+      />
     </div>
     <div class="mb-3">
       <button type="button" (click)="addAlias()" class="btn btn-secondary">
         {{ 'buttons.add' | translate: { value: 'Alias' } }}
       </button>
-      @for (
-        alias of model.aliases; track trackByIndex(i); let i = $index) {
-        <div
-          class="mb-3"
-          >
+      @for (alias of model.aliases; track trackByIndex(i); let i = $index) {
+        <div class="mb-3">
           <input
             type="text"
             [(ngModel)]="model.aliases[i]"
@@ -94,7 +91,7 @@
             class="form-control"
             [pattern]="patterns.alphaNumeric"
             [ngxErrorMessage]="'fields.alias' | translate"
-            />
+          />
         </div>
       }
     </div>

@@ -1,28 +1,28 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { SpinnerComponent } from './spinner.component';
+import { SpinnerComponent } from './spinner.component'
 
 describe('SpinnerComponent', () => {
-  let component: SpinnerComponent;
-  let fixture: ComponentFixture<SpinnerComponent>;
+  let component: SpinnerComponent
+  let fixture: ComponentFixture<SpinnerComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SpinnerComponent]
-    })
-    .compileComponents();
+      imports: [SpinnerComponent],
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(SpinnerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(SpinnerComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    expect(component).toBeTruthy()
+  })
 
   it('should render the spinner element', () => {
-    const spinnerElement = fixture.debugElement.nativeElement.querySelector('.spinner');
-    expect(spinnerElement).toBeTruthy();
-  });
-});
+    const spinnerElement =
+      fixture.debugElement.nativeElement.querySelector('.spinner')
+    expect(spinnerElement).toBeTruthy()
+  })
+})

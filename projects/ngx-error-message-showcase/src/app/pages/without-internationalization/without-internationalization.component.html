@@ -9,7 +9,7 @@
           placeholder="First Name"
           class="form-control"
           ngxErrorMessage
-          />
+        />
       </div>
       <div class="mb-3">
         <input
@@ -18,7 +18,7 @@
           placeholder="Last Name"
           class="form-control"
           ngxErrorMessage
-          />
+        />
       </div>
     </div>
     <div class="mb-3">
@@ -29,11 +29,9 @@
         class="form-control"
         ngxErrorMessage
         patternKey="custom"
-        />
+      />
       @if (formControls['username'].pending) {
-        <app-spinner
-          class="mt-2"
-        ></app-spinner>
+        <app-spinner class="mt-2"></app-spinner>
       }
     </div>
     <div class="mb-3">
@@ -43,7 +41,7 @@
         placeholder="Password"
         class="form-control"
         ngxErrorMessage
-        />
+      />
     </div>
     <div class="mb-3">
       <input
@@ -52,7 +50,7 @@
         placeholder="Email"
         class="form-control"
         ngxErrorMessage
-        />
+      />
     </div>
     <div class="mb-3">
       <input
@@ -61,7 +59,7 @@
         placeholder="Salary"
         class="form-control"
         ngxErrorMessage
-        />
+      />
     </div>
     <div formArrayName="aliases" class="mb-3">
       <h3>Aliases</h3>
@@ -76,7 +74,7 @@
             placeholder="Alias"
             class="form-control"
             ngxErrorMessage
-            />
+          />
         </div>
       }
     </div>

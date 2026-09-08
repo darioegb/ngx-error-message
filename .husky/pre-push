@@ -1,1 +1,1 @@
-pnpm test:prod
+pnpm test:lib

@@ -1,8 +1,8 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
-var puppeteer = require('puppeteer');
-process.env.CHROME_BIN = puppeteer.executablePath();
-process.env.CHROME_PATH = puppeteer.executablePath();
+var puppeteer = require('puppeteer')
+process.env.CHROME_BIN = puppeteer.executablePath()
+process.env.CHROME_PATH = puppeteer.executablePath()
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -12,10 +12,10 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/ngx-error-message'),
@@ -23,7 +23,7 @@ module.exports = function (config) {
       reporters: [
         { type: 'lcovonly', subdir: '.' },
         { type: 'html', subdir: 'report-html/ngx-error-message' },
-        { type: 'text-summary', subdir: '.', file: 'text-summary.txt' }
+        { type: 'text-summary', subdir: '.', file: 'text-summary.txt' },
       ],
       check: {
         global: {
@@ -31,8 +31,8 @@ module.exports = function (config) {
           branches: 80,
           functions: 80,
           lines: 80,
-        }
-      }
+        },
+      },
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
@@ -50,9 +50,9 @@ module.exports = function (config) {
         flags: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
-          '--disable-web-security'
-        ]
-      }
-    }
-  });
-};
+          '--disable-web-security',
+        ],
+      },
+    },
+  })
+}

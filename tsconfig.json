@@ -10,9 +10,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "ngx-error-message": [
-        "./dist/ngx-error-message"
-      ]
+      "ngx-error-message": ["./dist/ngx-error-message"]
     },
     "skipLibCheck": true,
     "isolatedModules": true,
@@ -22,7 +20,7 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "lib": ["ES2022", "DOM"],
+    "lib": ["ES2022", "DOM"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

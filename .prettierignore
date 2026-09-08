@@ -1,0 +1,6 @@
+dist/
+coverage/
+out-tsc/
+.angular/
+pnpm-lock.yaml
+CHANGELOG.md

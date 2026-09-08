@@ -7,8 +7,13 @@ on:
     branches:
       - main
       - develop
-  release:
-    types: [created]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   test_lint:
@@ -18,33 +23,20 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
-      - name: Install dependencies
-        run: pnpm install
+      - uses: ./.github/actions/setup
       - name: Run linting
         run: pnpm lint
 
   test_karma:
     runs-on: ubuntu-latest
-    container: trion/ng-cli-karma
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
-      - name: Install dependencies
-        run: pnpm install
+      - uses: ./.github/actions/setup
       - name: Run Karma tests
-        run: pnpm test:prod
+        run: pnpm test:lib
       - name: Upload coverage
         uses: actions/upload-artifact@v4
         if: success()
@@ -57,11 +49,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test_lint, test_karma]
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: actions/cache@v3
+      - uses: actions/cache@v5
         with:
           path: |-
             node_modules/
@@ -71,136 +65,39 @@ jobs:
         with:
           name: test_karma
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        # PRs from bots (e.g. Copilot coding agent) don't get repo secrets, so this
+        # step is skipped there; SONAR_TOKEN resolves to empty.
+        if: env.SONAR_TOKEN != ''
+        uses: SonarSource/sonarqube-scan-action@22918119ff8e1ca75a623e15c8296b6ea4fbe28f # v8.2.1
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
 
-  update_version:
+  release:
     runs-on: ubuntu-latest
     needs: [test_lint, test_karma]
-    if: github.event_name == 'release' # Only update version on tag creation
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: main
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
-      - run: pnpm install
-      - name: Create commit
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          pnpm update:package-version
-          git add .
-          git commit -m "chore: update package version" --no-verify
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create Pull Request
-        id: cpr
-        uses: peter-evans/create-pull-request@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'Update package version'
-          body: 'This PR updates the package version.'
-      - name: Approve Pull Request
-        if: steps.cpr.outputs.pull-request-operation == 'created'
-        run: gh pr review --approve "${{ steps.cpr.outputs.pull-request-number }}"
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
-      - name: Merge Pull Request
-        if: steps.cpr.outputs.pull-request-operation == 'created'
-        run: gh pr merge "${{ steps.cpr.outputs.pull-request-number }}" --merge --auto
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
-      - name: Delete Remote Branch
-        if: steps.cpr.outputs.pull-request-operation == 'created'
-        run: |
-          BRANCH_NAME=$(gh pr view "${{ steps.cpr.outputs.pull-request-number }}" --json headRefName --jq '.headRefName')
-          git push origin --delete "$BRANCH_NAME" --no-verify
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [update_version]
-    container: trion/ng-cli-karma
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
+      contents: write
+      issues: write
+      pull-requests: write
       id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
-      - name: Configure safe directory
-        run: git config --global --add safe.directory /__w/ngx-error-message/ngx-error-message
-      - name: Pull latest changes
-        run: git pull origin main
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
-      - run: pnpm install
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          registry-url: 'https://registry.npmjs.org'
-      - run: |
-          ng build ngx-error-message
-          cd dist/ngx-error-message
-          pnpm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-  update_docs:
-    runs-on: ubuntu-latest
-    needs: [deploy]
-    steps:
-      - uses: actions/checkout@v4
-        with:
           fetch-depth: 0
-          ref: main
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+          # semantic-release pushes the release commit/tag straight to main -
+          # PAT_TOKEN is reused here (previously used to self-approve/merge
+          # the old bump PRs) so that push bypasses branch protection if
+          # needed. If main has no protection rule blocking the default
+          # token, secrets.GITHUB_TOKEN works too.
+          token: ${{ secrets.PAT_TOKEN }}
+      - uses: ./.github/actions/setup
         with:
-          version: 8
-          run_install: false
-      - run: pnpm install
-      - name: Create commit
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          pnpm update:changelog
-          pnpm update:readme
-          git add .
-          git commit -m "chore: update changelog and README" --no-verify
+          registry-url: 'https://registry.npmjs.org'
+      - name: Build package for semantic-release
+        run: pnpm ng build ngx-error-message
+      - run: pnpm exec semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create Pull Request
-        id: cpr
-        uses: peter-evans/create-pull-request@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'Update changelog and README'
-          body: 'This PR updates the changelog and README.'
-      - name: Approve Pull Request
-        if: steps.cpr.outputs.pull-request-operation == 'created'
-        run: gh pr review --approve "${{ steps.cpr.outputs.pull-request-number }}"
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
-      - name: Merge Pull Request
-        if: steps.cpr.outputs.pull-request-operation == 'created'
-        run: gh pr merge "${{ steps.cpr.outputs.pull-request-number }}" --merge --auto
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
-      - name: Delete Remote Branch
-        if: steps.cpr.outputs.pull-request-operation == 'created'
-        run: |
-          BRANCH_NAME=$(gh pr view "${{ steps.cpr.outputs.pull-request-number }}" --json headRefName --jq '.headRefName')
-          git push origin --delete "$BRANCH_NAME" --no-verify
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

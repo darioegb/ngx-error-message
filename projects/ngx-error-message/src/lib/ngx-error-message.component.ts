@@ -4,11 +4,13 @@ import {
   OnInit,
   ElementRef,
   Renderer2,
+  DestroyRef,
   inject,
 } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { NgControl } from '@angular/forms'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
-import { Subject, distinctUntilChanged } from 'rxjs'
+import { distinctUntilChanged } from 'rxjs'
 import { ClassNames, ErrorWhenType } from './ngx-error-message-interfaces'
 import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
 
@@ -31,10 +33,10 @@ export class NgxErrorMessageComponent implements OnInit {
   @Input() patternKey?: string
 
   protected lang?: string
-  private readonly translate = inject(TranslateService)
+  private readonly translate = inject(TranslateService, { optional: true })
   private readonly elementRef = inject(ElementRef)
   private readonly renderer = inject(Renderer2)
-  private readonly destroy$ = new Subject<void>()
+  private readonly destroyRef = inject(DestroyRef)
   private previousErrorState = false
 
   get hasError(): boolean {
@@ -49,8 +51,13 @@ export class NgxErrorMessageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.translate.onLangChange
-      .pipe(distinctUntilChanged())
+    this.translate?.onLangChange
+      .pipe(
+        distinctUntilChanged(
+          (a: LangChangeEvent, b: LangChangeEvent) => a.lang === b.lang,
+        ),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe(({ lang }: LangChangeEvent) => (this.lang = lang))
   }
 
