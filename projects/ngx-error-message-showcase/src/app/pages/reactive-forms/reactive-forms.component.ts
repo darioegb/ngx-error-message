@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core'
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   FormGroup,
   FormBuilder,
@@ -27,6 +33,7 @@ import { TranslateModule } from '@ngx-translate/core'
   selector: 'app-reactive-forms',
   templateUrl: './reactive-forms.component.html',
   styleUrl: './reactive-forms.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

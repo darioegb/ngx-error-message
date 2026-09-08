@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { NgForm, FormsModule } from '@angular/forms'
 import { NgxErrorMessageDirective, regEx } from 'ngx-error-message'
 import { AvoidMultipleZeroValidatorDirective } from '../../directives/avoid-mutiple-zero-validator.directive'
@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core'
   selector: 'app-template-driven-forms',
   templateUrl: './template-driven-forms.component.html',
   styleUrl: './template-driven-forms.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     NgxErrorMessageDirective,

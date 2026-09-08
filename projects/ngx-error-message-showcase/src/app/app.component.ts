@@ -1,4 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core'
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { NavbarComponent } from './components/navbar/navbar.component'
 import { SidebarComponent } from './components/sidebar/sidebar.component'
 import { MainContentComponent } from './components/main-content/main-content.component'
@@ -8,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core'
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NavbarComponent, SidebarComponent, MainContentComponent],
 })
 export class AppComponent implements OnInit {

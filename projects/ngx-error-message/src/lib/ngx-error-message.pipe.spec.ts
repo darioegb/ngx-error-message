@@ -9,7 +9,11 @@ import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
 import { Injector, runInInjectionContext } from '@angular/core'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { NgxErrorMessageService } from './ngx-error-message.service'
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+  withXhr,
+} from '@angular/common/http'
 
 describe('NgxErrorMessagePipe', () => {
   let pipe: NgxErrorMessagePipe
@@ -34,7 +38,7 @@ describe('NgxErrorMessagePipe', () => {
             errorMessages: {},
           },
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     })

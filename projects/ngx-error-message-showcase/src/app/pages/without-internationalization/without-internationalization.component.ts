@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core'
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   FormGroup,
   FormBuilder,
@@ -37,6 +43,7 @@ import { JsonPipe } from '@angular/common'
     SpinnerComponent,
     JsonPipe,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     provideNgxErrorMessage({
       errorMessages: {

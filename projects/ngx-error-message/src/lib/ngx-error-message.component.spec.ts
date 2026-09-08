@@ -8,13 +8,22 @@ import {
   FormGroup,
   FormBuilder,
 } from '@angular/forms'
-import { Component, OnInit, inject as inject_1 } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  inject as inject_1,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { NgxErrorMessageDirective } from './ngx-error-message.directive'
 import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { TranslateService } from '@ngx-translate/core'
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+  withXhr,
+} from '@angular/common/http'
 
 @Component({
   template: `<form [formGroup]="form" class="form-horizontal">
@@ -38,6 +47,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
       />
     </div>
   </form>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, NgxErrorMessageDirective],
 })
 class TestHostComponent implements OnInit {
@@ -92,7 +102,7 @@ describe('NgxErrorMessageComponent', () => {
             errorMessages: {},
           },
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     }).compileComponents()

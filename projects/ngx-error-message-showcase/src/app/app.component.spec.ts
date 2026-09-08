@@ -8,7 +8,11 @@ import { MainContentComponent } from './components/main-content/main-content.com
 import { of } from 'rxjs'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+  withXhr,
+} from '@angular/common/http'
 import { provideHttpClientTesting } from '@angular/common/http/testing'
 
 describe('AppComponent', () => {
@@ -36,7 +40,7 @@ describe('AppComponent', () => {
             queryParams: of({}),
           },
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     }).compileComponents()

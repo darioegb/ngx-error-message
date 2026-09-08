@@ -7,6 +7,7 @@ import {
   Renderer2,
   DestroyRef,
   inject,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { NgControl } from '@angular/forms'
@@ -24,6 +25,7 @@ import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
       }}</small>
     }
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgxErrorMessagePipe],
 })
 export class NgxErrorMessageComponent implements OnInit {

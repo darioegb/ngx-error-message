@@ -7,7 +7,11 @@ import { regEx } from './ngx-error-message-constant'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { TranslateTestingModule } from 'ngx-translate-testing'
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+  withXhr,
+} from '@angular/common/http'
 
 describe('NgxErrorMessageService', () => {
   let fb: FormBuilder
@@ -48,7 +52,7 @@ describe('NgxErrorMessageService', () => {
               errorMessages: {},
             },
           },
-          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClient(withXhr(), withInterceptorsFromDi()),
           provideHttpClientTesting(),
         ],
       })
@@ -137,7 +141,7 @@ describe('NgxErrorMessageService', () => {
               errorMessages: ENGLISH_TRANSLATIONS.validations,
             },
           },
-          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClient(withXhr(), withInterceptorsFromDi()),
           provideHttpClientTesting(),
         ],
       })

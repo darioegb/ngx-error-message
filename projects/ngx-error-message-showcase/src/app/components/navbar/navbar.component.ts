@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core'
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { SidebarService } from '../sidebar/sidebar.service'
 
 import { TranslateService } from '@ngx-translate/core'
@@ -9,6 +15,7 @@ import { FormsModule } from '@angular/forms'
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class NavbarComponent implements OnInit {

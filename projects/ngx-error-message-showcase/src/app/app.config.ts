@@ -5,6 +5,7 @@ import {
   provideHttpClient,
   HttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http'
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
@@ -17,7 +18,7 @@ export const httpLoaderFactory = (http: HttpClient) =>
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
     provideRouter(routes),
     importProvidersFrom(
       TranslateModule.forRoot({
