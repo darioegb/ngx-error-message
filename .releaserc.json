@@ -1,5 +1,8 @@
 {
-  "branches": ["main", { "name": "v4", "prerelease": "next" }],
+  "branches": [
+    "main",
+    { "name": "v4", "prerelease": "next", "channel": "next" }
+  ],
   "plugins": [
     ["@semantic-release/commit-analyzer", { "preset": "conventionalcommits" }],
     [
