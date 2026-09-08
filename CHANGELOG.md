@@ -1,3 +1,18 @@
+## 4.0.0-next.1 (2026-09-08)
+
+* feat!: bump peer floor to Angular >=20, prepare v4 prerelease channel ([075d080](https://github.com/darioegb/ngx-error-message/commit/075d080))
+* chore: migrate to Angular 20 ([7e6cf44](https://github.com/darioegb/ngx-error-message/commit/7e6cf44))
+* chore: migrate to Angular 21 ([8853fe4](https://github.com/darioegb/ngx-error-message/commit/8853fe4))
+* chore: migrate to Angular 22 ([486624f](https://github.com/darioegb/ngx-error-message/commit/486624f))
+
+### BREAKING CHANGE
+
+* raises the minimum supported Angular version from
+14 to 20. Angular 16-19 consumers should stay on ngx-error-message
+3.x until they upgrade Angular.
+
+Co-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>
+
 ## <small>3.1.1 (2026-09-08)</small>
 
 * fix: export the full public API surface from public-api.ts ([2de8bab](https://github.com/darioegb/ngx-error-message/commit/2de8bab))
