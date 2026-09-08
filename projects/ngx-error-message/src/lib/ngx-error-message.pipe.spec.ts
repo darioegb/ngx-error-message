@@ -6,7 +6,7 @@ import { TranslateTestingModule } from 'ngx-translate-testing'
 
 import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
 import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
-import { runInInjectionContext } from '@angular/core'
+import { Injector, runInInjectionContext } from '@angular/core'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
@@ -39,7 +39,10 @@ describe('NgxErrorMessagePipe', () => {
       ],
     })
     translate = TestBed.inject(TranslateService)
-    pipe = runInInjectionContext(TestBed, () => new NgxErrorMessagePipe())
+    pipe = runInInjectionContext(
+      TestBed.inject(Injector),
+      () => new NgxErrorMessagePipe(),
+    )
   }))
 
   it('create an instance', () => {
