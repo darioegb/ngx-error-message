@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { provideHttpClientTesting } from '@angular/common/http/testing'
-import { provideTestTranslateService } from '../testing/translate-testing'
+import { provideTestTranslateService } from '@testing/translate-testing'
 
 import {
   ReactiveFormsModule,
@@ -15,7 +15,10 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core'
 import { NgxErrorMessageDirective } from './ngx-error-message.directive'
-import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
+import {
+  ENGLISH_TRANSLATIONS,
+  SPANISH_TRANSLATIONS,
+} from '@testing/translations'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { TranslateService } from '@ngx-translate/core'
@@ -80,8 +83,8 @@ describe('NgxErrorMessageComponent', () => {
   let fixture: ComponentFixture<TestHostComponent>
   let translate: TranslateService
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, TestHostComponent],
       declarations: [],
       providers: [
@@ -103,7 +106,7 @@ describe('NgxErrorMessageComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents()
-  }))
+  })
 
   beforeEach(() => {
     translate = TestBed.inject(TranslateService)

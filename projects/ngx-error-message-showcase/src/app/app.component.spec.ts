@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing'
+import { TestBed, ComponentFixture } from '@angular/core/testing'
 import { AppComponent } from './app.component'
 import { TranslateService } from '@ngx-translate/core'
 import { ActivatedRoute } from '@angular/router'
@@ -6,8 +6,11 @@ import { NavbarComponent } from './components/navbar/navbar.component'
 import { SidebarComponent } from './components/sidebar/sidebar.component'
 import { MainContentComponent } from './components/main-content/main-content.component'
 import { of } from 'rxjs'
-import { provideTestTranslateService } from '../testing/translate-testing'
-import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
+import { provideTestTranslateService } from '@testing/translate-testing'
+import {
+  ENGLISH_TRANSLATIONS,
+  SPANISH_TRANSLATIONS,
+} from '@testing/translations'
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -20,8 +23,8 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>
   let translateService: TranslateService
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         NavbarComponent,
         SidebarComponent,
@@ -44,7 +47,7 @@ describe('AppComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents()
-  }))
+  })
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent)
@@ -58,8 +61,8 @@ describe('AppComponent', () => {
   })
 
   it('should use the default language if no language is stored in localStorage', () => {
-    spyOn(localStorage, 'getItem').and.returnValue(null)
-    spyOn(translateService, 'use')
+    vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(null)
+    vi.spyOn(translateService, 'use').mockReturnValue(undefined)
 
     component = fixture.componentInstance
     component.ngOnInit()
@@ -71,8 +74,8 @@ describe('AppComponent', () => {
   it('should use the stored language from localStorage', () => {
     const storedLang = 'es'
     localStorage.setItem('lang', storedLang)
-    spyOn(localStorage, 'getItem').and.returnValue(storedLang)
-    spyOn(translateService, 'use')
+    vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(storedLang)
+    vi.spyOn(translateService, 'use').mockReturnValue(undefined)
 
     component = fixture.componentInstance
     component.ngOnInit()

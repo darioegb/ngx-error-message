@@ -44,7 +44,7 @@ describe('TemplateDrivenFormsComponent', () => {
   })
 
   it('debería tener el formulario inválido al inicio', () => {
-    expect(formEl.nativeElement.checkValidity()).toBeFalse()
+    expect(formEl.nativeElement.checkValidity()).toBe(false)
   })
 
   it('debería deshabilitar el botón de submit cuando el formulario es inválido', () => {
@@ -65,7 +65,7 @@ describe('TemplateDrivenFormsComponent', () => {
     const submitBtn = fixture.debugElement.query(
       By.css('button[type="submit"]'),
     ).nativeElement
-    expect(submitBtn.disabled).toBeTrue()
+    expect(submitBtn.disabled).toBe(true)
   })
 
   it('debería permitir agregar un alias', () => {
@@ -76,7 +76,7 @@ describe('TemplateDrivenFormsComponent', () => {
   })
 
   it('debería llamar onSubmit solo si el formulario es válido', () => {
-    spyOn(component, 'onSubmit')
+    vi.spyOn(component, 'onSubmit').mockReturnValue(undefined)
 
     // Rellenamos datos válidos
     component.model = {
@@ -98,14 +98,14 @@ describe('TemplateDrivenFormsComponent', () => {
   })
 
   it('no debe llamar onSubmit ni loguear si el formulario es inválido', () => {
-    spyOn(console, 'log')
+    vi.spyOn(console, 'log').mockReturnValue(undefined)
     const formMock = { invalid: true } as NgForm
     component.onSubmit(formMock)
     expect(console.log).not.toHaveBeenCalled()
   })
 
   it('debe loguear en consola al hacer submit válido', () => {
-    spyOn(console, 'log')
+    vi.spyOn(console, 'log').mockReturnValue(undefined)
     const formMock = { invalid: false } as NgForm
     component.onSubmit(formMock)
     expect(console.log).toHaveBeenCalledWith('Form Submitted', component.model)

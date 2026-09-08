@@ -1,12 +1,12 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { TestBed } from '@angular/core/testing'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { ENGLISH_TRANSLATIONS } from '../test'
+import { ENGLISH_TRANSLATIONS } from '@testing/translations'
 import { regEx } from './ngx-error-message-constant'
 
 import { NgxErrorMessageService } from './ngx-error-message.service'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
-import { provideTestTranslateService } from '../testing/translate-testing'
+import { provideTestTranslateService } from '@testing/translate-testing'
 import {
   provideHttpClient,
   withInterceptorsFromDi,

@@ -9,7 +9,8 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "ngx-error-message": ["./dist/ngx-error-message"]
+      "ngx-error-message": ["./dist/ngx-error-message"],
+      "@testing/*": ["./testing/*"]
     },
     "skipLibCheck": true,
     "isolatedModules": true,

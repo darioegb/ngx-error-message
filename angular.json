@@ -18,16 +18,30 @@
           "configurations": {
             "production": {
               "tsConfig": "projects/ngx-error-message/tsconfig.lib.prod.json"
-            }
+            },
+            "development": {}
           },
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngx-error-message/src/test.ts",
             "tsConfig": "projects/ngx-error-message/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-error-message/karma.conf.js"
+            "runnerConfig": true,
+            "coverage": true,
+            "coverageInclude": ["projects/ngx-error-message/src/**/*.ts"],
+            "coverageExclude": ["projects/ngx-error-message/src/**/*.spec.ts"],
+            "coverageReporters": [
+              "lcovonly",
+              "html",
+              ["text-summary", { "file": "text-summary.txt" }]
+            ],
+            "coverageThresholds": {
+              "statements": 80,
+              "branches": 80,
+              "functions": 80,
+              "lines": 80
+            }
           }
         },
         "lint": {
@@ -123,19 +137,34 @@
           }
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngx-error-message-showcase/src/test.ts",
-            "polyfills": ["zone.js"],
             "tsConfig": "projects/ngx-error-message-showcase/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-error-message-showcase/karma.conf.js",
-            "assets": [
-              "projects/ngx-error-message-showcase/src/favicon.ico",
-              "projects/ngx-error-message-showcase/src/assets"
+            "runnerConfig": true,
+            "coverage": true,
+            "coverageInclude": [
+              "projects/ngx-error-message-showcase/src/**/*.ts"
             ],
-            "styles": ["projects/ngx-error-message-showcase/src/styles.scss"],
-            "scripts": [],
-            "codeCoverage": true
+            "coverageExclude": [
+              "projects/ngx-error-message-showcase/src/**/*.spec.ts",
+              "projects/ngx-error-message-showcase/src/main.ts",
+              "projects/ngx-error-message-showcase/src/app/app.config.ts",
+              "projects/ngx-error-message-showcase/src/app/app.routes.ts",
+              "projects/ngx-error-message-showcase/src/app/**/*.routes.ts",
+              "projects/ngx-error-message-showcase/src/app/**/index.ts",
+              "projects/ngx-error-message-showcase/src/environments/**"
+            ],
+            "coverageReporters": [
+              "lcovonly",
+              "html",
+              ["text-summary", { "file": "text-summary.txt" }]
+            ],
+            "coverageThresholds": {
+              "statements": 80,
+              "branches": 80,
+              "functions": 80,
+              "lines": 80
+            }
           }
         },
         "lint": {

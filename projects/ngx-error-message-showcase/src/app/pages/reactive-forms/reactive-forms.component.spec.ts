@@ -1,25 +1,20 @@
-import {
-  TestBed,
-  ComponentFixture,
-  waitForAsync,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing'
+import { TestBed, ComponentFixture } from '@angular/core/testing'
+import { firstValueFrom } from 'rxjs'
 import { ReactiveFormsComponent } from './reactive-forms.component'
 import {
   provideTranslateService,
   provideTranslateLoader,
   TranslateNoOpLoader,
 } from '@ngx-translate/core'
-import { AbstractControl, FormBuilder, ValidationErrors } from '@angular/forms'
+import { AbstractControl, FormBuilder } from '@angular/forms'
 import { NgxErrorMessageDirective } from 'ngx-error-message'
 
 describe('ReactiveFormsComponent', () => {
   let component: ReactiveFormsComponent
   let fixture: ComponentFixture<ReactiveFormsComponent>
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [ReactiveFormsComponent, NgxErrorMessageDirective],
       providers: [
         provideTranslateService({
@@ -27,7 +22,7 @@ describe('ReactiveFormsComponent', () => {
         }),
       ],
     }).compileComponents()
-  }))
+  })
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReactiveFormsComponent)
@@ -77,10 +72,10 @@ describe('ReactiveFormsComponent', () => {
     component.form.controls['email']!.setValue('')
     component.form.controls['salary']!.setValue('')
 
-    expect(component.form.valid).toBeFalse()
+    expect(component.form.valid).toBe(false)
   })
 
-  it('should mark the form as valid if all required fields are filled', fakeAsync(() => {
+  it('should mark the form as valid if all required fields are filled', async () => {
     component.form.controls['name'].get('firstName')!.setValue('John')
     component.form.controls['name'].get('lastName')!.setValue('Doe')
     component.form.controls['username']!.setValue('johndoe')
@@ -91,14 +86,14 @@ describe('ReactiveFormsComponent', () => {
     fixture.detectChanges()
 
     // Simulate the passage of time for async validator
-    tick(1000)
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     fixture.detectChanges()
 
-    expect(component.form.valid).toBeTrue()
-  }))
+    expect(component.form.valid).toBe(true)
+  })
 
   it('should call the onSubmit method when the form is submitted', () => {
-    spyOn(component, 'onSubmit')
+    vi.spyOn(component, 'onSubmit').mockReturnValue(undefined)
 
     const formElement = fixture.debugElement.nativeElement.querySelector('form')
     formElement.dispatchEvent(new Event('submit'))
@@ -129,23 +124,20 @@ describe('ReactiveFormsComponent', () => {
     expect(validResult).toBeNull()
   })
 
-  it('should validate usernameValidator asynchronously', fakeAsync(() => {
+  it('should validate usernameValidator asynchronously', async () => {
     const control = { value: 'test' } as AbstractControl
-    let result: ValidationErrors | null = null
-
-    component.usernameValidator(control).subscribe((res) => (result = res))
-    tick(1000)
-    expect(result).toEqual(jasmine.objectContaining({ usernameTaken: true }))
+    const result = await firstValueFrom(component.usernameValidator(control))
+    expect(result).toEqual(expect.objectContaining({ usernameTaken: true }))
 
     const validControl = { value: 'validUser' } as AbstractControl
-    result = null
-    component.usernameValidator(validControl).subscribe((res) => (result = res))
-    tick(1000)
-    expect(result).toBeNull()
-  }))
+    const validResult = await firstValueFrom(
+      component.usernameValidator(validControl),
+    )
+    expect(validResult).toBeNull()
+  })
 
   it('should handle form submission', () => {
-    spyOn(component, 'onSubmit').and.callThrough()
+    vi.spyOn(component, 'onSubmit')
     component.form.controls['name'].get('firstName')!.setValue('John')
     component.form.controls['name'].get('lastName')!.setValue('Doe')
     component.form.controls['username']!.setValue('johndoe')

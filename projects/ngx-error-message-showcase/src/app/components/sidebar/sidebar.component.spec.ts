@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing'
+import { TestBed, ComponentFixture } from '@angular/core/testing'
 import { SidebarComponent } from './sidebar.component'
 import { ActivatedRoute } from '@angular/router'
 import { of } from 'rxjs'
@@ -8,8 +8,8 @@ describe('SidebarComponent', () => {
   let component: SidebarComponent
   let fixture: ComponentFixture<SidebarComponent>
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [SidebarComponent],
       providers: [
         {
@@ -21,7 +21,7 @@ describe('SidebarComponent', () => {
         },
       ],
     }).compileComponents()
-  }))
+  })
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SidebarComponent)
@@ -44,11 +44,11 @@ describe('SidebarComponent', () => {
     sidebarService.toggleSidebar()
     fixture.detectChanges()
 
-    expect(component.isCollapsed).toBeFalse()
+    expect(component.isCollapsed).toBe(false)
 
     sidebarService.toggleSidebar()
     fixture.detectChanges()
 
-    expect(component.isCollapsed).toBeTrue()
+    expect(component.isCollapsed).toBe(true)
   })
 })

@@ -1,10 +1,13 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing'
-import { waitForAsync, TestBed } from '@angular/core/testing'
+import { TestBed } from '@angular/core/testing'
 import { BrowserModule } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
-import { provideTestTranslateService } from '../testing/translate-testing'
+import { provideTestTranslateService } from '@testing/translate-testing'
 
-import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
+import {
+  ENGLISH_TRANSLATIONS,
+  SPANISH_TRANSLATIONS,
+} from '@testing/translations'
 import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
 import { Injector, runInInjectionContext } from '@angular/core'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
@@ -19,7 +22,7 @@ describe('NgxErrorMessagePipe', () => {
   let pipe: NgxErrorMessagePipe
   let translate: TranslateService
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [BrowserModule],
       providers: [
@@ -45,7 +48,7 @@ describe('NgxErrorMessagePipe', () => {
       TestBed.inject(Injector),
       () => new NgxErrorMessagePipe(),
     )
-  }))
+  })
 
   it('create an instance', () => {
     expect(pipe).toBeTruthy()

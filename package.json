@@ -11,7 +11,7 @@
     "start": "ng build ngx-error-message && ng serve ngx-error-message-showcase",
     "build": "ng build",
     "test": "ng test",
-    "test:lib": "ng test ngx-error-message --code-coverage --watch=false --browsers=ChromeHeadlessNoSandbox",
+    "test:lib": "ng test ngx-error-message --watch=false",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "format": "prettier --write .",
@@ -24,11 +24,6 @@
     "docs:i18n": "pnpm --prefix docs write-translations -- --locale es"
   },
   "private": true,
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "puppeteer"
-    ]
-  },
   "dependencies": {
     "@angular/animations": "^22.1.5",
     "@angular/common": "^22.1.5",
@@ -62,25 +57,20 @@
     "@semantic-release/github": "^11.0.6",
     "@semantic-release/npm": "^12.0.2",
     "@semantic-release/release-notes-generator": "^14.1.1",
-    "@types/jasmine": "~4.0.3",
     "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "^4.1.11",
     "angular-eslint": "^22.4.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^10.0.0",
     "husky": "^9.0.11",
     "istanbul-lib-instrument": "^6.0.3",
-    "jasmine-core": "~5.1.2",
-    "karma": "~6.4.4",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.1.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "^2.1.0",
+    "jsdom": "^30.0.1",
     "lint-staged": "^16.4.0",
     "ng-packagr": "^22.1.1",
     "prettier": "^3.2.5",
-    "puppeteer": "^22.9.0",
     "semantic-release": "^24.2.9",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^4.1.11"
   }
 }

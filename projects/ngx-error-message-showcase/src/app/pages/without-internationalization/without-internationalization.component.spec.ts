@@ -1,17 +1,18 @@
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing'
+import { TestBed, ComponentFixture } from '@angular/core/testing'
 import { AbstractControl, FormGroup, UntypedFormArray } from '@angular/forms'
+import { firstValueFrom } from 'rxjs'
 import { WithoutInternationalizationComponent } from './without-internationalization.component'
 
 describe('WithoutInternationalizationComponent', () => {
   let component: WithoutInternationalizationComponent
   let fixture: ComponentFixture<WithoutInternationalizationComponent>
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [WithoutInternationalizationComponent],
       providers: [],
     }).compileComponents()
-  }))
+  })
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WithoutInternationalizationComponent)
@@ -44,20 +45,16 @@ describe('WithoutInternationalizationComponent', () => {
     expect(validResult).toBeNull()
   })
 
-  it('should validate usernameValidator asynchronously', (done) => {
+  it('should validate usernameValidator asynchronously', async () => {
     const control = { value: 'test' } as AbstractControl
-    component.usernameValidator(control).subscribe((result) => {
-      expect(result).toEqual({ usernameTaken: true })
-      done()
-    })
+    const result = await firstValueFrom(component.usernameValidator(control))
+    expect(result).toEqual({ usernameTaken: true })
   })
 
-  it('should validate usernameValidator as valid for non-taken username', (done) => {
+  it('should validate usernameValidator as valid for non-taken username', async () => {
     const control = { value: 'notTaken' } as AbstractControl
-    component.usernameValidator(control).subscribe((result) => {
-      expect(result).toBeNull()
-      done()
-    })
+    const result = await firstValueFrom(component.usernameValidator(control))
+    expect(result).toBeNull()
   })
 
   it('should return form controls, name controls, and aliases', () => {
@@ -73,14 +70,14 @@ describe('WithoutInternationalizationComponent', () => {
 
   it('should not submit if form is invalid', () => {
     component.form.markAsTouched()
-    spyOnProperty(component.form, 'invalid', 'get').and.returnValue(true)
+    vi.spyOn(component.form, 'invalid', 'get').mockReturnValue(true)
     component.formValue = 'should be reset'
     component.onSubmit()
     expect(component.formValue).toBe('should be reset')
   })
 
   it('should submit and set formValue if form is valid', () => {
-    spyOnProperty(component.form, 'invalid', 'get').and.returnValue(false)
+    vi.spyOn(component.form, 'invalid', 'get').mockReturnValue(false)
     component.form.setValue({
       name: { firstName: 'A', lastName: 'B' },
       username: 'user',

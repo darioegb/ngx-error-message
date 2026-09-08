@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing'
+import { TestBed, ComponentFixture } from '@angular/core/testing'
 import { NavbarComponent } from './navbar.component'
 import {
   provideTranslateService,
@@ -13,8 +13,8 @@ describe('NavbarComponent', () => {
   let fixture: ComponentFixture<NavbarComponent>
   let debugElement: DebugElement
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [NavbarComponent, FormsModule],
       providers: [
         provideTranslateService({
@@ -22,7 +22,7 @@ describe('NavbarComponent', () => {
         }),
       ],
     }).compileComponents()
-  }))
+  })
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavbarComponent)
@@ -36,7 +36,7 @@ describe('NavbarComponent', () => {
   })
 
   it('should use the stored language from localStorage', () => {
-    spyOn(localStorage, 'getItem').and.returnValue('es')
+    vi.spyOn(Storage.prototype, 'getItem').mockReturnValue('es')
 
     const newFixture = TestBed.createComponent(NavbarComponent)
     newFixture.detectChanges()
@@ -51,7 +51,7 @@ describe('NavbarComponent', () => {
   })
 
   it('should change language when a language option is selected', () => {
-    spyOn(component, 'changeLanguaje')
+    vi.spyOn(component, 'changeLanguaje').mockReturnValue(undefined)
 
     const selectElement =
       debugElement.nativeElement.querySelector('#changeLanguaje')
@@ -61,7 +61,9 @@ describe('NavbarComponent', () => {
   })
 
   it('should toggle the sidebar state', () => {
-    spyOn(component['sidebarService'], 'toggleSidebar')
+    vi.spyOn(component['sidebarService'], 'toggleSidebar').mockReturnValue(
+      undefined,
+    )
 
     component.toggleSidebar()
 

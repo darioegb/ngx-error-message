@@ -18,10 +18,10 @@ describe('SidebarService', () => {
     service.sidebarState$.subscribe((state) => (currentState = state))
 
     service.toggleSidebar()
-    expect(currentState).toBeFalse()
+    expect(currentState).toBe(false)
 
     service.toggleSidebar()
-    expect(currentState).toBeTrue()
+    expect(currentState).toBe(true)
   })
 
   it('should return the correct sidebar state', () => {
@@ -29,9 +29,9 @@ describe('SidebarService', () => {
     service.sidebarState$.subscribe((state) => (currentState = state))
 
     service.toggleSidebar()
-    expect(currentState).toBeFalse()
+    expect(currentState).toBe(false)
 
     service.toggleSidebar()
-    expect(currentState).toBeTrue()
+    expect(currentState).toBe(true)
   })
 })
