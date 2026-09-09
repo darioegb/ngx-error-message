@@ -1,3 +1,7 @@
+## 4.0.0-next.3 (2026-09-09)
+
+* feat: migrate test runner from Karma to Vitest ([69a8d67](https://github.com/darioegb/ngx-error-message/commit/69a8d67))
+
 ## 4.0.0-next.2 (2026-09-08)
 
 * chore: trigger CI release after git-notes channel repair ([ae73150](https://github.com/darioegb/ngx-error-message/commit/ae73150))
