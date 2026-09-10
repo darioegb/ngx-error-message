@@ -11,7 +11,7 @@
     "start": "ng build ngx-error-message && ng serve ngx-error-message-showcase",
     "build": "ng build",
     "test": "ng test",
-    "test:lib": "ng test ngx-error-message --watch=false",
+    "test:lib": "ng run ngx-error-message:test-ngx-translate --watch=false && ng test ngx-error-message --watch=false",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "format": "prettier --write .",

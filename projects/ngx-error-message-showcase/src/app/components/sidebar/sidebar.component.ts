@@ -12,7 +12,7 @@ import { RouterLinkActive, RouterLink } from '@angular/router'
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLinkActive, RouterLink],
 })
 export class SidebarComponent implements OnInit {

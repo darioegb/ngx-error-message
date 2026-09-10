@@ -9,6 +9,7 @@ import {
 import { By } from '@angular/platform-browser'
 import { DebugElement } from '@angular/core'
 import { JsonPipe } from '@angular/common'
+import { provideNgxErrorMessage } from 'ngx-error-message'
 
 describe('TemplateDrivenFormsComponent', () => {
   let component: TemplateDrivenFormsComponent
@@ -22,6 +23,7 @@ describe('TemplateDrivenFormsComponent', () => {
         provideTranslateService({
           loader: provideTranslateLoader(TranslateNoOpLoader),
         }),
+        provideNgxErrorMessage(),
       ],
     }).compileComponents()
 

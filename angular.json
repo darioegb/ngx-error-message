@@ -44,6 +44,32 @@
             }
           }
         },
+        "test-ngx-translate": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/ngx-error-message/ngx-translate/tsconfig.spec.json",
+            "runnerConfig": true,
+            "include": ["../ngx-translate/**/*.spec.ts"],
+            "coverage": true,
+            "coverageInclude": [
+              "projects/ngx-error-message/ngx-translate/src/**/*.ts"
+            ],
+            "coverageExclude": [
+              "projects/ngx-error-message/ngx-translate/src/**/*.spec.ts"
+            ],
+            "coverageReporters": [
+              "lcovonly",
+              "html",
+              ["text-summary", { "file": "text-summary.txt" }]
+            ],
+            "coverageThresholds": {
+              "statements": 80,
+              "branches": 80,
+              "functions": 80,
+              "lines": 80
+            }
+          }
+        },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {

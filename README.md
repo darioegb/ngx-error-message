@@ -61,6 +61,7 @@ If you are using Angular standalone components (Angular >= 14), install the libr
 
 ```typescript
 import { provideNgxErrorMessage } from 'ngx-error-message'
+import { withNgxTranslate } from 'ngx-error-message/ngx-translate'
 import { provideHttpClient } from '@angular/common/http'
 import { provideTranslateService } from '@ngx-translate/core'
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
@@ -70,11 +71,13 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(),
     provideTranslateService({ fallbackLang: 'en' }),
     provideTranslateHttpLoader(), // Make sure your assets files are in default assets/i18n/*
-    provideNgxErrorMessage(),
+    provideNgxErrorMessage(withNgxTranslate()),
     // ...other providers
   ],
 })
 ```
+
+> `@ngx-translate/core` is a peer dependency, not a hard one: without `withNgxTranslate()`, `provideNgxErrorMessage()` works fine and simply doesn't translate anything unless you also pass an `errorMessages` dictionary (see [Global configuration without internationalization](#global-configuration-without-internationalization)). `withNgxTranslate()` is what wires the two together - forgetting it is the most common reason error messages render empty.
 
 For applications using NgModules (or for compatibility with Angular versions below 14), continue to use the module import method (this is the only way for ngx-error-message version 3.0.1 and below), and configure `@ngx-translate` as follows:
 
@@ -85,6 +88,7 @@ import { provideHttpClient } from '@angular/common/http'
 import { provideTranslateService } from '@ngx-translate/core'
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
 import { NgxErrorMessageModule } from 'ngx-error-message'
+import { withNgxTranslate } from 'ngx-error-message/ngx-translate'
 
 @NgModule({
   declarations: [AppComponent],
@@ -98,16 +102,30 @@ import { NgxErrorMessageModule } from 'ngx-error-message'
     provideHttpClient(),
     provideTranslateService({ fallbackLang: 'en' }),
     provideTranslateHttpLoader(), // Make sure your assets files are in default assets/i18n/*
+    withNgxTranslate(), // Required for NgxErrorMessageModule to use @ngx-translate too
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
 ```
 
+> **Deprecated:** `NgxErrorMessageModule` is kept for backward compatibility but will be removed in a future major version. Prefer `provideNgxErrorMessage()`, including in NgModule-based apps (it returns a plain `Provider[]` you can drop into your `providers` array).
+
 ### Global configuration with custom validationsPrefix and patternPrefix names
 
 ```typescript
-  // Same as above the rest of the config
+// Standalone
+provideNgxErrorMessage(
+  withErrorMessageConfig({
+    validationsPrefix: 'VALIDATIONS',
+    patternsPrefix: 'PATTERNS',
+  }),
+  withNgxTranslate(),
+),
+```
+
+```typescript
+  // NgModule - same as above the rest of the config
   NgxErrorMessageModule.forRoot({
     validationsPrefix: 'VALIDATIONS',
     patternsPrefix: 'PATTERNS',
@@ -117,7 +135,18 @@ export class AppModule {}
 ### Global configuration without internationalization
 
 ```typescript
-  // Same as above the rest of the config. But omit the part related to TranslateModule
+// Standalone - omit withNgxTranslate() entirely, it's not needed
+provideNgxErrorMessage(
+  withErrorMessageConfig({
+    errorMessages: {
+      /* ... */
+    },
+  }),
+),
+```
+
+```typescript
+  // NgModule - same as above the rest of the config. But omit the part related to TranslateModule
   NgxErrorMessageModule.forRoot({
     errorMessages: {
       required: 'This field is required.',
@@ -226,6 +255,9 @@ You can enhance the functionality of the directive by including optional paramet
 - `classNames`: CSS classes for the error container and message.
 - `patternKey`: Pattern key for custom validations.
 - `when`: Conditions under which the error message is shown.
+- `errorPriority`: Which error wins when a control fails more than one validator at once. Defaults to `DEFAULT_ERROR_PRIORITY` (`required` first, then `email`, `pattern`, `minlength`, `maxlength`, `min`, `max`); errors outside that list fall back to whichever one the validators registered last.
+
+The directive also exposes `exportAs="ngxErrorMessage"` if you need to read its state manually, e.g. `#err="ngxErrorMessage"` then `{{ err.message() }}` / `@if (err.hasError()) { ... }`.
 
 ## Customization
 

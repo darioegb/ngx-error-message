@@ -10,6 +10,9 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "ngx-error-message": ["./dist/ngx-error-message"],
+      "ngx-error-message/ngx-translate": [
+        "./dist/ngx-error-message/ngx-translate"
+      ],
       "@testing/*": ["./testing/*"]
     },
     "skipLibCheck": true,

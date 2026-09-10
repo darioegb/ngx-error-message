@@ -4,7 +4,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core'
 @Component({
   selector: 'app-spinner',
   template: ` <div class="spinner"></div> `,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       .spinner {

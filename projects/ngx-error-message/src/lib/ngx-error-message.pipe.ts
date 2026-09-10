@@ -1,38 +1,29 @@
 import { Pipe, PipeTransform, inject } from '@angular/core'
 import { ValidationErrors } from '@angular/forms'
+import { ErrorPriority } from './ngx-error-message-interfaces'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 
+/** For consumers rendering messages manually (e.g. via `exportAs`); the directive itself calls `NgxErrorMessageService` directly. */
 @Pipe({
   name: 'ngxErrorMessage',
 })
 export class NgxErrorMessagePipe implements PipeTransform {
   private readonly errorMessageService = inject(NgxErrorMessageService)
-  private cachedData!: string
-  private cachedError = ''
-  private cachedLang = ''
 
   transform(
     value: ValidationErrors | null,
-    lang?: string,
     patternKey?: string,
     fieldName?: string,
+    errorPriority?: ErrorPriority[],
   ): string {
     if (!value) {
       return ''
     }
-    if (lang !== this.cachedLang) {
-      this.cachedLang = lang ?? ''
-      this.cachedError = ''
-    }
-    const [lastErrorKey] = Object.keys(value).slice(-1)
-    if (lastErrorKey !== this.cachedError) {
-      this.cachedError = lastErrorKey
-      this.cachedData = this.errorMessageService.getErrorMessage(
-        value,
-        patternKey,
-        fieldName,
-      )
-    }
-    return this.cachedData ?? ''
+    return this.errorMessageService.getErrorMessage(
+      value,
+      patternKey,
+      fieldName,
+      errorPriority,
+    )
   }
 }

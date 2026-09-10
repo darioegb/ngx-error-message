@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core'
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NavbarComponent, SidebarComponent, MainContentComponent],
 })
 export class AppComponent implements OnInit {

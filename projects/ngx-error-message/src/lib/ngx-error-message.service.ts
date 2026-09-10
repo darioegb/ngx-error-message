@@ -2,26 +2,34 @@ import { Injectable, inject } from '@angular/core'
 import { ValidationErrors } from '@angular/forms'
 
 import { regEx, requiredRegex } from './ngx-error-message-constant'
-import { TranslateService } from '@ngx-translate/core'
-import { ErrorMessageConfig } from './ngx-error-message-interfaces'
+import {
+  ErrorPriority,
+  ResolvedErrorMessageConfig,
+} from './ngx-error-message-interfaces'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
+import { NGX_ERROR_MESSAGE_TRANSLATOR } from './ngx-error-message.translator'
 
 @Injectable()
 export class NgxErrorMessageService {
-  private readonly config = inject<ErrorMessageConfig>(ERROR_MESSAGE_CONFIG)
-  private readonly translate = inject(TranslateService, { optional: true })
+  private readonly config =
+    inject<ResolvedErrorMessageConfig>(ERROR_MESSAGE_CONFIG)
+  private readonly translator = inject(NGX_ERROR_MESSAGE_TRANSLATOR)
 
   getErrorMessage(
     controlErrors: ValidationErrors,
     patternKey?: string,
     fieldName?: string,
-  ) {
-    const lastError = Object.entries(controlErrors).pop()
-    if (!lastError) {
+    errorPriority?: ErrorPriority[],
+  ): string {
+    const errorKey = this.pickErrorKey(
+      controlErrors,
+      errorPriority ?? this.config.errorPriority,
+    )
+    if (!errorKey) {
       return ''
     }
 
-    const [errorKey, errorValue] = lastError
+    const errorValue: unknown = controlErrors[errorKey]
 
     if (typeof errorValue === 'boolean') {
       return this.getMessage(errorKey, fieldName)
@@ -29,16 +37,26 @@ export class NgxErrorMessageService {
 
     if (errorKey === 'pattern') {
       const patternErrorKey = this.patternMatchExpression(
-        errorValue,
+        errorValue as Record<string, unknown>,
         patternKey,
       )
       return this.getMessage(patternErrorKey, fieldName)
     }
     const requiredValue = this.getValueByRegexFromObject(
-      errorValue,
+      errorValue as Record<string, unknown>,
       requiredRegex,
     )
     return this.getMessage(errorKey, fieldName, requiredValue)
+  }
+
+  private pickErrorKey(
+    controlErrors: ValidationErrors,
+    priority: ErrorPriority[],
+  ): string | undefined {
+    return (
+      priority.find((key) => key in controlErrors) ??
+      Object.keys(controlErrors).pop()
+    )
   }
 
   private patternMatchExpression(
@@ -55,10 +73,11 @@ export class NgxErrorMessageService {
   private getValueByRegexFromObject(
     obj: Record<string, unknown>,
     regex: RegExp,
-  ): string {
+  ): string | undefined {
     const [, findValue] =
       Object.entries(obj).find(([key]) => regex.test(key)) ?? []
-    return findValue as string
+    // minLength/maxLength/min/max errors carry numbers, not strings.
+    return findValue === undefined ? undefined : String(findValue)
   }
 
   private interpolateMessage(
@@ -69,33 +88,35 @@ export class NgxErrorMessageService {
   }
 
   private getNestedMessage(
-    obj: Record<string, unknown>,
+    dict: Record<string, unknown>,
     path: string,
   ): string | undefined {
-    return path
+    const value = path
       .split('.')
-      .reduce(
-        (acc, key) => acc && (acc[key] as never),
-        obj,
-      ) as unknown as string
+      .reduce<unknown>(
+        (acc, key) =>
+          acc && typeof acc === 'object'
+            ? (acc as Record<string, unknown>)[key]
+            : undefined,
+        dict,
+      )
+    return typeof value === 'string' ? value : undefined
   }
 
   private getMessage(key: string, fieldName?: string, param?: string): string {
-    const options = {
+    const options: Record<string, string> = {
       ...(fieldName && { fieldName }),
       ...(param !== undefined && { param }),
     }
-    if (Object.keys(this.config.errorMessages!).length > 0) {
+    if (Object.keys(this.config.errorMessages).length > 0) {
       const messageTemplate =
-        this.getNestedMessage(this.config.errorMessages!, key) ?? ''
+        this.getNestedMessage(this.config.errorMessages, key) ?? ''
       return this.interpolateMessage(messageTemplate, options)
     }
 
-    return param !== undefined || fieldName
-      ? this.translate?.instant(
-          `${this.config.validationsPrefix}.${key}`,
-          options,
-        )
-      : this.translate?.instant(`${this.config.validationsPrefix}.${key}`)
+    return this.translator.translate(
+      `${this.config.validationsPrefix}.${key}`,
+      options,
+    )
   }
 }

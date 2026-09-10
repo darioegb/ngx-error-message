@@ -25,14 +25,16 @@
     "type": "git",
     "url": "git+https://github.com/darioegb/ngx-error-message.git"
   },
-  "optionalDependencies": {
-    "@ngx-translate/core": ">=18.0.0",
-    "@ngx-translate/http-loader": ">=18.0.0"
-  },
   "peerDependencies": {
     "@angular/core": ">=20.0.0",
     "@angular/common": ">=20.0.0",
-    "@angular/forms": ">=20.0.0"
+    "@angular/forms": ">=20.0.0",
+    "@ngx-translate/core": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@ngx-translate/core": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "license": "MIT"

@@ -9,7 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'app-template-driven-forms',
   templateUrl: './template-driven-forms.component.html',
   styleUrl: './template-driven-forms.component.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     NgxErrorMessageDirective,

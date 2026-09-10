@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router'
   selector: 'app-main-content',
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet],
 })
 export class MainContentComponent {}

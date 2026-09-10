@@ -7,7 +7,10 @@ import {
   TranslateNoOpLoader,
 } from '@ngx-translate/core'
 import { AbstractControl, FormBuilder } from '@angular/forms'
-import { NgxErrorMessageDirective } from 'ngx-error-message'
+import {
+  NgxErrorMessageDirective,
+  provideNgxErrorMessage,
+} from 'ngx-error-message'
 
 describe('ReactiveFormsComponent', () => {
   let component: ReactiveFormsComponent
@@ -20,6 +23,7 @@ describe('ReactiveFormsComponent', () => {
         provideTranslateService({
           loader: provideTranslateLoader(TranslateNoOpLoader),
         }),
+        provideNgxErrorMessage(),
       ],
     }).compileComponents()
   })

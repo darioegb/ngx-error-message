@@ -11,6 +11,7 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
 
 import { routes } from './app.routes'
 import { provideNgxErrorMessage } from 'ngx-error-message'
+import { withNgxTranslate } from 'ngx-error-message/ngx-translate'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideTranslateService({ fallbackLang: 'en' }),
     provideTranslateHttpLoader(),
-    provideNgxErrorMessage(),
+    provideNgxErrorMessage(withNgxTranslate()),
   ],
 }

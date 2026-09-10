@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing'
 import { NgxErrorMessageModule } from './ngx-error-message.module'
 import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
 import { NgxErrorMessageService } from './ngx-error-message.service'
+import { DEFAULT_ERROR_PRIORITY } from './ngx-error-message-constant'
 import { ErrorMessageConfig } from './ngx-error-message-interfaces'
 
 describe('NgxErrorMessageModule', () => {
@@ -14,6 +15,7 @@ describe('NgxErrorMessageModule', () => {
       validationsPrefix: 'validations',
       patternsPrefix: 'pattern',
       errorMessages: {},
+      errorPriority: DEFAULT_ERROR_PRIORITY,
     })
     expect(TestBed.inject(NgxErrorMessageService)).toBeTruthy()
   })
@@ -23,6 +25,7 @@ describe('NgxErrorMessageModule', () => {
       validationsPrefix: 'VALIDATIONS',
       patternsPrefix: 'PATTERNS',
       errorMessages: { required: 'Required' },
+      errorPriority: ['required'],
     }
 
     TestBed.configureTestingModule({
@@ -43,6 +46,7 @@ describe('NgxErrorMessageModule', () => {
       validationsPrefix: 'VALIDATIONS',
       patternsPrefix: 'pattern',
       errorMessages: {},
+      errorPriority: DEFAULT_ERROR_PRIORITY,
     })
   })
 })

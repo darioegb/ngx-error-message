@@ -1,81 +1,17 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  ElementRef,
-  Renderer2,
-  DestroyRef,
-  inject,
-  ChangeDetectionStrategy,
-} from '@angular/core'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
-import { NgControl } from '@angular/forms'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
-import { distinctUntilChanged } from 'rxjs'
-import { ClassNames, ErrorWhenType } from './ngx-error-message-interfaces'
-import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
+import { ChangeDetectionStrategy, Component, input } from '@angular/core'
 
 @Component({
   selector: 'ngx-error-message',
   template: `
-    @if (hasError) {
-      <small [class]="classNames.message">{{
-        ngControl.errors | ngxErrorMessage: lang : patternKey : fieldName
+    @if (message()) {
+      <small [class]="messageClass()" role="alert" aria-live="polite">{{
+        message()
       }}</small>
     }
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [NgxErrorMessagePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NgxErrorMessageComponent implements OnInit {
-  @Input() classNames!: ClassNames
-  @Input() fieldName!: string
-  @Input() ngControl!: NgControl
-  @Input() when!: ErrorWhenType | ErrorWhenType[]
-  @Input() patternKey?: string
-
-  protected lang?: string
-  private readonly translate = inject(TranslateService, { optional: true })
-  private readonly elementRef = inject(ElementRef)
-  private readonly renderer = inject(Renderer2)
-  private readonly destroyRef = inject(DestroyRef)
-  private readonly cdr = inject(ChangeDetectorRef)
-  private previousErrorState = false
-
-  get hasError(): boolean {
-    const invalid = Array.isArray(this.when)
-      ? this.when.every((condition) => this.ngControl[condition])
-      : this.ngControl[this.when]
-    if (this.previousErrorState !== invalid) {
-      this.previousErrorState = !!invalid
-      this.updateErrorContainer(!!invalid)
-    }
-    return !!invalid
-  }
-
-  ngOnInit(): void {
-    this.translate?.onLangChange
-      .pipe(
-        distinctUntilChanged(
-          (a: LangChangeEvent, b: LangChangeEvent) => a.lang === b.lang,
-        ),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(({ lang }: LangChangeEvent) => {
-        this.lang = lang
-        this.cdr.markForCheck()
-      })
-  }
-
-  private updateErrorContainer(invalid: boolean): void {
-    const inputElement = this.elementRef.nativeElement.previousElementSibling
-    if (!inputElement) {
-      return
-    }
-    const errorClass = this.classNames.control
-    invalid
-      ? this.renderer.addClass(inputElement, errorClass)
-      : this.renderer.removeClass(inputElement, errorClass)
-  }
+export class NgxErrorMessageComponent {
+  readonly message = input('')
+  readonly messageClass = input('error-message')
 }

@@ -33,7 +33,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'app-reactive-forms',
   templateUrl: './reactive-forms.component.html',
   styleUrl: './reactive-forms.component.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -90,12 +90,11 @@ export class ReactiveFormsComponent implements OnInit {
       ]),
     })
 
-    // Only for delete form value is invalid
     this.form.statusChanges.pipe(distinctUntilChanged()).subscribe((status) => {
       if (status === 'INVALID') {
         this.formValue = null
-        this.cdr.markForCheck()
       }
+      this.cdr.markForCheck()
     })
   }
 
