@@ -1,3 +1,8 @@
+## 4.0.0-next.4 (2026-09-10)
+
+* fix(ci): build the library before running test:lib ([2d6f203](https://github.com/darioegb/ngx-error-message/commit/2d6f203))
+* feat!: rewrite state ownership around signals, decouple ngx-translate into a secondary entry point ([58bce21](https://github.com/darioegb/ngx-error-message/commit/58bce21))
+
 ## 4.0.0-next.3 (2026-09-09)
 
 * feat: migrate test runner from Karma to Vitest ([69a8d67](https://github.com/darioegb/ngx-error-message/commit/69a8d67))
