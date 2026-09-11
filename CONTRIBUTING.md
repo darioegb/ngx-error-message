@@ -27,9 +27,9 @@ Don't hand-edit `CHANGELOG.md`, the library's `version` field, or the compatibil
 
 ## Branches
 
-- `main` is the released, stable line (`latest` on npm).
-- `v4` is the active prerelease line while v4 is being finalized (`next` on npm, versions like `4.0.0-next.N`) — see `.releaserc.json`. Once v4 ships, this branch goes away and development resumes directly against `main`.
-- Open PRs against whichever of the two is currently active for the change you're making.
+`main` is the only long-lived branch — it's the released, stable line (`latest` on npm) and where `semantic-release` publishes from. Open PRs against it directly.
+
+For a long-running breaking-change effort that shouldn't touch `latest` mid-flight, `.releaserc.json`'s `branches` array supports adding a temporary prerelease branch (as `v4` was during the v4.0.0 rewrite, publishing `4.0.0-next.N` under the npm `next` dist-tag) — remove that entry once the branch merges back into `main`.
 
 ## Pull requests
 
