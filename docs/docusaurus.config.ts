@@ -33,6 +33,18 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           editUrl:
             'https://github.com/darioegb/ngx-error-message/tree/main/docs/',
+          lastVersion: 'current',
+          versions: {
+            current: {
+              label: '4.x (latest)',
+              badge: true,
+            },
+            '3.x': {
+              label: '3.x',
+              badge: true,
+              banner: 'unmaintained',
+            },
+          },
         },
         blog: false,
         theme: {
@@ -59,6 +71,10 @@ const config: Config = {
           sidebarId: 'docs',
           position: 'left',
           label: 'Docs',
+        },
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
         },
         {
           type: 'localeDropdown',
