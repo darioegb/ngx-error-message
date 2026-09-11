@@ -17,11 +17,13 @@ sidebar_position: 1
 
 - ✅ **Visualización automática de errores** — agregá una directiva a un input y obtené su mensaje de error gratis
 - ✅ **Formularios reactivos y template-driven** — la misma directiva funciona para ambos
-- ✅ **Internacionalización** — integración opcional con `@ngx-translate/core`
+- ✅ **Basada en signals** — reactiva por construcción, compatible con zoneless
+- ✅ **Internacionalización** — integración opcional con `@ngx-translate/core` vía un entry point secundario, así que no es una dependencia obligatoria
 - ✅ **Estilos personalizables** — sobrescribí las clases CSS usadas para el contenedor y el mensaje de error
 - ✅ **Visualización condicional** — controlá exactamente cuándo se debe mostrar un error (`touched`, `dirty`, `invalid`, ...)
+- ✅ **Prioridad de errores configurable** — decidí cuál error gana cuando un control falla más de un validador a la vez
 - ✅ **Patrones incorporados y personalizados** — un conjunto de patrones regex listos para usar, más soporte para los tuyos
-- ✅ **Standalone-first** — `provideNgxErrorMessage()` para apps standalone; `NgxErrorMessageModule` para apps con NgModule
+- ✅ **Standalone-first** — `provideNgxErrorMessage()` para apps standalone; `NgxErrorMessageModule` para apps con NgModule (deprecado)
 
 ## Ejemplo en Vivo
 

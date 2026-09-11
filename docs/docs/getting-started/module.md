@@ -6,39 +6,35 @@ sidebar_position: 2
 
 # NgModule App
 
+:::warning Deprecated
+`NgxErrorMessageModule` is kept for backward compatibility but will be removed in a future major version. Prefer `provideNgxErrorMessage()` — including in NgModule apps, since it returns a plain `Provider[]` you can drop into your own `providers` array.
+:::
+
 For apps that still bootstrap via `NgModule` (or that target Angular versions below 14), use `NgxErrorMessageModule`.
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
-import { HttpClientModule, HttpClient } from '@angular/common/http'
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core'
-import { TranslateHttpLoader } from '@ngx-translate/http-loader'
+import { provideHttpClient } from '@angular/common/http'
+import { provideTranslateService } from '@ngx-translate/core'
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
 import { NgxErrorMessageModule } from 'ngx-error-message'
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http) // Make sure your assets files are in default assets/i18n/*
-}
+import { withNgxTranslate } from 'ngx-error-message/ngx-translate'
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, // Required module for ngx-translate
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      useDefaultLang: true,
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
     NgxErrorMessageModule.forRoot(), // NgxErrorMessageModule added default config
     // other modules...
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(),
+    provideTranslateService({ fallbackLang: 'en' }),
+    provideTranslateHttpLoader(), // Make sure your assets files are in default assets/i18n/*
+    withNgxTranslate(), // Required for NgxErrorMessageModule to use @ngx-translate too
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
@@ -56,6 +52,8 @@ NgxErrorMessageModule.forRoot({
 ```
 
 ## Without internationalization
+
+Omit `withNgxTranslate()` from `providers` and pass the messages directly to `forRoot()`:
 
 ```typescript
 NgxErrorMessageModule.forRoot({

@@ -1,18 +1,25 @@
 import { ModuleWithProviders, NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { TranslateModule } from '@ngx-translate/core'
 
 import { NgxErrorMessageComponent } from './ngx-error-message.component'
 import { NgxErrorMessageDirective } from './ngx-error-message.directive'
 import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
 import { ErrorMessageConfig } from './ngx-error-message-interfaces'
-import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
-import { NgxErrorMessageService } from './ngx-error-message.service'
+import {
+  provideNgxErrorMessage,
+  withErrorMessageConfig,
+} from './provide-ngx-error-message'
 
+/**
+ * @deprecated Use `provideNgxErrorMessage()` instead. Will be removed in a
+ * future major version. Note: `NgxErrorMessageModule` alone doesn't wire up
+ * `@ngx-translate/core` - add `withNgxTranslate()` (from the
+ * `ngx-error-message/ngx-translate` secondary entry point) to your own
+ * providers if you need it.
+ */
 @NgModule({
   imports: [
     CommonModule,
-    TranslateModule,
     NgxErrorMessageComponent,
     NgxErrorMessageDirective,
     NgxErrorMessagePipe,
@@ -23,31 +30,15 @@ export class NgxErrorMessageModule {
   static forRoot(
     config?: ErrorMessageConfig,
   ): ModuleWithProviders<NgxErrorMessageModule> {
-    return NgxErrorMessageModule.forRootOrChild(config)
+    return {
+      ngModule: NgxErrorMessageModule,
+      providers: provideNgxErrorMessage(withErrorMessageConfig(config ?? {})),
+    }
   }
 
   static forChild(
     config?: ErrorMessageConfig,
   ): ModuleWithProviders<NgxErrorMessageModule> {
-    return NgxErrorMessageModule.forRootOrChild(config)
-  }
-
-  private static forRootOrChild(
-    config?: ErrorMessageConfig,
-  ): ModuleWithProviders<NgxErrorMessageModule> {
-    return {
-      ngModule: NgxErrorMessageModule,
-      providers: [
-        {
-          provide: ERROR_MESSAGE_CONFIG,
-          useValue: {
-            validationsPrefix: config?.validationsPrefix ?? 'validations',
-            patternsPrefix: config?.patternsPrefix ?? 'pattern',
-            errorMessages: config?.errorMessages ?? {},
-          },
-        },
-        NgxErrorMessageService,
-      ],
-    }
+    return this.forRoot(config)
   }
 }

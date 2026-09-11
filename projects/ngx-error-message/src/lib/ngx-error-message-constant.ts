@@ -22,3 +22,13 @@ export const regEx = {
 }
 
 export const requiredRegex = /^((?!actual).)*$/
+
+export const DEFAULT_ERROR_PRIORITY = [
+  'required',
+  'email',
+  'pattern',
+  'minlength',
+  'maxlength',
+  'min',
+  'max',
+]

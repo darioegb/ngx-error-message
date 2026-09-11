@@ -37,7 +37,7 @@ jobs:
           fetch-depth: 0
           token: ${{ github.token }}
       - uses: ./.github/actions/setup
-      - name: Run Karma tests
+      - name: Run library unit tests
         run: pnpm test:lib
       - name: Upload coverage
         uses: actions/upload-artifact@v4

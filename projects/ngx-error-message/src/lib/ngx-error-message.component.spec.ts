@@ -1,164 +1,50 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'
-import { provideHttpClientTesting } from '@angular/common/http/testing'
-import { TranslateTestingModule } from 'ngx-translate-testing'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { NgxErrorMessageComponent } from './ngx-error-message.component'
 
-import {
-  ReactiveFormsModule,
-  Validators,
-  FormGroup,
-  FormBuilder,
-} from '@angular/forms'
-import { Component, OnInit, inject as inject_1 } from '@angular/core'
-import { NgxErrorMessageDirective } from './ngx-error-message.directive'
-import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
-import { NgxErrorMessageService } from './ngx-error-message.service'
-import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
-import { TranslateService } from '@ngx-translate/core'
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
-
-@Component({
-  template: `<form [formGroup]="form" class="form-horizontal">
-    <div class="form-group col-lg-10">
-      <input
-        type="email"
-        formControlName="email"
-        placeholder="Email"
-        class="form-control"
-        ngxErrorMessage
-      />
-    </div>
-    <div class="form-group col-lg-10">
-      <input
-        type="text"
-        formControlName="user"
-        placeholder="User"
-        class="form-control"
-        ngxErrorMessage
-        [when]="'invalid'"
-      />
-    </div>
-  </form>`,
-  imports: [ReactiveFormsModule, NgxErrorMessageDirective],
-})
-class TestHostComponent implements OnInit {
-  private fb = inject_1(FormBuilder)
-
-  form!: FormGroup
-  formValue: unknown
-
-  get formControls() {
-    return this.form.controls
-  }
-
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      email: [null, [Validators.required, Validators.email]],
-      user: [null, Validators.required],
-    })
-  }
-
-  onSubmit() {
-    if (this.form.invalid) {
-      return
-    }
-    this.formValue = this.form.value
-  }
-}
-
+// The directive owns all the state (whether there's an error, what the
+// message says); this component just renders whatever it's given. Its
+// integration with a real form control is covered by
+// ngx-error-message.directive.spec.ts.
 describe('NgxErrorMessageComponent', () => {
-  let component: TestHostComponent
-  let fixture: ComponentFixture<TestHostComponent>
-  let translate: TranslateService
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        TranslateTestingModule.withTranslations(
-          'en',
-          ENGLISH_TRANSLATIONS,
-        ).withTranslations('es', SPANISH_TRANSLATIONS),
-        TestHostComponent,
-      ],
-      declarations: [],
-      providers: [
-        FormBuilder,
-        NgxErrorMessageService,
-        {
-          provide: ERROR_MESSAGE_CONFIG,
-          useValue: {
-            validationsPrefix: 'validations',
-            patternsPrefix: 'pattern',
-            errorMessages: {},
-          },
-        },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
-      ],
-    }).compileComponents()
-  }))
+  let fixture: ComponentFixture<NgxErrorMessageComponent>
 
   beforeEach(() => {
-    translate = TestBed.inject(TranslateService)
-    translate.use('en')
-    fixture = TestBed.createComponent(TestHostComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
+    fixture = TestBed.createComponent(NgxErrorMessageComponent)
   })
 
   it('should create', () => {
-    expect(component).toBeTruthy()
+    expect(fixture.componentInstance).toBeTruthy()
   })
 
-  it('ngOnInit should set error to formControl', () => {
-    const control = component.form.controls['email']
-
-    control.markAsTouched()
+  it('should render nothing when message is empty', () => {
     fixture.detectChanges()
-    const errorElement = (fixture.nativeElement as HTMLElement).querySelector(
-      'small.error-message',
-    )
-
-    expect(control.errors).toBeDefined()
-    expect(errorElement && errorElement.innerHTML).toBe(
-      ENGLISH_TRANSLATIONS.validations.required,
-    )
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector('small'),
+    ).toBeNull()
   })
 
-  it('should not display error message when control is valid', () => {
-    const control = component.form.controls['email']
-    control.markAsTouched()
-    fixture.detectChanges()
-    control.setValue('test@example.com')
+  it('should render the message with the given class, role and aria-live', () => {
+    fixture.componentRef.setInput('message', 'This field is required.')
+    fixture.componentRef.setInput('messageClass', 'my-error-class')
     fixture.detectChanges()
 
-    const errorElement = (
-      fixture.nativeElement as HTMLElement
-    ).querySelectorAll('small.error-message')
-
-    expect(errorElement.length).toBe(1)
+    const element = (fixture.nativeElement as HTMLElement).querySelector(
+      'small',
+    )
+    expect(element?.textContent).toBe('This field is required.')
+    expect(element?.classList.contains('my-error-class')).toBe(true)
+    expect(element?.getAttribute('role')).toBe('alert')
+    expect(element?.getAttribute('aria-live')).toBe('polite')
   })
 
-  it('should update error message on language change', () => {
-    const control = component.form.controls['email']
-    control.markAsTouched()
-    control.setValue('')
+  it('should default messageClass to error-message', () => {
+    fixture.componentRef.setInput('message', 'Invalid.')
     fixture.detectChanges()
 
-    const errorElement = (fixture.nativeElement as HTMLElement).querySelector(
-      'small.error-message',
-    )
-
-    translate.use('es')
-    fixture.detectChanges()
-    expect(errorElement?.textContent).toBe(
-      SPANISH_TRANSLATIONS.validations.required,
-    )
-
-    translate.use('en')
-    fixture.detectChanges()
-    expect(errorElement?.textContent).toBe(
-      ENGLISH_TRANSLATIONS.validations.required,
-    )
+    expect(
+      (fixture.nativeElement as HTMLElement)
+        .querySelector('small')
+        ?.classList.contains('error-message'),
+    ).toBe(true)
   })
 })

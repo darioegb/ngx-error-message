@@ -22,6 +22,11 @@ const sidebars: SidebarsConfig = {
         'guides/custom-validators',
       ],
     },
+    {
+      type: 'category',
+      label: 'Migration',
+      items: ['migration/v3-to-v4'],
+    },
   ],
 }
 

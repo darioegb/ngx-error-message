@@ -1,6 +1,6 @@
 {
   "name": "ngx-error-message",
-  "version": "3.1.1",
+  "version": "4.0.0-next.4",
   "dependencies": {
     "tslib": "^2.1.0"
   },
@@ -25,14 +25,16 @@
     "type": "git",
     "url": "git+https://github.com/darioegb/ngx-error-message.git"
   },
-  "optionalDependencies": {
-    "@ngx-translate/core": ">=14.0.0",
-    "@ngx-translate/http-loader": ">=7.0.0"
-  },
   "peerDependencies": {
-    "@angular/core": ">=14.0.0",
-    "@angular/common": ">=14.0.0",
-    "@angular/forms": ">=14.0.0"
+    "@angular/core": ">=20.0.0",
+    "@angular/common": ">=20.0.0",
+    "@angular/forms": ">=20.0.0",
+    "@ngx-translate/core": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@ngx-translate/core": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "license": "MIT"

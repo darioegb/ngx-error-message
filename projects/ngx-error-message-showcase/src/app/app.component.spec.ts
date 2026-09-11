@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing'
+import { TestBed, ComponentFixture } from '@angular/core/testing'
 import { AppComponent } from './app.component'
 import { TranslateService } from '@ngx-translate/core'
 import { ActivatedRoute } from '@angular/router'
@@ -6,9 +6,16 @@ import { NavbarComponent } from './components/navbar/navbar.component'
 import { SidebarComponent } from './components/sidebar/sidebar.component'
 import { MainContentComponent } from './components/main-content/main-content.component'
 import { of } from 'rxjs'
-import { TranslateTestingModule } from 'ngx-translate-testing'
-import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import { provideTestTranslateService } from '@testing/translate-testing'
+import {
+  ENGLISH_TRANSLATIONS,
+  SPANISH_TRANSLATIONS,
+} from '@testing/translations'
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+  withXhr,
+} from '@angular/common/http'
 import { provideHttpClientTesting } from '@angular/common/http/testing'
 
 describe('AppComponent', () => {
@@ -16,19 +23,19 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>
   let translateService: TranslateService
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
-        TranslateTestingModule.withTranslations({
-          en: ENGLISH_TRANSLATIONS,
-          es: SPANISH_TRANSLATIONS,
-        }).withDefaultLanguage('en'),
         NavbarComponent,
         SidebarComponent,
         MainContentComponent,
         AppComponent,
       ],
       providers: [
+        provideTestTranslateService({
+          en: ENGLISH_TRANSLATIONS,
+          es: SPANISH_TRANSLATIONS,
+        }),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -36,11 +43,11 @@ describe('AppComponent', () => {
             queryParams: of({}),
           },
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     }).compileComponents()
-  }))
+  })
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent)
@@ -54,23 +61,21 @@ describe('AppComponent', () => {
   })
 
   it('should use the default language if no language is stored in localStorage', () => {
-    spyOn(localStorage, 'getItem').and.returnValue(null)
-    spyOn(translateService, 'use')
+    vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(null)
+    vi.spyOn(translateService, 'use').mockReturnValue(undefined)
 
     component = fixture.componentInstance
     component.ngOnInit()
     fixture.detectChanges()
 
-    expect(translateService.use).toHaveBeenCalledWith(
-      translateService.defaultLang,
-    )
+    expect(translateService.use).toHaveBeenCalledWith('en')
   })
 
   it('should use the stored language from localStorage', () => {
     const storedLang = 'es'
     localStorage.setItem('lang', storedLang)
-    spyOn(localStorage, 'getItem').and.returnValue(storedLang)
-    spyOn(translateService, 'use')
+    vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(storedLang)
+    vi.spyOn(translateService, 'use').mockReturnValue(undefined)
 
     component = fixture.componentInstance
     component.ngOnInit()

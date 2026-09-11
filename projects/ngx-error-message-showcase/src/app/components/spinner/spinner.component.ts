@@ -1,9 +1,10 @@
 // spinner.component.ts
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'app-spinner',
   template: ` <div class="spinner"></div> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       .spinner {

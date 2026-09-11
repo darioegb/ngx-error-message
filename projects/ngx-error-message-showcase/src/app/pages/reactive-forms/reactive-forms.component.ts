@@ -1,4 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core'
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import {
   FormGroup,
   FormBuilder,
@@ -21,19 +27,20 @@ import {
 import { NgxErrorMessageDirective, regEx } from 'ngx-error-message'
 import { SpinnerComponent } from '../../components/spinner/spinner.component'
 import { JsonPipe } from '@angular/common'
-import { TranslateModule } from '@ngx-translate/core'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'app-reactive-forms',
   templateUrl: './reactive-forms.component.html',
   styleUrl: './reactive-forms.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     ReactiveFormsModule,
     NgxErrorMessageDirective,
     SpinnerComponent,
     JsonPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class ReactiveFormsComponent implements OnInit {
@@ -41,6 +48,7 @@ export class ReactiveFormsComponent implements OnInit {
   formValue: unknown
   checkbox = true
   private readonly fb = inject(FormBuilder)
+  private readonly cdr = inject(ChangeDetectorRef)
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -82,11 +90,11 @@ export class ReactiveFormsComponent implements OnInit {
       ]),
     })
 
-    // Only for delete form value is invalid
     this.form.statusChanges.pipe(distinctUntilChanged()).subscribe((status) => {
       if (status === 'INVALID') {
         this.formValue = null
       }
+      this.cdr.markForCheck()
     })
   }
 

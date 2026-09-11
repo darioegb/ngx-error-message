@@ -1,20 +1,21 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { NgForm, FormsModule } from '@angular/forms'
 import { NgxErrorMessageDirective, regEx } from 'ngx-error-message'
 import { AvoidMultipleZeroValidatorDirective } from '../../directives/avoid-mutiple-zero-validator.directive'
 import { JsonPipe } from '@angular/common'
-import { TranslateModule } from '@ngx-translate/core'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'app-template-driven-forms',
   templateUrl: './template-driven-forms.component.html',
   styleUrl: './template-driven-forms.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     NgxErrorMessageDirective,
     AvoidMultipleZeroValidatorDirective,
     JsonPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class TemplateDrivenFormsComponent {

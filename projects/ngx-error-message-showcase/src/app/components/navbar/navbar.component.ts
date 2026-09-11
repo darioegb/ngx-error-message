@@ -1,4 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core'
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core'
 import { SidebarService } from '../sidebar/sidebar.service'
 
 import { TranslateService } from '@ngx-translate/core'
@@ -9,6 +15,7 @@ import { FormsModule } from '@angular/forms'
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule],
 })
 export class NavbarComponent implements OnInit {
@@ -28,17 +35,20 @@ export class NavbarComponent implements OnInit {
   private readonly sidebarService = inject(SidebarService)
   private readonly translate = inject(TranslateService)
   private readonly router = inject(Router)
+  private readonly cdr = inject(ChangeDetectorRef)
 
   ngOnInit(): void {
     const lang = localStorage.getItem('lang')
-    this.languaje = lang ? lang : this.translate.defaultLang
+    this.languaje = lang ? lang : this.translate.getFallbackLang()!
     this.sidebarService.sidebarState$.subscribe((state) => {
       this.isCollapsed = state
+      this.cdr.markForCheck()
     })
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.withoutInternationalization =
           this.router.url === '/without-internationalization'
+        this.cdr.markForCheck()
       }
     })
   }

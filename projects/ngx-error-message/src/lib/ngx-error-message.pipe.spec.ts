@@ -1,46 +1,31 @@
-import { provideHttpClientTesting } from '@angular/common/http/testing'
-import { waitForAsync, TestBed } from '@angular/core/testing'
-import { BrowserModule } from '@angular/platform-browser'
-import { TranslateService } from '@ngx-translate/core'
-import { TranslateTestingModule } from 'ngx-translate-testing'
+import { TestBed } from '@angular/core/testing'
+import { Injector, runInInjectionContext } from '@angular/core'
 
-import { ENGLISH_TRANSLATIONS, SPANISH_TRANSLATIONS } from '../test'
 import { NgxErrorMessagePipe } from './ngx-error-message.pipe'
-import { runInInjectionContext } from '@angular/core'
-import { ERROR_MESSAGE_CONFIG } from './ngx-error-message.token'
-import { NgxErrorMessageService } from './ngx-error-message.service'
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import {
+  provideNgxErrorMessage,
+  withErrorMessageConfig,
+} from './provide-ngx-error-message'
+import { ENGLISH_TRANSLATIONS } from '@testing/translations'
 
 describe('NgxErrorMessagePipe', () => {
   let pipe: NgxErrorMessagePipe
-  let translate: TranslateService
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserModule,
-        TranslateTestingModule.withTranslations({
-          en: ENGLISH_TRANSLATIONS,
-          es: SPANISH_TRANSLATIONS,
-        }),
-      ],
       providers: [
-        NgxErrorMessageService,
-        {
-          provide: ERROR_MESSAGE_CONFIG,
-          useValue: {
-            validationsPrefix: 'validations',
-            patternsPrefix: 'pattern',
-            errorMessages: {},
-          },
-        },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
+        provideNgxErrorMessage(
+          withErrorMessageConfig({
+            errorMessages: ENGLISH_TRANSLATIONS.validations,
+          }),
+        ),
       ],
     })
-    translate = TestBed.inject(TranslateService)
-    pipe = runInInjectionContext(TestBed, () => new NgxErrorMessagePipe())
-  }))
+    pipe = runInInjectionContext(
+      TestBed.inject(Injector),
+      () => new NgxErrorMessagePipe(),
+    )
+  })
 
   it('create an instance', () => {
     expect(pipe).toBeTruthy()
@@ -51,32 +36,30 @@ describe('NgxErrorMessagePipe', () => {
       pipe.transform({
         required: true,
       }),
-    ).toBe('The field is required.')
-  })
-  it('transforms form error to error message when change lang', () => {
-    translate.use('es')
-    expect(
-      pipe.transform({
-        required: true,
-      }),
-    ).toBe('El campo es requerido.')
+    ).toBe(ENGLISH_TRANSLATIONS.validations.required)
   })
 
   it('returns empty string when value is null', () => {
     expect(pipe.transform(null)).toBe('')
   })
 
-  it('caches error message for the same error key', () => {
-    const error = { required: true }
-    const errorMessage = pipe.transform(error)
-    expect(pipe.transform(error)).toBe(errorMessage)
+  it('forwards patternKey to the service', () => {
+    expect(pipe.transform({ pattern: { requiredPattern: '' } }, 'custom')).toBe(
+      ENGLISH_TRANSLATIONS.validations.pattern.custom,
+    )
   })
 
-  it('updates cached error message when error key changes', () => {
-    const requiredError = { required: true }
-    const minLengthError = { minlength: { requiredLength: 5, actualLength: 3 } }
-    const requiredMessage = pipe.transform(requiredError)
-    const minLengthMessage = pipe.transform(minLengthError)
+  it('is a pure function: same input, same output, no manual caching involved', () => {
+    const error = { required: true }
+    expect(pipe.transform(error)).toBe(pipe.transform(error))
+  })
+
+  it('reflects the current control errors on every call, unlike a cache keyed by the last error seen', () => {
+    const requiredMessage = pipe.transform({ required: true })
+    const minLengthMessage = pipe.transform({
+      minlength: { requiredLength: 5, actualLength: 3 },
+    })
     expect(requiredMessage).not.toBe(minLengthMessage)
+    expect(pipe.transform({ required: true })).toBe(requiredMessage)
   })
 })

@@ -10,7 +10,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "tsConfig": "projects/ngx-error-message/tsconfig.lib.json",
             "project": "projects/ngx-error-message/ng-package.json"
@@ -18,16 +18,56 @@
           "configurations": {
             "production": {
               "tsConfig": "projects/ngx-error-message/tsconfig.lib.prod.json"
-            }
+            },
+            "development": {}
           },
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngx-error-message/src/test.ts",
             "tsConfig": "projects/ngx-error-message/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-error-message/karma.conf.js"
+            "runnerConfig": true,
+            "coverage": true,
+            "coverageInclude": ["projects/ngx-error-message/src/**/*.ts"],
+            "coverageExclude": ["projects/ngx-error-message/src/**/*.spec.ts"],
+            "coverageReporters": [
+              "lcovonly",
+              "html",
+              ["text-summary", { "file": "text-summary.txt" }]
+            ],
+            "coverageThresholds": {
+              "statements": 80,
+              "branches": 80,
+              "functions": 80,
+              "lines": 80
+            }
+          }
+        },
+        "test-ngx-translate": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/ngx-error-message/ngx-translate/tsconfig.spec.json",
+            "runnerConfig": true,
+            "include": ["../ngx-translate/**/*.spec.ts"],
+            "coverage": true,
+            "coverageInclude": [
+              "projects/ngx-error-message/ngx-translate/src/**/*.ts"
+            ],
+            "coverageExclude": [
+              "projects/ngx-error-message/ngx-translate/src/**/*.spec.ts"
+            ],
+            "coverageReporters": [
+              "lcovonly",
+              "html",
+              ["text-summary", { "file": "text-summary.txt" }]
+            ],
+            "coverageThresholds": {
+              "statements": 80,
+              "branches": 80,
+              "functions": 80,
+              "lines": 80
+            }
           }
         },
         "lint": {
@@ -53,15 +93,13 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": {
               "base": "dist/ngx-error-message-showcase"
             },
             "index": "projects/ngx-error-message-showcase/src/index.html",
-            "polyfills": [
-              "projects/ngx-error-message-showcase/src/polyfills.ts"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "projects/ngx-error-message-showcase/tsconfig.app.json",
             "preserveSymlinks": true,
             "assets": [
@@ -108,7 +146,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "options": {
             "buildTarget": "ngx-error-message-showcase:build:development"
           },
@@ -119,25 +157,40 @@
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "ngx-error-message-showcase:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngx-error-message-showcase/src/test.ts",
-            "polyfills": "projects/ngx-error-message-showcase/src/polyfills.ts",
             "tsConfig": "projects/ngx-error-message-showcase/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-error-message-showcase/karma.conf.js",
-            "assets": [
-              "projects/ngx-error-message-showcase/src/favicon.ico",
-              "projects/ngx-error-message-showcase/src/assets"
+            "runnerConfig": true,
+            "coverage": true,
+            "coverageInclude": [
+              "projects/ngx-error-message-showcase/src/**/*.ts"
             ],
-            "styles": ["projects/ngx-error-message-showcase/src/styles.scss"],
-            "scripts": [],
-            "codeCoverage": true
+            "coverageExclude": [
+              "projects/ngx-error-message-showcase/src/**/*.spec.ts",
+              "projects/ngx-error-message-showcase/src/main.ts",
+              "projects/ngx-error-message-showcase/src/app/app.config.ts",
+              "projects/ngx-error-message-showcase/src/app/app.routes.ts",
+              "projects/ngx-error-message-showcase/src/app/**/*.routes.ts",
+              "projects/ngx-error-message-showcase/src/app/**/index.ts",
+              "projects/ngx-error-message-showcase/src/environments/**"
+            ],
+            "coverageReporters": [
+              "lcovonly",
+              "html",
+              ["text-summary", { "file": "text-summary.txt" }]
+            ],
+            "coverageThresholds": {
+              "statements": 80,
+              "branches": 80,
+              "functions": 80,
+              "lines": 80
+            }
           }
         },
         "lint": {
@@ -155,5 +208,31 @@
   "cli": {
     "analytics": false,
     "schematicCollections": ["@angular-eslint/schematics"]
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
   }
 }

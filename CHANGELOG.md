@@ -1,3 +1,73 @@
+## 4.0.0-next.4 (2026-09-10)
+
+* fix(ci): build the library before running test:lib ([2d6f203](https://github.com/darioegb/ngx-error-message/commit/2d6f203))
+* feat!: rewrite state ownership around signals, decouple ngx-translate into a secondary entry point ([58bce21](https://github.com/darioegb/ngx-error-message/commit/58bce21))
+
+## 4.0.0-next.3 (2026-09-09)
+
+* feat: migrate test runner from Karma to Vitest ([69a8d67](https://github.com/darioegb/ngx-error-message/commit/69a8d67))
+
+## 4.0.0-next.2 (2026-09-08)
+
+* chore: trigger CI release after git-notes channel repair ([ae73150](https://github.com/darioegb/ngx-error-message/commit/ae73150))
+* chore(release): 4.0.0-next.1 [skip ci] ([3e549fc](https://github.com/darioegb/ngx-error-message/commit/3e549fc))
+* chore(release): 4.0.0-next.1 [skip ci] ([ab2af15](https://github.com/darioegb/ngx-error-message/commit/ab2af15))
+* fix(docs): stop recording -next prereleases in the compatibility table ([23bc9fb](https://github.com/darioegb/ngx-error-message/commit/23bc9fb))
+* fix(release): pin v4 branch's npm dist-tag to "next" ([380c741](https://github.com/darioegb/ngx-error-message/commit/380c741))
+* feat: migrate to @ngx-translate/core 18 ([6182dd9](https://github.com/darioegb/ngx-error-message/commit/6182dd9))
+
+## 4.0.0-next.1 (2026-09-08)
+
+* fix(docs): stop recording -next prereleases in the compatibility table ([23bc9fb](https://github.com/darioegb/ngx-error-message/commit/23bc9fb))
+* fix(release): pin v4 branch's npm dist-tag to "next" ([380c741](https://github.com/darioegb/ngx-error-message/commit/380c741))
+* feat: migrate to @ngx-translate/core 18 ([6182dd9](https://github.com/darioegb/ngx-error-message/commit/6182dd9))
+* chore: migrate to Angular 20 ([7e6cf44](https://github.com/darioegb/ngx-error-message/commit/7e6cf44))
+* chore: migrate to Angular 21 ([8853fe4](https://github.com/darioegb/ngx-error-message/commit/8853fe4))
+* chore: migrate to Angular 22 ([486624f](https://github.com/darioegb/ngx-error-message/commit/486624f))
+* chore(release): 4.0.0-next.1 [skip ci] ([ab2af15](https://github.com/darioegb/ngx-error-message/commit/ab2af15))
+* chore(release): 4.0.0-next.1 [skip ci] ([b3c8d4d](https://github.com/darioegb/ngx-error-message/commit/b3c8d4d))
+* feat!: bump peer floor to Angular >=20, prepare v4 prerelease channel ([075d080](https://github.com/darioegb/ngx-error-message/commit/075d080))
+
+### BREAKING CHANGE
+
+* raises the minimum supported Angular version from
+14 to 20. Angular 16-19 consumers should stay on ngx-error-message
+3.x until they upgrade Angular.
+
+Co-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>
+
+## 4.0.0-next.1 (2026-09-08)
+
+* fix(release): pin v4 branch's npm dist-tag to "next" ([380c741](https://github.com/darioegb/ngx-error-message/commit/380c741))
+* chore: migrate to Angular 20 ([7e6cf44](https://github.com/darioegb/ngx-error-message/commit/7e6cf44))
+* chore: migrate to Angular 21 ([8853fe4](https://github.com/darioegb/ngx-error-message/commit/8853fe4))
+* chore: migrate to Angular 22 ([486624f](https://github.com/darioegb/ngx-error-message/commit/486624f))
+* chore(release): 4.0.0-next.1 [skip ci] ([b3c8d4d](https://github.com/darioegb/ngx-error-message/commit/b3c8d4d))
+* feat!: bump peer floor to Angular >=20, prepare v4 prerelease channel ([075d080](https://github.com/darioegb/ngx-error-message/commit/075d080))
+
+### BREAKING CHANGE
+
+* raises the minimum supported Angular version from
+14 to 20. Angular 16-19 consumers should stay on ngx-error-message
+3.x until they upgrade Angular.
+
+Co-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>
+
+## 4.0.0-next.1 (2026-09-08)
+
+* feat!: bump peer floor to Angular >=20, prepare v4 prerelease channel ([075d080](https://github.com/darioegb/ngx-error-message/commit/075d080))
+* chore: migrate to Angular 20 ([7e6cf44](https://github.com/darioegb/ngx-error-message/commit/7e6cf44))
+* chore: migrate to Angular 21 ([8853fe4](https://github.com/darioegb/ngx-error-message/commit/8853fe4))
+* chore: migrate to Angular 22 ([486624f](https://github.com/darioegb/ngx-error-message/commit/486624f))
+
+### BREAKING CHANGE
+
+* raises the minimum supported Angular version from
+14 to 20. Angular 16-19 consumers should stay on ngx-error-message
+3.x until they upgrade Angular.
+
+Co-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>
+
 ## <small>3.1.1 (2026-09-08)</small>
 
 * fix: export the full public API surface from public-api.ts ([2de8bab](https://github.com/darioegb/ngx-error-message/commit/2de8bab))
