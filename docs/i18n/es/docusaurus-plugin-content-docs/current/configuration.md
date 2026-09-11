@@ -13,6 +13,7 @@ interface ErrorMessageConfig {
   validationsPrefix?: string
   patternsPrefix?: string
   errorMessages?: Record<string, string | Record<string, string>>
+  errorPriority?: string[]
 }
 ```
 
@@ -71,6 +72,24 @@ errorMessages: {
   avoidMultipleZero: 'It cannot start with multiple zeros.',
 },
 ```
+
+## Prioridad de errores
+
+Cuando un control falla más de un validador a la vez, `errorPriority` decide cuál mensaje de error se muestra. Por defecto usa `DEFAULT_ERROR_PRIORITY`, exportado por la librería:
+
+```typescript
+const DEFAULT_ERROR_PRIORITY = [
+  'required',
+  'email',
+  'pattern',
+  'minlength',
+  'maxlength',
+  'min',
+  'max',
+]
+```
+
+Los errores fuera de esa lista caen al último que haya registrado el validador en el control. Pasá tu propio orden a `withErrorMessageConfig()` (o `NgxErrorMessageModule.forRoot()`) para sobreescribirlo globalmente, o al input `errorPriority` de la directiva para sobreescribirlo en un campo puntual.
 
 ## Estilos requeridos
 

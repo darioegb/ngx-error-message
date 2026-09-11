@@ -6,60 +6,56 @@ sidebar_position: 1
 
 # Standalone App
 
-If your app uses standalone components (Angular >= 14), install the library with the `provideNgxErrorMessage` provider in your bootstrap configuration.
+If your app uses standalone components (Angular >= 14), install the library with the `provideNgxErrorMessage` provider in your bootstrap configuration, and wire up `@ngx-translate` with `withNgxTranslate()`.
 
 ```typescript
 import { provideNgxErrorMessage } from 'ngx-error-message'
-import { importProvidersFrom } from '@angular/core'
-import { HttpClientModule, HttpClient } from '@angular/common/http'
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core'
-import { TranslateHttpLoader } from '@ngx-translate/http-loader'
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http) // Make sure your assets files are in default assets/i18n/*
-}
+import { withNgxTranslate } from 'ngx-error-message/ngx-translate'
+import { provideHttpClient } from '@angular/common/http'
+import { provideTranslateService } from '@ngx-translate/core'
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(
-      HttpClientModule,
-      TranslateModule.forRoot({
-        defaultLanguage: 'en',
-        useDefaultLang: true,
-        loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient],
-        },
-      }),
-    ),
-    provideNgxErrorMessage(),
+    provideHttpClient(),
+    provideTranslateService({ fallbackLang: 'en' }),
+    provideTranslateHttpLoader(), // Make sure your assets files are in default assets/i18n/*
+    provideNgxErrorMessage(withNgxTranslate()),
     // ...other providers
   ],
 })
 ```
 
+> `@ngx-translate/core` is a peer dependency, not a hard one: `provideNgxErrorMessage()` on its own works fine and simply doesn't translate anything, unless you also pass an `errorMessages` dictionary (see [Without internationalization](#without-internationalization) below). `withNgxTranslate()`, from the `ngx-error-message/ngx-translate` secondary entry point, is what wires the two together — forgetting it is the most common reason error messages render empty.
+
 ## Custom prefixes
 
+`provideNgxErrorMessage()` is composable, like Angular's own `provideHttpClient(withXhr(), ...)` — pass any number of `withXxx()` features:
+
 ```typescript
-provideNgxErrorMessage({
-  validationsPrefix: 'VALIDATIONS',
-  patternsPrefix: 'PATTERNS',
-})
+provideNgxErrorMessage(
+  withErrorMessageConfig({
+    validationsPrefix: 'VALIDATIONS',
+    patternsPrefix: 'PATTERNS',
+  }),
+  withNgxTranslate(),
+)
 ```
 
 ## Without internationalization
 
-Omit the `@ngx-translate` wiring entirely and pass the messages directly — see [Configuration](../configuration) for the full shape.
+Omit `withNgxTranslate()` entirely and pass the messages directly:
 
 ```typescript
-provideNgxErrorMessage({
-  errorMessages: {
-    required: 'This field is required.',
-    email: 'This is not a valid email address.',
-    // ...
-  },
-})
+provideNgxErrorMessage(
+  withErrorMessageConfig({
+    errorMessages: {
+      required: 'This field is required.',
+      email: 'This is not a valid email address.',
+      // ...
+    },
+  }),
+)
 ```
 
 Continue to [Configuration](../configuration) to see the translation file format and every available option.

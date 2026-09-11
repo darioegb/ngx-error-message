@@ -49,6 +49,10 @@ const config: Config = {
     },
     navbar: {
       title: 'NgxErrorMessage',
+      logo: {
+        alt: 'NgxErrorMessage logo',
+        src: 'img/logo.svg',
+      },
       items: [
         {
           type: 'docSidebar',
