@@ -25,6 +25,10 @@
     "type": "git",
     "url": "git+https://github.com/darioegb/ngx-error-message.git"
   },
+  "bugs": {
+    "url": "https://github.com/darioegb/ngx-error-message/issues"
+  },
+  "homepage": "https://darioegb.github.io/ngx-error-message/",
   "peerDependencies": {
     "@angular/core": ">=20.0.0",
     "@angular/common": ">=20.0.0",
