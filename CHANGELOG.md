@@ -1,3 +1,11 @@
+## 4.1.0 (2026-09-21)
+
+* Merge pull request #10 from darioegb/feat/signal-forms-and-a11y ([213eac1](https://github.com/darioegb/ngx-error-message/commit/213eac1)), closes [#10](https://github.com/darioegb/ngx-error-message/issues/10)
+* Merge pull request #9 from darioegb/docs/versioned-v3-docs ([0ba4f64](https://github.com/darioegb/ngx-error-message/commit/0ba4f64)), closes [#9](https://github.com/darioegb/ngx-error-message/issues/9)
+* feat: wire ARIA attributes automatically and support Signal Forms fields ([ad74ff4](https://github.com/darioegb/ngx-error-message/commit/ad74ff4))
+* feat(showcase): add the Enabled toggle to every form example ([7732758](https://github.com/darioegb/ngx-error-message/commit/7732758))
+* docs: version the docs site so v3 docs stay browsable alongside v4 ([8d1b6f9](https://github.com/darioegb/ngx-error-message/commit/8d1b6f9))
+
 ## 4.0.0 (2026-09-11)
 
 * feat!: bump peer floor to Angular >=20, prepare v4 prerelease channel ([075d080](https://github.com/darioegb/ngx-error-message/commit/075d080))
