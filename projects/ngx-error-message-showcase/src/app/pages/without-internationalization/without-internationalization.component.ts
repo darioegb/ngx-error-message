@@ -75,6 +75,7 @@ import { JsonPipe } from '@angular/common'
 export class WithoutInternationalizationComponent implements OnInit {
   form!: FormGroup
   formValue: unknown
+  checkbox = true
   private readonly fb = inject(FormBuilder)
   private readonly cdr = inject(ChangeDetectorRef)
 
@@ -91,7 +92,7 @@ export class WithoutInternationalizationComponent implements OnInit {
         ],
       }),
       username: [
-        '',
+        { value: '', disabled: !this.checkbox },
         {
           validators: [
             Validators.required,
@@ -167,6 +168,13 @@ export class WithoutInternationalizationComponent implements OnInit {
       map((value) => (value === 'test' ? { usernameTaken: true } : null)),
       catchError(() => of(null)),
     )
+  }
+
+  onChangeCheckbox() {
+    this.checkbox
+      ? this.formControls['username'].enable()
+      : this.formControls['username'].disable()
+    this.formControls['username'].markAsUntouched()
   }
 
   onSubmit() {

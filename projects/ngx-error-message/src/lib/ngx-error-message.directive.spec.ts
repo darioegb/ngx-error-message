@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { provideZonelessChangeDetection } from '@angular/core'
+import { provideZonelessChangeDetection, signal } from '@angular/core'
 import {
   Component,
   ChangeDetectionStrategy,
@@ -11,8 +11,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms'
+import {
+  form,
+  FormField,
+  minLength,
+  pattern,
+  required,
+} from '@angular/forms/signals'
 
-import { NgxErrorMessageDirective } from '../public-api'
+import { NgxErrorMessageDirective, regEx } from '../public-api'
 import { provideNgxErrorMessage, withErrorMessageConfig } from '../public-api'
 import { ENGLISH_TRANSLATIONS } from '@testing/translations'
 
@@ -198,5 +205,100 @@ describe('NgxErrorMessageDirective under zoneless change detection', () => {
         'small.error-message',
       )?.textContent,
     ).toBe(ENGLISH_TRANSLATIONS.validations.required)
+  })
+})
+
+@Component({
+  template: `<input
+      [formField]="signupForm.name"
+      ngxErrorMessage="Name"
+      placeholder="Name"
+    />
+    <input
+      [formField]="signupForm.code"
+      ngxErrorMessage="Code"
+      placeholder="Code"
+    />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormField, NgxErrorMessageDirective],
+})
+class SignalFormsTestHostComponent {
+  model = signal({ name: '', code: '' })
+  signupForm = form(this.model, (path) => {
+    required(path.name)
+    minLength(path.name, 3)
+    pattern(path.code, regEx.numeric)
+  })
+}
+
+describe('NgxErrorMessageDirective with a Signal Forms field ([formField])', () => {
+  let fixture: ComponentFixture<SignalFormsTestHostComponent>
+  let component: SignalFormsTestHostComponent
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SignalFormsTestHostComponent],
+      providers: [
+        provideNgxErrorMessage(
+          withErrorMessageConfig({
+            errorMessages: ENGLISH_TRANSLATIONS.validations,
+          }),
+        ),
+      ],
+    }).compileComponents()
+
+    fixture = TestBed.createComponent(SignalFormsTestHostComponent)
+    component = fixture.componentInstance
+  })
+
+  it('should not throw when placed on a [formField]-bound input', () => {
+    expect(() => fixture.detectChanges()).not.toThrow()
+  })
+
+  it('should set aria-invalid and aria-describedby once the field becomes invalid', () => {
+    fixture.detectChanges()
+    const input = (fixture.nativeElement as HTMLElement).querySelector(
+      'input[placeholder="Name"]',
+    )!
+
+    expect(input.getAttribute('aria-invalid')).toBeNull()
+
+    component.signupForm.name().markAsTouched()
+    fixture.detectChanges()
+
+    expect(input.getAttribute('aria-invalid')).toBe('true')
+    const describedBy = input.getAttribute('aria-describedby')
+    expect(describedBy).toBeTruthy()
+    expect(document.getElementById(describedBy!)?.textContent).toBe(
+      ENGLISH_TRANSLATIONS.validations.required,
+    )
+  })
+
+  it('should interpolate {{param}} correctly once required passes but minLength fails', () => {
+    fixture.detectChanges()
+
+    component.signupForm.name().value.set('ab')
+    component.signupForm.name().markAsTouched()
+    fixture.detectChanges()
+
+    const message = (fixture.nativeElement as HTMLElement).querySelector(
+      'small.error-message',
+    )
+    expect(message?.textContent).toBe('The minimum allowed length is 3.')
+  })
+
+  it('should auto-detect the pattern name from regEx for a Signal Forms pattern() error', () => {
+    fixture.detectChanges()
+
+    component.signupForm.code().value.set('abc')
+    component.signupForm.code().markAsTouched()
+    fixture.detectChanges()
+
+    const message = (fixture.nativeElement as HTMLElement).querySelector(
+      'small.error-message',
+    )
+    expect(message?.textContent).toBe(
+      ENGLISH_TRANSLATIONS.validations.pattern.numeric,
+    )
   })
 })

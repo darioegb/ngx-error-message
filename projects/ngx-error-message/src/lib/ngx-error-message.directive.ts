@@ -2,9 +2,7 @@ import {
   ComponentRef,
   Directive,
   DestroyRef,
-  ElementRef,
   OnInit,
-  Renderer2,
   ViewContainerRef,
   computed,
   effect,
@@ -22,9 +20,16 @@ import {
 } from './ngx-error-message-interfaces'
 import { NgxErrorMessageService } from './ngx-error-message.service'
 
+let nextMessageId = 0
+
 @Directive({
   selector: '[ngxErrorMessage]',
   exportAs: 'ngxErrorMessage',
+  host: {
+    '[class]': 'controlClass()',
+    '[attr.aria-invalid]': 'hasError() ? "true" : null',
+    '[attr.aria-describedby]': 'hasError() ? messageId : null',
+  },
 })
 export class NgxErrorMessageDirective implements OnInit {
   readonly fieldName = input('', { alias: 'ngxErrorMessage' })
@@ -37,11 +42,14 @@ export class NgxErrorMessageDirective implements OnInit {
   readonly errorPriority = input<ErrorPriority[]>()
 
   private readonly ngControl = inject(NgControl)
-  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef)
-  private readonly renderer = inject(Renderer2)
   private readonly container = inject(ViewContainerRef)
   private readonly errorMessageService = inject(NgxErrorMessageService)
   private readonly destroyRef = inject(DestroyRef)
+
+  // Stable id linking the host control to its generated `<small>` via
+  // `aria-describedby`, so assistive tech announces the association, not
+  // just the `aria-live` region on its own.
+  protected readonly messageId = `ngx-error-message-${nextMessageId++}`
 
   // `NgControl`'s invalid/touched/etc. getters aren't signals, so this is
   // bumped on every control event to force `hasError`/`message` to recompute.
@@ -55,6 +63,10 @@ export class NgxErrorMessageDirective implements OnInit {
       ? condition.every((c) => !!this.ngControl[c])
       : !!this.ngControl[condition]
   })
+
+  protected readonly controlClass = computed(() =>
+    this.hasError() ? this.classNames().control : '',
+  )
 
   readonly message = computed(() => {
     // Read even though `hasError()` below already depends on it: `errors`
@@ -73,13 +85,6 @@ export class NgxErrorMessageDirective implements OnInit {
 
   constructor() {
     effect(() => {
-      const errorClass = this.classNames().control
-      this.hasError()
-        ? this.renderer.addClass(this.elementRef.nativeElement, errorClass)
-        : this.renderer.removeClass(this.elementRef.nativeElement, errorClass)
-    })
-
-    effect(() => {
       const message = this.message()
       if (!message && !this.componentRef) {
         return
@@ -87,14 +92,18 @@ export class NgxErrorMessageDirective implements OnInit {
       this.componentRef ??= this.container.createComponent(
         NgxErrorMessageComponent,
       )
+      this.componentRef.setInput('id', this.messageId)
       this.componentRef.setInput('message', message)
       this.componentRef.setInput('messageClass', this.classNames().message)
     })
   }
 
   ngOnInit(): void {
+    // Signal Forms' compat `NgControl` (from `[formField]`) has `control`
+    // but no `.events` - its getters already read real field signals, so
+    // `hasError`/`message` stay reactive without this subscription.
     this.ngControl.control?.events
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      ?.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.revision.update((value) => value + 1))
   }
 }

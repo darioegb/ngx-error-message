@@ -21,32 +21,73 @@ export class NgxErrorMessageService {
     fieldName?: string,
     errorPriority?: ErrorPriority[],
   ): string {
+    const errors = this.normalizeErrorKeys(controlErrors)
     const errorKey = this.pickErrorKey(
-      controlErrors,
+      errors,
       errorPriority ?? this.config.errorPriority,
     )
     if (!errorKey) {
       return ''
     }
 
-    const errorValue: unknown = controlErrors[errorKey]
+    const rawValue: unknown = errors[errorKey]
 
-    if (typeof errorValue === 'boolean') {
+    if (typeof rawValue === 'boolean') {
       return this.getMessage(errorKey, fieldName)
     }
 
+    const errorValue = this.toReactiveShape(rawValue as Record<string, unknown>)
+
     if (errorKey === 'pattern') {
       const patternErrorKey = this.patternMatchExpression(
-        errorValue as Record<string, unknown>,
+        errorValue,
         patternKey,
       )
       return this.getMessage(patternErrorKey, fieldName)
     }
     const requiredValue = this.getValueByRegexFromObject(
-      errorValue as Record<string, unknown>,
+      errorValue,
       requiredRegex,
     )
     return this.getMessage(errorKey, fieldName, requiredValue)
+  }
+
+  /**
+   * Signal Forms reports `minLength`/`maxLength` (camelCase); Reactive Forms
+   * and this library's own dictionaries use `minlength`/`maxlength`. Renaming
+   * here keeps `errorPriority`/`errorMessages` shared across both form
+   * systems. A no-op for Reactive Forms, which never produces these keys.
+   */
+  private normalizeErrorKeys(errors: ValidationErrors): ValidationErrors {
+    const rename: Record<string, string> = {
+      minLength: 'minlength',
+      maxLength: 'maxlength',
+    }
+    return Object.fromEntries(
+      Object.entries(errors).map(([key, value]) => [rename[key] ?? key, value]),
+    )
+  }
+
+  /**
+   * Signal Forms' compat `NgControl.errors` stores the whole `ValidationError`
+   * object per key (`{ kind, fieldTree, message, [kind]: value }`) instead of
+   * Reactive Forms' plain detail object (e.g. `{ requiredLength, actualLength }`).
+   * Reshape it into that plain shape so the existing pattern/regex extraction
+   * below doesn't need a signal-forms-specific branch. Passes Reactive Forms
+   * objects through unchanged (they never have a `kind` field).
+   */
+  private toReactiveShape(
+    value: Record<string, unknown>,
+  ): Record<string, unknown> {
+    const kind = value['kind']
+    if (typeof kind !== 'string') {
+      return value
+    }
+    const detail = value[kind]
+    if (kind === 'pattern' && detail instanceof RegExp) {
+      return { requiredPattern: detail.toString() }
+    }
+    return detail === undefined ? {} : { requiredValue: detail }
   }
 
   private pickErrorKey(

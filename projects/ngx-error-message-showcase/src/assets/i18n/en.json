@@ -5,6 +5,9 @@
   "reactiveForms": {
     "title": "Reactive Form"
   },
+  "signalForms": {
+    "title": "Signal Form"
+  },
   "fields": {
     "firstName": "First Name",
     "lastName": "Last Name",

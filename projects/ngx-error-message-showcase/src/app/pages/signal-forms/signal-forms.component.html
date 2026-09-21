@@ -1,27 +1,21 @@
 <div class="form-container">
-  <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="form-horizontal">
-    <h2>{{ 'templateDrivenForms.title' | translate }}</h2>
+  <form class="form-horizontal" (submit)="$event.preventDefault(); onSubmit()">
+    <h2>{{ 'signalForms.title' | translate }}</h2>
     <div class="mb-3">
       <input
         type="text"
-        name="firstName"
-        [(ngModel)]="model.name.firstName"
+        [formField]="signupForm.name.firstName"
         [placeholder]="'fields.firstName' | translate"
         class="form-control"
-        required
-        [pattern]="patterns.alphabet"
         [ngxErrorMessage]="'fields.firstName' | translate"
       />
     </div>
     <div class="mb-3">
       <input
         type="text"
-        name="lastName"
-        [(ngModel)]="model.name.lastName"
+        [formField]="signupForm.name.lastName"
         [placeholder]="'fields.lastName' | translate"
         class="form-control"
-        required
-        [pattern]="patterns.alphabet"
         [ngxErrorMessage]="'fields.lastName' | translate"
       />
     </div>
@@ -29,23 +23,18 @@
       <input
         class="form-check-input"
         id="checkbox"
-        [(ngModel)]="checkbox"
         type="checkbox"
-        [ngModelOptions]="{ standalone: true }"
+        [checked]="checkbox()"
+        (change)="checkbox.set($any($event.target).checked)"
       />
       <label class="form-check-label" for="checkbox"> Enabled </label>
     </div>
     <div class="mb-3">
       <input
         type="text"
-        name="username"
-        [(ngModel)]="model.username"
+        [formField]="signupForm.username"
         [placeholder]="'fields.username' | translate"
         class="form-control"
-        required
-        maxlength="50"
-        pattern="^[a-zA-Z0-9.]+$"
-        [disabled]="!checkbox"
         [ngxErrorMessage]="'fields.username' | translate"
         patternKey="custom"
       />
@@ -53,65 +42,56 @@
     <div class="mb-3">
       <input
         type="password"
-        name="password"
-        [(ngModel)]="model.password"
+        [formField]="signupForm.password"
         [placeholder]="'fields.password' | translate"
         class="form-control"
-        required
-        minlength="6"
-        maxlength="50"
-        [pattern]="patterns.alphaNumeric"
         [ngxErrorMessage]="'fields.password' | translate"
       />
     </div>
     <div class="mb-3">
       <input
         type="email"
-        name="email"
-        [(ngModel)]="model.email"
+        [formField]="signupForm.email"
         [placeholder]="'fields.email' | translate"
         class="form-control"
-        required
-        email
         [ngxErrorMessage]="'fields.email' | translate"
       />
     </div>
     <div class="mb-3">
       <input
         type="text"
-        name="salary"
-        [(ngModel)]="model.salary"
+        [formField]="signupForm.salary"
         [placeholder]="'fields.salary' | translate"
         class="form-control"
-        [pattern]="patterns.numeric"
-        appAvoidMultipleZero
         [ngxErrorMessage]="'fields.salary' | translate"
       />
     </div>
     <div class="mb-3">
       <h3>Aliases</h3>
       <button type="button" (click)="addAlias()" class="btn btn-secondary">
-        {{ 'buttons.add' | translate: { value: 'Alias' } }}
+        Add Alias
       </button>
-      @for (alias of model.aliases; track trackByIndex(i); let i = $index) {
+      @for (alias of signupForm.aliases; track $index) {
         <div class="mb-3">
           <input
             type="text"
-            [(ngModel)]="model.aliases[i]"
-            name="alias{{ i }}"
+            [formField]="alias"
             [placeholder]="'fields.alias' | translate"
             class="form-control"
-            [pattern]="patterns.alphaNumeric"
             [ngxErrorMessage]="'fields.alias' | translate"
           />
         </div>
       }
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
-      {{ 'buttons.save' | translate }}
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="signupForm().invalid()"
+    >
+      Save
     </button>
   </form>
-  @if (form.valid) {
-    <blockquote>{{ model | json }}</blockquote>
+  @if (formValue) {
+    <blockquote>{{ formValue | json }}</blockquote>
   }
 </div>

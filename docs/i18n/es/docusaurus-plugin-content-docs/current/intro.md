@@ -11,13 +11,14 @@ sidebar_position: 1
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=alert_status)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=darioegb_ngx-error-message&metric=coverage)](https://sonarcloud.io/dashboard?id=darioegb_ngx-error-message)
 
-**NgxErrorMessage** es una librería de Angular que muestra automáticamente mensajes de error de validación para formularios reactivos y template-driven, con soporte opcional de [@ngx-translate](https://github.com/ngx-translate/core).
+**NgxErrorMessage** es una librería de Angular que muestra automáticamente mensajes de error de validación para formularios reactivos, template-driven y Signal Forms, con soporte opcional de [@ngx-translate](https://github.com/ngx-translate/core).
 
 ## Características
 
 - ✅ **Visualización automática de errores** — agregá una directiva a un input y obtené su mensaje de error gratis
-- ✅ **Formularios reactivos y template-driven** — la misma directiva funciona para ambos
+- ✅ **Formularios reactivos, template-driven y Signal Forms** — la misma directiva funciona para los tres
 - ✅ **Basada en signals** — reactiva por construcción, compatible con zoneless
+- ✅ **Accesible por defecto** — `aria-invalid` y `aria-describedby` se configuran automáticamente en el input, sin necesidad de configuración
 - ✅ **Internacionalización** — integración opcional con `@ngx-translate/core` vía un entry point secundario, así que no es una dependencia obligatoria
 - ✅ **Estilos personalizables** — sobrescribí las clases CSS usadas para el contenedor y el mensaje de error
 - ✅ **Visualización condicional** — controlá exactamente cuándo se debe mostrar un error (`touched`, `dirty`, `invalid`, ...)

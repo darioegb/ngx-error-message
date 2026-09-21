@@ -63,7 +63,7 @@ export class ReactiveFormsComponent implements OnInit {
         ],
       }),
       username: [
-        { value: '', disabled: this.checkbox },
+        { value: '', disabled: !this.checkbox },
         {
           validators: [
             Validators.required,
@@ -143,8 +143,8 @@ export class ReactiveFormsComponent implements OnInit {
 
   onChangeCheckbox() {
     this.checkbox
-      ? this.formControls['username'].disable()
-      : this.formControls['username'].enable()
+      ? this.formControls['username'].enable()
+      : this.formControls['username'].disable()
     this.formControls['username'].markAsUntouched()
   }
 
