@@ -15,7 +15,8 @@
 
 ## Features
 
-- Dynamic directive that display error for input fields in reactive or template driven form dynamically.
+- Dynamic directive that display error for input fields in reactive, template driven, or Signal Forms dynamically.
+- Automatic `aria-invalid`/`aria-describedby` wiring on the host input, no configuration needed.
 
 ## Dependencies
 
@@ -259,6 +260,25 @@ You can enhance the functionality of the directive by including optional paramet
 - `errorPriority`: Which error wins when a control fails more than one validator at once. Defaults to `DEFAULT_ERROR_PRIORITY` (`required` first, then `email`, `pattern`, `minlength`, `maxlength`, `min`, `max`); errors outside that list fall back to whichever one the validators registered last.
 
 The directive also exposes `exportAs="ngxErrorMessage"` if you need to read its state manually, e.g. `#err="ngxErrorMessage"` then `{{ err.message() }}` / `@if (err.hasError()) { ... }`.
+
+### Accessibility
+
+`ngxErrorMessage` sets two ARIA attributes on its host input automatically, no configuration needed:
+
+- `aria-invalid="true"` while the error message is showing (removed once it isn't).
+- `aria-describedby` pointing at the generated `<small>` element's id, so assistive tech announces the error message together with the input.
+
+Both are driven by the same `hasError()` state used to render the message, so they always stay in sync with what's on screen.
+
+### Signal Forms (Angular 22+)
+
+`ngxErrorMessage` also works on a native input bound with `[formField]` (Angular's `@angular/forms/signals`), with no extra setup - just add it alongside `[formField]` like you would `formControlName`:
+
+```html
+<input [formField]="signupForm.email" ngxErrorMessage="Email" />
+```
+
+`minLength`/`maxLength` errors are matched against the same `minlength`/`maxlength` keys used by Reactive Forms, so `errorPriority` and your `errorMessages` dictionary don't need separate entries per form system.
 
 ## Customization
 

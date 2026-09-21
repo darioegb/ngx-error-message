@@ -37,6 +37,17 @@ describe('NgxErrorMessageComponent', () => {
     expect(element?.getAttribute('aria-live')).toBe('polite')
   })
 
+  it('should set the given id, so the host control can reference it via aria-describedby', () => {
+    fixture.componentRef.setInput('message', 'This field is required.')
+    fixture.componentRef.setInput('id', 'ngx-error-message-0')
+    fixture.detectChanges()
+
+    const element = (fixture.nativeElement as HTMLElement).querySelector(
+      'small',
+    )
+    expect(element?.id).toBe('ngx-error-message-0')
+  })
+
   it('should default messageClass to error-message', () => {
     fixture.componentRef.setInput('message', 'Invalid.')
     fixture.detectChanges()

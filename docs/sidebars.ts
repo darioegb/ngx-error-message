@@ -8,7 +8,14 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Getting Started',
       collapsed: false,
-      items: ['getting-started/standalone', 'getting-started/module'],
+      items: [
+        'getting-started/standalone',
+        {
+          type: 'doc',
+          id: 'getting-started/module',
+          label: 'NgModule App (deprecated)',
+        },
+      ],
     },
     'configuration',
     {
@@ -20,6 +27,8 @@ const sidebars: SidebarsConfig = {
         'guides/conditional-display',
         'guides/custom-patterns',
         'guides/custom-validators',
+        'guides/signal-forms',
+        'guides/accessibility',
       ],
     },
     {

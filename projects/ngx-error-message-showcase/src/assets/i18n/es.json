@@ -5,6 +5,9 @@
   "reactiveForms": {
     "title": "Formulario reactivo"
   },
+  "signalForms": {
+    "title": "Formulario con Signal Forms"
+  },
   "fields": {
     "firstName": "Nombre",
     "lastName": "Apellido",

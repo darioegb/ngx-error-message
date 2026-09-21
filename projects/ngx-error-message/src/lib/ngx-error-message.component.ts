@@ -4,9 +4,13 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core'
   selector: 'ngx-error-message',
   template: `
     @if (message()) {
-      <small [class]="messageClass()" role="alert" aria-live="polite">{{
-        message()
-      }}</small>
+      <small
+        [id]="id()"
+        [class]="messageClass()"
+        role="alert"
+        aria-live="polite"
+        >{{ message() }}</small
+      >
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,4 +18,5 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core'
 export class NgxErrorMessageComponent {
   readonly message = input('')
   readonly messageClass = input('error-message')
+  readonly id = input<string>()
 }
