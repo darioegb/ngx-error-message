@@ -31,6 +31,7 @@ export class TemplateDrivenFormsComponent {
     aliases: [''],
   }
 
+  checkbox = true
   patterns = regEx
 
   addAlias(): void {

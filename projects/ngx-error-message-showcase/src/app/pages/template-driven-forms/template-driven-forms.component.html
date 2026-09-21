@@ -25,6 +25,16 @@
         [ngxErrorMessage]="'fields.lastName' | translate"
       />
     </div>
+    <div class="form-check mb-3">
+      <input
+        class="form-check-input"
+        id="checkbox"
+        [(ngModel)]="checkbox"
+        type="checkbox"
+        [ngModelOptions]="{ standalone: true }"
+      />
+      <label class="form-check-label" for="checkbox"> Enabled </label>
+    </div>
     <div class="mb-3">
       <input
         type="text"
@@ -35,6 +45,7 @@
         required
         maxlength="50"
         pattern="^[a-zA-Z0-9.]+$"
+        [disabled]="!checkbox"
         [ngxErrorMessage]="'fields.username' | translate"
         patternKey="custom"
       />
@@ -78,6 +89,7 @@
       />
     </div>
     <div class="mb-3">
+      <h3>Aliases</h3>
       <button type="button" (click)="addAlias()" class="btn btn-secondary">
         {{ 'buttons.add' | translate: { value: 'Alias' } }}
       </button>

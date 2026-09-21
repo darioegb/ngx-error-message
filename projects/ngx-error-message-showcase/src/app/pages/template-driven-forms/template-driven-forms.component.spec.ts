@@ -38,7 +38,9 @@ describe('TemplateDrivenFormsComponent', () => {
   })
 
   it('debería renderizar el formulario con inputs iniciales vacíos', () => {
-    const inputs = fixture.debugElement.queryAll(By.css('input'))
+    const inputs = fixture.debugElement.queryAll(
+      By.css('input:not([type=checkbox])'),
+    )
     expect(inputs.length).toBeGreaterThan(0)
     inputs.forEach((input) => {
       expect((input.nativeElement as HTMLInputElement).value).toBe('')
