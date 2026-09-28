@@ -75,6 +75,10 @@ errorMessages: {
 
 ## Prioridad de errores
 
+:::info
+`errorPriority` está disponible desde **v4.0.0**.
+:::
+
 Cuando un control falla más de un validador a la vez, `errorPriority` decide cuál mensaje de error se muestra. Por defecto usa `DEFAULT_ERROR_PRIORITY`, exportado por la librería:
 
 ```typescript

@@ -16,13 +16,13 @@ sidebar_position: 1
 ## Features
 
 - ✅ **Automatic error display** — add one directive to an input and get its error message for free
-- ✅ **Reactive, template-driven, and Signal Forms** — same directive works for all three
-- ✅ **Signal-based** — reactive by construction, zoneless-compatible
-- ✅ **Accessible by default** — `aria-invalid` and `aria-describedby` are wired onto the host input automatically, no configuration needed
-- ✅ **Internationalization** — optional integration with `@ngx-translate/core` via a secondary entry point, so it's not a hard dependency
+- ✅ **Reactive, template-driven, and Signal Forms** — same directive works for all three _(Signal Forms support since v4.1)_
+- ✅ **Signal-based** — reactive by construction, zoneless-compatible _(since v4.0)_
+- ✅ **Accessible by default** — `aria-invalid` and `aria-describedby` are wired onto the host input automatically, no configuration needed _(since v4.1)_
+- ✅ **Internationalization** — optional integration with `@ngx-translate/core` via a secondary entry point, so it's not a hard dependency _(secondary entry point since v4.0)_
 - ✅ **Customizable styling** — override the CSS classes used for the error container and message
 - ✅ **Conditional display** — control exactly when an error should be shown (`touched`, `dirty`, `invalid`, ...)
-- ✅ **Configurable error priority** — decide which error wins when a control fails more than one validator at once
+- ✅ **Configurable error priority** — decide which error wins when a control fails more than one validator at once _(since v4.0)_
 - ✅ **Built-in and custom patterns** — a set of ready-to-use regex patterns, plus support for your own
 - ✅ **Standalone-first** — `provideNgxErrorMessage()` for standalone apps; `NgxErrorMessageModule` for NgModule apps (deprecated)
 

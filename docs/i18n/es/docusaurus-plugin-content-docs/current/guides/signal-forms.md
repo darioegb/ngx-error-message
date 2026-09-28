@@ -6,6 +6,10 @@ sidebar_position: 6
 
 # Signal Forms
 
+:::info
+Disponible desde **v4.1.0**.
+:::
+
 Angular 22 introduce [Signal Forms](https://angular.dev/guide/forms/signals) (`@angular/forms/signals`) como una alternativa estable, basada en signals, a los Formularios Reactivos y basados en Plantillas. `[ngxErrorMessage]` funciona sobre un input nativo enlazado con `[formField]`, exactamente igual que con `formControlName` o `ngModel` - sin configuración extra, sin entry point secundario, sin nueva dependencia de pares.
 
 ```typescript

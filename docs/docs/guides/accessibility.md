@@ -6,6 +6,10 @@ sidebar_position: 7
 
 # Accessibility
 
+:::info
+Available since **v4.1.0**.
+:::
+
 `[ngxErrorMessage]` sets two ARIA attributes on its host input automatically — no configuration needed, and they work the same way for [Reactive, template-driven, and Signal Forms](./signal-forms).
 
 ```html

@@ -15,10 +15,12 @@ if (newVersion.includes('-')) {
 }
 
 const angularVersion = versionsConfig.angularCompatibility
+// Separator dash counts differ slightly between the English and Spanish
+// tables (column widths follow "to" vs "a"), so match either.
 const tableHeader =
-  /(\| ngx-error-message \| Angular\s+\|\n\| ----------------- \| ------------ \|\n)/
+  /(\| ngx-error-message \| Angular\s*\|\n\|[-\s]+\|[-\s]+\|\n)/
 
-function addCompatibilityRow(filePath) {
+function addCompatibilityRow(filePath, angularRange) {
   if (!existsSync(filePath)) {
     return
   }
@@ -28,10 +30,15 @@ function addCompatibilityRow(filePath) {
   }
   const updatedContent = content.replace(
     tableHeader,
-    `$1| ${newVersion}             | ${angularVersion} |\n`,
+    `$1| ${newVersion}             | ${angularRange} |\n`,
   )
   writeFileSync(filePath, updatedContent)
 }
 
-addCompatibilityRow('./README.md')
-addCompatibilityRow('./docs/docs/intro.md')
+addCompatibilityRow('./README.md', angularVersion)
+addCompatibilityRow('./docs/docs/intro.md', angularVersion)
+// Keep the Spanish docs table in sync too, translating "to" -> "a".
+addCompatibilityRow(
+  './docs/i18n/es/docusaurus-plugin-content-docs/current/intro.md',
+  angularVersion.replace(' to ', ' a '),
+)

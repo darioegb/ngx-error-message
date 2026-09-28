@@ -16,13 +16,13 @@ sidebar_position: 1
 ## Características
 
 - ✅ **Visualización automática de errores** — agregá una directiva a un input y obtené su mensaje de error gratis
-- ✅ **Formularios reactivos, template-driven y Signal Forms** — la misma directiva funciona para los tres
-- ✅ **Basada en signals** — reactiva por construcción, compatible con zoneless
-- ✅ **Accesible por defecto** — `aria-invalid` y `aria-describedby` se configuran automáticamente en el input, sin necesidad de configuración
-- ✅ **Internacionalización** — integración opcional con `@ngx-translate/core` vía un entry point secundario, así que no es una dependencia obligatoria
+- ✅ **Formularios reactivos, template-driven y Signal Forms** — la misma directiva funciona para los tres _(soporte de Signal Forms desde v4.1)_
+- ✅ **Basada en signals** — reactiva por construcción, compatible con zoneless _(desde v4.0)_
+- ✅ **Accesible por defecto** — `aria-invalid` y `aria-describedby` se configuran automáticamente en el input, sin necesidad de configuración _(desde v4.1)_
+- ✅ **Internacionalización** — integración opcional con `@ngx-translate/core` vía un entry point secundario, así que no es una dependencia obligatoria _(entry point secundario desde v4.0)_
 - ✅ **Estilos personalizables** — sobrescribí las clases CSS usadas para el contenedor y el mensaje de error
 - ✅ **Visualización condicional** — controlá exactamente cuándo se debe mostrar un error (`touched`, `dirty`, `invalid`, ...)
-- ✅ **Prioridad de errores configurable** — decidí cuál error gana cuando un control falla más de un validador a la vez
+- ✅ **Prioridad de errores configurable** — decidí cuál error gana cuando un control falla más de un validador a la vez _(desde v4.0)_
 - ✅ **Patrones incorporados y personalizados** — un conjunto de patrones regex listos para usar, más soporte para los tuyos
 - ✅ **Standalone-first** — `provideNgxErrorMessage()` para apps standalone; `NgxErrorMessageModule` para apps con NgModule (deprecado)
 
@@ -48,6 +48,8 @@ Agregá la directiva `ngxErrorMessage` a un control de formulario. Cuando el con
 
 | ngx-error-message | Angular     |
 | ----------------- | ----------- |
+| 4.1.0             | 20.x a 22.x |
+| 4.0.0             | 20.x a 22.x |
 | 3.1.0             | 16.x a 19.x |
 | 3.0.1             | 16.x a 19.x |
 | 3.0.0             | 16.x a 19.x |

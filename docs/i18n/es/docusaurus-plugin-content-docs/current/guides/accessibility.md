@@ -6,6 +6,10 @@ sidebar_position: 7
 
 # Accesibilidad
 
+:::info
+Disponible desde **v4.1.0**.
+:::
+
 `[ngxErrorMessage]` configura dos atributos ARIA en su input host automáticamente - sin necesidad de configuración, y funcionan igual para [Formularios Reactivos, template-driven y Signal Forms](./signal-forms).
 
 ```html

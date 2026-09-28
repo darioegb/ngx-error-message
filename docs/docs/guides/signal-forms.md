@@ -6,6 +6,10 @@ sidebar_position: 6
 
 # Signal Forms
 
+:::info
+Available since **v4.1.0**.
+:::
+
 Angular 22 introduces [Signal Forms](https://angular.dev/guide/forms/signals) (`@angular/forms/signals`) as a stable, signal-based alternative to Reactive and Template-driven Forms. `[ngxErrorMessage]` works on a native input bound with `[formField]`, exactly the same way it works with `formControlName` or `ngModel` — no extra setup, no secondary entry point, no new peer dependency.
 
 ```typescript
