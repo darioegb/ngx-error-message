@@ -5,6 +5,8 @@ title: Introducción
 sidebar_position: 1
 ---
 
+import LiveDemo from '@site/src/components/LiveDemo'
+
 # NgxErrorMessage
 
 [![CI](https://github.com/darioegb/ngx-error-message/actions/workflows/ci.yml/badge.svg)](https://github.com/darioegb/ngx-error-message/actions/workflows/ci.yml)
@@ -28,7 +30,9 @@ sidebar_position: 1
 
 ## Ejemplo en Vivo
 
-Podés ver la librería en acción acá: [ngx-error-message-example](https://stackblitz.com/edit/ngx-error-message-example).
+Probá la librería acá mismo - es la misma app de showcase que vive en el repo:
+
+<LiveDemo />
 
 ## Cómo Funciona
 

@@ -10,6 +10,7 @@ import { SidebarService } from '../sidebar/sidebar.service'
 import { TranslateService } from '@ngx-translate/core'
 import { NavigationEnd, Router } from '@angular/router'
 import { FormsModule } from '@angular/forms'
+import { ThemeService } from '../../theme.service'
 
 @Component({
   selector: 'app-navbar',
@@ -36,6 +37,14 @@ export class NavbarComponent implements OnInit {
   private readonly translate = inject(TranslateService)
   private readonly router = inject(Router)
   private readonly cdr = inject(ChangeDetectorRef)
+  private readonly themeService = inject(ThemeService)
+  protected readonly theme = this.themeService.theme
+  protected readonly embedded = this.themeService.embedded
+  protected readonly links = {
+    docs: 'https://darioegb.github.io/ngx-error-message/',
+    github: 'https://github.com/darioegb/ngx-error-message',
+    npm: 'https://www.npmjs.com/package/ngx-error-message',
+  }
 
   ngOnInit(): void {
     const lang = localStorage.getItem('lang')
@@ -60,5 +69,9 @@ export class NavbarComponent implements OnInit {
 
   toggleSidebar(): void {
     this.sidebarService.toggleSidebar()
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggle()
   }
 }

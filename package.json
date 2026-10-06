@@ -18,6 +18,7 @@
     "format:check": "prettier --check .",
     "prepare": "husky",
     "release": "semantic-release",
+    "docs:demo": "ng build ngx-error-message && ng build ngx-error-message-showcase --base-href /ngx-error-message/demo/ && rm -rf docs/static/demo && cp -R dist/ngx-error-message-showcase/browser docs/static/demo",
     "docs:start": "pnpm --prefix docs start",
     "docs:build": "pnpm --prefix docs build",
     "docs:serve": "pnpm --prefix docs serve",

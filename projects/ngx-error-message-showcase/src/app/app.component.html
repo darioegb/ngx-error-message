@@ -1,7 +1,14 @@
-<div class="d-flex flex-column vh-100">
-  <app-navbar></app-navbar>
+<div class="d-flex flex-column" [class.vh-100]="!embedded">
+  @if (!embedded) {
+    <app-navbar></app-navbar>
+  }
   <div class="d-flex flex-column flex-md-row flex-grow-1">
     <app-sidebar></app-sidebar>
-    <app-main-content class="flex-grow-1"></app-main-content>
+    <div class="d-flex flex-column flex-grow-1">
+      @if (embedded) {
+        <app-navbar></app-navbar>
+      }
+      <app-main-content class="flex-grow-1"></app-main-content>
+    </div>
   </div>
 </div>

@@ -2,10 +2,52 @@
 
 @use 'bootstrap/scss/bootstrap';
 
+.app-navbar {
+  --bs-navbar-color: var(--bs-body-color);
+  --bs-navbar-hover-color: var(--bs-link-color);
+  --bs-navbar-brand-color: var(--bs-body-color);
+  --bs-navbar-brand-hover-color: var(--bs-body-color);
+  min-height: 3.75rem;
+  background-color: var(--bs-body-bg);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--bs-border-color);
+}
+
+.app-navbar--embedded {
+  min-height: 0;
+  background-color: transparent;
+  box-shadow: none;
+  border-bottom: 0;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  color: var(--bs-body-color);
+}
+
+app-template-driven-forms,
+app-reactive-forms,
+app-signal-forms,
+app-without-internationalization {
+  display: block;
+  padding: 1rem;
+}
+
+@media (width >= 62rem) {
+  app-template-driven-forms,
+  app-reactive-forms,
+  app-signal-forms,
+  app-without-internationalization {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+}
+
 .form-container {
   margin-block-start: 10px;
-  width: 50%;
-  margin-left: 10%;
+  width: 100%;
   div {
     display: flex;
     flex-direction: column;

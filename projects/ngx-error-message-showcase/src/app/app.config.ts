@@ -18,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withXhr(), withInterceptorsFromDi()),
     provideRouter(routes),
     provideTranslateService({ fallbackLang: 'en' }),
-    provideTranslateHttpLoader(),
+    provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' }),
     provideNgxErrorMessage(withNgxTranslate()),
   ],
 }
