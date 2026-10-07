@@ -32,6 +32,11 @@ import {
 } from 'ngx-error-message'
 import { SpinnerComponent } from '../../components/spinner/spinner.component'
 import { JsonPipe } from '@angular/common'
+import { CodeSnippetComponent } from '../../components/code-snippet/code-snippet.component'
+import {
+  buildWithoutI18nUsage,
+  type DemoValue,
+} from '../../components/code-snippet/usage'
 
 @Component({
   selector: 'app-without-internationalization',
@@ -43,6 +48,7 @@ import { JsonPipe } from '@angular/common'
     NgxErrorMessageDirective,
     SpinnerComponent,
     JsonPipe,
+    CodeSnippetComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -73,6 +79,30 @@ import { JsonPipe } from '@angular/common'
   ],
 })
 export class WithoutInternationalizationComponent implements OnInit {
+  protected usageSnippet(): string {
+    return buildWithoutI18nUsage(
+      this.form.getRawValue() as unknown as DemoValue,
+      this.checkbox,
+    )
+  }
+
+  protected readonly setupSnippet = `import { ApplicationConfig } from '@angular/core'
+import {
+  provideNgxErrorMessage,
+  withErrorMessageConfig,
+} from 'ngx-error-message'
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // static messages, no @ngx-translate
+    provideNgxErrorMessage(
+      withErrorMessageConfig({
+        errorMessages: { required: 'This field is required.' },
+      }),
+    ),
+  ],
+}`
+
   form!: FormGroup
   formValue: unknown
   checkbox = true

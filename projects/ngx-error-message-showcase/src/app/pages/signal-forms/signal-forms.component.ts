@@ -16,6 +16,8 @@ import { JsonPipe } from '@angular/common'
 import { TranslatePipe } from '@ngx-translate/core'
 
 import { NgxErrorMessageDirective, regEx } from 'ngx-error-message'
+import { CodeSnippetComponent } from '../../components/code-snippet/code-snippet.component'
+import { buildSignalUsage } from '../../components/code-snippet/usage'
 
 interface SignupModel {
   name: {
@@ -34,9 +36,19 @@ interface SignupModel {
   templateUrl: './signal-forms.component.html',
   styleUrl: './signal-forms.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormField, NgxErrorMessageDirective, JsonPipe, TranslatePipe],
+  imports: [
+    FormField,
+    NgxErrorMessageDirective,
+    JsonPipe,
+    TranslatePipe,
+    CodeSnippetComponent,
+  ],
 })
 export class SignalFormsComponent {
+  protected usageSnippet(): string {
+    return buildSignalUsage(this.model(), this.checkbox())
+  }
+
   formValue: unknown
   readonly checkbox = signal(true)
 

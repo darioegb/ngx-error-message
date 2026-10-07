@@ -4,6 +4,8 @@ import { NgxErrorMessageDirective, regEx } from 'ngx-error-message'
 import { AvoidMultipleZeroValidatorDirective } from '../../directives/avoid-mutiple-zero-validator.directive'
 import { JsonPipe } from '@angular/common'
 import { TranslatePipe } from '@ngx-translate/core'
+import { CodeSnippetComponent } from '../../components/code-snippet/code-snippet.component'
+import { buildTemplateDrivenUsage } from '../../components/code-snippet/usage'
 
 @Component({
   selector: 'app-template-driven-forms',
@@ -16,9 +18,14 @@ import { TranslatePipe } from '@ngx-translate/core'
     AvoidMultipleZeroValidatorDirective,
     JsonPipe,
     TranslatePipe,
+    CodeSnippetComponent,
   ],
 })
 export class TemplateDrivenFormsComponent {
+  protected usageSnippet(): string {
+    return buildTemplateDrivenUsage(this.model, this.checkbox)
+  }
+
   model = {
     name: {
       firstName: '',

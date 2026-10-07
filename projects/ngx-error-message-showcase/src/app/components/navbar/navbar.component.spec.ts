@@ -47,7 +47,7 @@ describe('NavbarComponent', () => {
   it('should render navigation links', () => {
     const navBrand = debugElement.nativeElement.querySelector('.navbar-brand')
     expect(navBrand).toBeTruthy()
-    expect(navBrand.textContent).toContain('Ngx Error Message Showcase')
+    expect(navBrand.textContent).toContain('ngx-error-message')
   })
 
   it('should change language when a language option is selected', () => {
@@ -68,5 +68,14 @@ describe('NavbarComponent', () => {
     component.toggleSidebar()
 
     expect(component['sidebarService'].toggleSidebar).toHaveBeenCalled()
+  })
+
+  it('should toggle the theme', () => {
+    const themeService = component['themeService']
+    const before = themeService.theme()
+
+    component.toggleTheme()
+
+    expect(themeService.theme()).not.toBe(before)
   })
 })

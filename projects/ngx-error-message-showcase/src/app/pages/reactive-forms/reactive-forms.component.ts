@@ -28,6 +28,11 @@ import { NgxErrorMessageDirective, regEx } from 'ngx-error-message'
 import { SpinnerComponent } from '../../components/spinner/spinner.component'
 import { JsonPipe } from '@angular/common'
 import { TranslatePipe } from '@ngx-translate/core'
+import { CodeSnippetComponent } from '../../components/code-snippet/code-snippet.component'
+import {
+  buildReactiveUsage,
+  type DemoValue,
+} from '../../components/code-snippet/usage'
 
 @Component({
   selector: 'app-reactive-forms',
@@ -41,9 +46,17 @@ import { TranslatePipe } from '@ngx-translate/core'
     SpinnerComponent,
     JsonPipe,
     TranslatePipe,
+    CodeSnippetComponent,
   ],
 })
 export class ReactiveFormsComponent implements OnInit {
+  protected usageSnippet(): string {
+    return buildReactiveUsage(
+      this.form.getRawValue() as unknown as DemoValue,
+      this.checkbox,
+    )
+  }
+
   form!: FormGroup
   formValue: unknown
   checkbox = true
