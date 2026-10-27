@@ -52,6 +52,7 @@ Agregá la directiva `ngxErrorMessage` a un control de formulario. Cuando el con
 
 | ngx-error-message | Angular     |
 | ----------------- | ----------- |
+| 4.1.1             | 20.x a 22.x |
 | 4.1.0             | 20.x a 22.x |
 | 4.0.0             | 20.x a 22.x |
 | 3.1.0             | 16.x a 19.x |

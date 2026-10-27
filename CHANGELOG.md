@@ -1,3 +1,14 @@
+## <small>4.1.1 (2026-10-27)</small>
+
+* fix(ci): force a single @semantic-release/npm resolution via pnpm override ([c30d555](https://github.com/darioegb/ngx-error-message/commit/c30d555))
+* fix(ci): upgrade @semantic-release/npm to v13 to support trusted publishing ([8db54e5](https://github.com/darioegb/ngx-error-message/commit/8db54e5))
+* ci: publish npm package with provenance via trusted publishing ([745b226](https://github.com/darioegb/ngx-error-message/commit/745b226))
+* ci: rename test_karma job and artifact to test_unit ([a53a005](https://github.com/darioegb/ngx-error-message/commit/a53a005))
+* Merge pull request #11 from darioegb/feat/docs-live-demo ([1ce488d](https://github.com/darioegb/ngx-error-message/commit/1ce488d)), closes [#11](https://github.com/darioegb/ngx-error-message/issues/11)
+* docs: add an embeddable live demo in the docs with a restyled showcase ([2a45149](https://github.com/darioegb/ngx-error-message/commit/2a45149))
+* docs: fix ES i18n gaps, add version-availability notes, sync compat tables ([9366cba](https://github.com/darioegb/ngx-error-message/commit/9366cba))
+* docs: pad generated compatibility rows to the real column widths ([9353263](https://github.com/darioegb/ngx-error-message/commit/9353263))
+
 ## 4.1.0 (2026-09-21)
 
 * Merge pull request #10 from darioegb/feat/signal-forms-and-a11y ([213eac1](https://github.com/darioegb/ngx-error-message/commit/213eac1)), closes [#10](https://github.com/darioegb/ngx-error-message/issues/10)
